@@ -196,7 +196,7 @@ page 12 "Email Viewer"
         if EmailSubject <> '' then
             CurrPage.Caption(EmailSubject)
         else
-            CurrPage.Caption(PageCaptionTxt); // fallback to default caption
+            CurrPage.Caption(PageCaptionTxt); // fallback to default caption - 'Email'
 
         HasSourceRecord := EmailImpl.HasSourceRecord(Rec."Message Id");
         IsHTMLFormatted := EmailMessageImpl.IsBodyHTMLFormatted();
