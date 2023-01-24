@@ -12,7 +12,7 @@ enum 8908 "Email Relation Type"
     Extensible = true;
 
     /// <summary>
-    /// Primary source of an email. There should only be one primary source for an email.
+    /// Primary source of an email. There should only be one primary source for an email. #
     /// </summary>
     value(0; "Primary Source")
     {
