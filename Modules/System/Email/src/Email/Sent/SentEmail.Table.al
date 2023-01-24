@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------------------------
 
 /// <summary>Holds information about the sent emails.</summary>
+
 table 8889 "Sent Email"
 {
     Access = Public;
