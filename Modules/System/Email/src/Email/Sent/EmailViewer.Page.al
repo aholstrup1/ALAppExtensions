@@ -36,7 +36,7 @@ page 12 "Email Viewer"
                             ShowMandatory = true;
                             ApplicationArea = All;
                             Caption = 'From';
-                            ToolTip = 'Specifies the account from which the email was sent.';
+                            ToolTip = 'Specifies the account from which the email was sent.'; #2.1 feature branch change
                             Editable = false;
                         }
 
