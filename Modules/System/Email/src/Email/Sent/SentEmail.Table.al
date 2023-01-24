@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-/// <summary>Holds information about the sent emails.</summary>
+/// <summary>Holds information about the sent emails test.</summary>
 
 table 8889 "Sent Email"
 {
