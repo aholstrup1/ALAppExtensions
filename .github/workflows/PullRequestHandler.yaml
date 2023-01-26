@@ -1,5 +1,11 @@
 name: 'Pull Request Handler'
 
+on:
+  pull_request_target:
+    paths-ignore:
+      - '**.md'
+    branches: [ 'main', 'release/*' ]
+
 defaults:
   run:
     shell: powershell
