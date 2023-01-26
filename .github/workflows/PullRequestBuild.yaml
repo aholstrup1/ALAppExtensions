@@ -1,4 +1,5 @@
 name: 'Pull Request Build'
+run-name: 'PR Build: ${{ github.event.pull_request.title }}'
 
 on:
   pull_request_target:
