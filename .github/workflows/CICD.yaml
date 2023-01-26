@@ -2,10 +2,10 @@ name: ' CI/CD'
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Pull Request Handler"]
-    types:
-      - completed
+  #workflow_run:
+  #  workflows: ["Pull Request Handler"]
+  #  types:
+  #    - completed
   push:
     paths-ignore:
       - '**.md'
