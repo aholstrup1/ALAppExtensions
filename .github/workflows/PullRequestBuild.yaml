@@ -84,6 +84,7 @@ jobs:
           }
 
   Initialization:
+    needs: [ PullRequestHandler ]
     runs-on: [ windows-latest ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
