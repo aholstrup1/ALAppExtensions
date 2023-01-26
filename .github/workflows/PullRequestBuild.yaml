@@ -19,36 +19,12 @@ jobs:
   PregateCheck:
     runs-on: [ windows-latest ]
     steps:
-      - uses: actions/checkout@v3
+    
+      - uses: aholstrup1/AL-Go-Actions/VerifyPRChanges@main
         with:
-          lfs: true
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Determine Changed Files #TODO: Consider making a separate action for this
-        id: ChangedFiles
-        run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
-          if ('${{ github.event.pull_request.head.repo.full_name }}' -ne $ENV:GITHUB_REPOSITORY) {
-              $headers = @{             
-                  "Authorization" = 'token ${{ secrets.GITHUB_TOKEN }}'
-                  "Accept" = "application/vnd.github.baptiste-preview+json"
-              }
-              $baseSHA = '${{ github.event.pull_request.base.sha }}'
-              $headSHA = '${{ github.event.pull_request.head.sha }}'
-              $url = "$($ENV:GITHUB_API_URL)/repos/$($ENV:GITHUB_REPOSITORY)/compare/$baseSHA...$headSHA"
-              $response = Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri $url | ConvertFrom-Json
-
-              Write-Host "Files Changed:"
-              $response.files | ForEach-Object {
-                $filename = $_.filename
-                Write-Host "- $filename $_.status"
-                $extension = [System.IO.Path]::GetExtension($filename)
-                $name = [System.IO.Path]::GetFileName($filename)
-                if ($extension -eq '.ps1' -or $extension -eq '.yaml' -or $extension -eq '.yml' -or $name -eq "CODEOWNERS") {
-                  throw "Pull Request containing changes to scripts, workflows or CODEOWNERS are not allowed from forks."
-                }
-          }
+          baseSHA: ${{ github.event.pull_request.base.sha }}
+          headSHA: ${{ github.event.pull_request.head.sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
   Initialization:
     needs: [ PregateCheck ]
