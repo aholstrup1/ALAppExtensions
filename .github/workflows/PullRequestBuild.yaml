@@ -65,7 +65,7 @@ jobs:
           getEnvironments: '*'
       
       - name: Determine Build Order
-        #if: env.workflowDepth > 1
+        if: env.workflowDepth > 1
         id: BuildOrder
         uses: aholstrup1/AL-Go-Actions/DetermineBuildOrder@main
         with:
@@ -138,32 +138,14 @@ jobs:
           buildMode: ${{ matrix.buildMode }}
 
       - name: Calculate Artifact names
-        id: calculateArtifactNames
+        uses: aholstrup1/AL-Go-Actions/CalculateArtifactNames@main
         if: success() || failure()
-        run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
-          $settings = '${{ env.Settings }}' | ConvertFrom-Json
-          $project = '${{ matrix.project }}'
-          $buildMode = '${{ matrix.buildMode }}'
-          if ("$ENV:GITHUB_EVENT_NAME" -eq 'workflow_run') {
-            $eventStr = Get-Content $ENV:GITHUB_EVENT_PATH -Encoding UTF8
-            $event = $eventStr | ConvertFrom-Json
-            $ref = "PR$($event.workflow_run.id)"
-          }
-          else {
-            $ref = "$ENV:GITHUB_REF_NAME".Replace('/','_')
-          }
-          if ($project -eq ".") { $project = $settings.repoName }
-          if ($buildMode -eq 'Default') { $buildMode = '' }
-          'Apps','Dependencies','TestApps','TestResults','BcptTestResults','BuildOutput','ContainerEventLog' | ForEach-Object {
-            $name = "$($_)ArtifactsName"
-            $value = "$($project.Replace('\','_').Replace('/','_'))-$($ref)-$buildMode$_-$($settings.repoVersion).$($settings.appBuild).$($settings.appRevision)"
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "$name=$value"
-            Add-Content -Path $env:GITHUB_ENV -Value "$name=$value"
-          }
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "BuildMode=$buildMode"
-          Add-Content -Path $env:GITHUB_ENV -Value "BuildMode=$buildMode"
+        with:
+          shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
+          settings: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+          project: ${{ matrix.project }}
+          buildMode: ${{ matrix.project }}
+          refName: "$ENV:GITHUB_REF_NAME".Replace('/','_')
 
       - name: Upload thisbuild artifacts - apps
         if: env.workflowDepth > 1
