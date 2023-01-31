@@ -10,7 +10,7 @@ page 12 "Email Viewer"
 {
     PageType = Document;
     SourceTable = "Sent Email";
-    Caption = 'Sent Emails1';
+    Caption = 'Sent Emails ';
     Permissions = tabledata "Sent Email" = rd,
                   tabledata "Email Message Attachment" = r;
     DataCaptionExpression = '';
