@@ -13,7 +13,7 @@ page 12 "Email Viewer"
     Caption = 'Sent Email ';
     Permissions = tabledata "Sent Email" = rd,
                   tabledata "Email Message Attachment" = r;
-    DataCaptionExpression = '';
+    DataCaptionExpression = ' ';
     DeleteAllowed = false;
     InsertAllowed = false;
     ModifyAllowed = false;
