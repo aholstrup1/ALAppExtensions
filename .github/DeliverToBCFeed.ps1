@@ -12,7 +12,7 @@ function GenerateManifest
     $Authors,
     [Parameter(Mandatory=$true)]
     $Owners
-)
+) 
 {
     [xml] $template = Get-Content "$PSScriptRoot\ALAppExtensions.template.nuspec"
 
