@@ -5,7 +5,7 @@
 
 codeunit 9014 "Azure AD Graph Impl."
 {
-    Access = Internal;
+    Access = Internal; 
 
   
       var
