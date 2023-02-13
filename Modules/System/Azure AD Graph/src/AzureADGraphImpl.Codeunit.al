@@ -8,8 +8,7 @@ codeunit 9014 "Azure AD Graph Impl."
     Access = Internal;
 
   
-  
-    var
+      var
         EnvironmentInformation: Codeunit "Environment Information";
         [NonDebuggable]
         GraphQuery: DotNet GraphQuery;
