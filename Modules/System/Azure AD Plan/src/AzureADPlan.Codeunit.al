@@ -8,7 +8,7 @@
 /// </summary> 
 codeunit 9016 "Azure AD Plan"
 {
-    var
+    var 
         [NonDebuggable]
         AzureAdPlanImpl: Codeunit "Azure AD Plan Impl.";
 
