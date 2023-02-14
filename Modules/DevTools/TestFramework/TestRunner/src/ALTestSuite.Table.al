@@ -10,7 +10,7 @@ table 130451 "AL Test Suite"
     ReplicateData = false;
     Permissions = TableData "AL Test Suite" = rimd, TableData "Test Method Line" = rimd;
 
-    fields
+    fields 
     {
         field(1; Name; Code[10])
         {
