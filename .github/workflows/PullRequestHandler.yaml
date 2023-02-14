@@ -7,7 +7,7 @@ on:
     branches: [ 'main' ]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head.ref }}
   cancel-in-progress: true
 
 defaults:
@@ -227,7 +227,7 @@ jobs:
           Project: ${{ matrix.project }}
 
       - name: Cleanup
-        if: always()
+        if: success() || failure()
         uses: microsoft/AL-Go-Actions/PipelineCleanup@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
