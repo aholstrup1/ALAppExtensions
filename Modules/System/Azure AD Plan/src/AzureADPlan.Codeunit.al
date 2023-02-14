@@ -7,7 +7,7 @@
 /// Retrieve plans in Azure AD and manage plans
 /// </summary> 
 codeunit 9016 "Azure AD Plan"
-{
+{ 
     var 
         [NonDebuggable]
         AzureAdPlanImpl: Codeunit "Azure AD Plan Impl.";
