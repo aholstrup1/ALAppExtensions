@@ -363,7 +363,7 @@ jobs:
           Project: ${{ matrix.project }}
 
       - name: Cleanup
-        if: !cancelled()
+        if:  ${{ cancelled() }}
         uses: microsoft/AL-Go-Actions/PipelineCleanup@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
