@@ -95,4 +95,4 @@ GenerateManifest `
 PreparePackageFolder -OutputPackageFolder $OutputPackageFolder -AppFolders $appsFolders -LicensePath $LicensePath
 
 # Pack Nuget package
-#nuget pack $manifestOutputPath -OutputDirectory $OutputPackageFolder
+nuget pack $manifestOutputPath -OutputDirectory $OutputPackageFolder
