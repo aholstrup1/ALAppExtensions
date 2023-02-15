@@ -29,8 +29,10 @@ function GenerateManifest
     $OutputPath
 )
 {
+    Write-Host "Generating from template: $NuspecPath"
     [xml] $template = Get-Content $NuspecPath
 
+    Write-Host "Setting package metadata: $PackageId, $Version, $Authors, $Owners"
     $template.package.metadata.id = $PackageId
     $template.package.metadata.version = $Version
     $template.package.metadata.authors = $Authors
@@ -59,7 +61,7 @@ function PreparePackageFolder
         {
             Copy-Item -Path "$appsToPackage/*" -Destination "$OutputPackageFolder/Apps" -Recurse -Force
         } else {
-            throw "No apps found in $appsToPackage" 
+            write-host "No apps found in $appsToPackage" 
         }
     }
 
@@ -80,6 +82,7 @@ Write-Host "Package version: $packageVersion" -ForegroundColor Magenta
 
 # Generate Nuspec file
 $manifestOutputPath = (Join-Path $OutputPackageFolder 'manifest.nuspec')
+Write-Host "Generating manifest file: $manifestOutputPath"
 GenerateManifest `
     -PackageId $packageId `
     -Version $packageVersion `
@@ -92,4 +95,4 @@ GenerateManifest `
 PreparePackageFolder -OutputPackageFolder $OutputPackageFolder -AppFolders $appsFolders -LicensePath $LicensePath
 
 # Pack Nuget package
-nuget pack $manifestOutputPath -OutputDirectory $OutputPackageFolder
+#nuget pack $manifestOutputPath -OutputDirectory $OutputPackageFolder
