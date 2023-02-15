@@ -78,6 +78,9 @@ jobs:
           }
           Add-Content -Path $env:GITHUB_OUTPUT -Value "Secrets=$($deliveryTargetSecrets -join ',')"
 
+          $ghEvent = Get-Content $ENV:GITHUB_EVENT_PATH -encoding UTF8
+          Write-Host "GitHub Event: $($ghEvent)"
+
       - name: Read secrets
         uses: microsoft/AL-Go-Actions/ReadSecrets@main
         env:
