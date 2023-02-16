@@ -79,7 +79,7 @@ jobs:
       - name: Setup NuGet.exe
         uses: nuget/setup-nuget@v1
         with:
-          nuget-api-key: ${{ secrets.BCFEEDCONTEXT.Token }}
+          nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Prepare Package
         run: |
@@ -99,5 +99,5 @@ jobs:
           Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
             Write-Host "Pushing nuget package: $($_.FullName)"
             Write-Host "Pushing to nuget source: $nugetSource"
-            nuget push $($_.FullName) --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source $nugetSource
+            nuget push $($_.FullName) --source $nugetSource
           }
