@@ -95,7 +95,7 @@ jobs:
           path: ${{ env.packageOutputPath }}
       - name: Push Package
         run: |
-          $nugetSource = https://nuget.pkg.github.com/${{ github.repository_owner }}
+          $nugetSource = "https://nuget.pkg.github.com/aholstrup1/index.json"
           Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
             Write-Host "Pushing nuget package: $($_.FullName)"
             Write-Host "Pushing to nuget source: $nugetSource"
