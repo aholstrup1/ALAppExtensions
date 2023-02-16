@@ -42,8 +42,7 @@ jobs:
 
   Initialization:
     needs: [ PregateCheck ]
-    #if: ${{ !failure() && !cancelled() }}}
-    if: ${{ success() }}
+    if: ${{ !failure() && !cancelled() }}}
     runs-on: [ windows-latest ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -119,7 +118,7 @@ jobs:
 
   Build:
     needs: [ Initialization ]
-    if: success() && needs.Initialization.outputs.projectCount > 0
+    if: ${{ !cancelled() && needs.Initialization.outputs.projectCount > 0 }}
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     defaults:
       run:
@@ -181,7 +180,7 @@ jobs:
 
       - name: Calculate Artifact names
         uses: microsoft/AL-Go-Actions/CalculateArtifactNames@main
-        if: (success() || failure()) && !cancelled()
+        if: (success() || failure())
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           settingsJson: ${{ env.Settings }}
@@ -233,7 +232,7 @@ jobs:
           Project: ${{ matrix.project }}
 
       - name: Cleanup
-        if: (success() || failure()) && !cancelled()
+        if: (success() || failure())
         uses: microsoft/AL-Go-Actions/PipelineCleanup@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
