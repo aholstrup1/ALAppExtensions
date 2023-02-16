@@ -93,10 +93,11 @@ jobs:
         with:
           name: Package
           path: ${{ env.packageOutputPath }}
-      #- name: Push Package
-      #  run: |
-      #    $nugetSource = https://api.nuget.org/v3/index.json
-      #    Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
-      #      Write-Host "Pushing nuget package: $($_.FullName)"
-      #      nuget push $nupkgName --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}
-      #    }
+      - name: Push Package
+        run: |
+          $nugetSource = https://nuget.pkg.github.com/${{ github.repository_owner }}
+          Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
+            Write-Host "Pushing nuget package: $($_.FullName)"
+            Write-Host "Pushing to nuget source: $nugetSource"
+            nuget push $($_.FullName) --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source $nugetSource
+          }
