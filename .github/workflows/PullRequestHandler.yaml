@@ -42,7 +42,7 @@ jobs:
 
   Initialization:
     needs: [ PregateCheck ]
-    if: ${{ success() }}
+    if: ${{ !failure() }}
     runs-on: [ windows-latest ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
