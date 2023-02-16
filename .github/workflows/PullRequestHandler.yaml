@@ -232,7 +232,7 @@ jobs:
           Project: ${{ matrix.project }}
 
       - name: Cleanup
-        if: (success() || failure())
+        if: always()
         uses: microsoft/AL-Go-Actions/PipelineCleanup@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
