@@ -118,7 +118,7 @@ jobs:
 
   Build:
     needs: [ Initialization ]
-    if: (!cancelled() && !failure()) && needs.Initialization.outputs.projectCount > 0)
+    if: (!cancelled() && !failure() && needs.Initialization.outputs.projectCount > 0)
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     defaults:
       run:
