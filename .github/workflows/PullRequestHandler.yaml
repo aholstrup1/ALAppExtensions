@@ -216,7 +216,7 @@ jobs:
 
       - name: Publish artifacts - bcpt test results
         uses: actions/upload-artifact@v3
-        if: (success() || failure()) && && (hashFiles(format('{0}/bcptTestResults.json',matrix.project)) != '')
+        if: (success() || failure()) && (hashFiles(format('{0}/bcptTestResults.json',matrix.project)) != '')
         with:
           name: ${{ env.BcptTestResultsArtifactsName }}
           path: '${{ matrix.project }}/bcptTestResults.json'
