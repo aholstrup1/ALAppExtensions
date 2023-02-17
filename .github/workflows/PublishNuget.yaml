@@ -99,5 +99,5 @@ jobs:
           Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
             Write-Host "Pushing nuget package: $($_.FullName)"
             Write-Host "Pushing to nuget source: $nugetSource"
-            nuget push $($_.FullName) -Source $nugetSource
+            nuget push $($_.FullName) -Source $nugetSource -ApiKey ${{ secrets.GITHUB_TOKEN }}
           }
