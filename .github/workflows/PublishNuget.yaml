@@ -78,8 +78,6 @@ jobs:
 
       - name: Setup NuGet.exe
         uses: nuget/setup-nuget@v1
-        with:
-          nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Prepare Package
         run: |
@@ -95,10 +93,9 @@ jobs:
           path: ${{ env.packageOutputPath }}
       - name: Push Package
         run: |
-          $nugetSource = "https://nuget.pkg.github.com/aholstrup1/index.json"
+          $nugetSource = "https://nuget.pkg.github.com/{{ github.repository_owner }}/index.json"
           nuget sources add -Name "github" -Source $nugetSource -Username NotUsed -Password ${{ secrets.GITHUB_TOKEN }}
           Get-ChildItem -Path "$($env:packageOutputPath)/*nupkg" | % {
-            Write-Host "Pushing nuget package: $($_.FullName)"
-            Write-Host "Pushing to nuget source: $nugetSource"
+            Write-Host "Pushing package $($_.FullName) to $nugetSource"
             nuget push $($_.FullName) -Source "github" -ApiKey ${{ secrets.GITHUB_TOKEN }}
           }
