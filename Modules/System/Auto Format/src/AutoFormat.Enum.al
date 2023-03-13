@@ -4,7 +4,8 @@
 // ------------------------------------------------------------------------------------------------
 
 /// <summary>
-/// Formats the appearance of decimal data types.
+/// Formats the appearance of decimal data types. 
+/// test
 /// </summary>
 enum 59 "Auto Format"
 {
