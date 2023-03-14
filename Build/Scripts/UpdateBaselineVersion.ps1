@@ -38,11 +38,13 @@ $currentBaseline = Get-ConfigValueFromKey -Key "baselineVersion" -ConfigType "Bu
 if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
     Write-Host "Updating baseline version from $currentBaseline to $latestBaseline"
 
-    Set-ConfigValueFromKey -Key "baselineVersion" -Value $latestBaseline -ConfigType "BuildConfig"
-
     $currentDate = (Get-Date).ToUniversalTime().ToString("yyMMddHHmm")
     $BranchName = "private/UpdateBaselineVersion-$latestBaseline-$currentDate"
     git checkout -b $BranchName | Out-Null
+
+    Set-ConfigValueFromKey -Key "baselineVersion" -Value $latestBaseline -ConfigType "BuildConfig"
+
+    git commit -m "Update baseline version to $latestBaseline"
     git push --set-upstream origin $BranchName
 
     New-GitHubPullRequest -Title "Update baseline version to $latestBaseline" -Owner $Owner -Repo $Repo -Head $BranchName -Base $TargetBranch -Token $Token
