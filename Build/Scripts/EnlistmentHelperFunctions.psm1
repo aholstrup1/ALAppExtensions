@@ -19,6 +19,34 @@ function Get-BuildMode() {
     return 'Default'
 }
 
+# This function creates a pull request in Github with the current branch
+function New-GitHubPullRequest {
+    param(
+        [string]$Owner,
+        [string]$Repo,
+        [string]$Title,
+        [string]$Body,
+        [string]$Head,
+        [string]$Base,
+        [string]$Token
+    )
+
+    $uri = "https://api.github.com/repos/$Owner/$Repo/pulls"
+    $headers = @{
+        "Authorization" = "token $Token"
+        "Content-Type"  = "application/json"
+    }
+
+    $body = @{
+        "title" = $Title
+        "body"  = $Body
+        "head"  = $Head
+        "base"  = $Base
+    } | ConvertTo-Json
+
+    Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body $body
+}
+
 
 <#
 .Synopsis
