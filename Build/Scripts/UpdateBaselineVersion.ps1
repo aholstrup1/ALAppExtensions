@@ -87,7 +87,7 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
     Set-ConfigValueFromKey -Key "baselineVersion" -Value $latestBaseline -ConfigType "BuildConfig"
 
     Set-GitConfig -Actor $Actor -Token $Token
-    New-AutoSubmissionTopicBranch -SubFolder "UpdateBaselineVersion"
+    $BranchName = New-AutoSubmissionTopicBranch -SubFolder "UpdateBaselineVersion"
     Push-AutoSubmissionChange -BranchName $BranchName -Files @("Build/BuildConfig.json") -CommitMessage $title
     New-GitHubPullRequest -Title $title -Owner $Owner -Repo $Repo -Head $BranchName -Base $TargetBranch -Token $Token
 } else {
