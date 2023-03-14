@@ -44,6 +44,9 @@ function New-GitHubPullRequest {
         "base"  = $Base
     } | ConvertTo-Json
 
+    Write-Host "Uri: $uri"
+    Write-Host "Body $body"
+
     Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body $body
 }
 
