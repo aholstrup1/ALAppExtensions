@@ -1,0 +1,17 @@
+name: Update Baseline Version
+
+on:
+  workflow_dispatch:
+  #schedule:
+  #  - cron: "0 0 * * 0" # Run at midnight (UTC) every Sunday
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Update Baseline Version
+        run: | 
+          Build/Scripts/UpdateBaselineVersion.ps1 -Owner $GITHUB_REPOSITORY_OWNER -Repo $GITHUB_REPOSITORY_NAME -TargetBranch $GITHUB_REF_NAME -Token $GITHUB_TOKEN
