@@ -45,7 +45,7 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
     git checkout -b $BranchName | Out-Null
     git push --set-upstream origin $BranchName
 
-    New-GitHubPullRequest -Title "Update baseline version to $latestBaseline" -Head $BranchName -Base $TargetBranch  -Token $Token
+    New-GitHubPullRequest -Title "Update baseline version to $latestBaseline" -Owner $Owner -Repo $Repo -Head $BranchName -Base $TargetBranch -Token $Token
 } else {
     Write-Host "Current baseline version is already up to date"
 }
