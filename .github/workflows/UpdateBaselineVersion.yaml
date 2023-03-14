@@ -5,9 +5,13 @@ on:
   #schedule:
   #  - cron: "0 0 * * 0" # Run at midnight (UTC) every Sunday
 
+defaults:
+  run:
+    shell: powershell
+
 jobs:
-  example-job:
-    runs-on: ubuntu-latest
+  UpdateBaseline:
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
