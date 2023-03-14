@@ -19,38 +19,6 @@ function Get-BuildMode() {
     return 'Default'
 }
 
-# This function creates a pull request in Github with the current branch
-function New-GitHubPullRequest {
-    param(
-        [string]$Owner,
-        [string]$Repo,
-        [string]$Title,
-        [string]$Body,
-        [string]$Head,
-        [string]$Base,
-        [string]$Token
-    )
-
-    $uri = "https://api.github.com/repos/$Owner/$Repo/pulls"
-    $headers = @{
-        "Authorization" = "token $Token"
-        "Content-Type"  = "application/json"
-    }
-
-    $body = @{
-        "title" = $Title
-        "body"  = $Body
-        "head"  = $Head
-        "base"  = $Base
-    } | ConvertTo-Json
-
-    Write-Host "Uri: $uri"
-    Write-Host "Body $body"
-
-    Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body $body
-}
-
-
 <#
 .Synopsis
     Get the value of a key from the BuildConfig.json or AL-GO-Settings file
@@ -190,6 +158,28 @@ function Get-PackageFromNuget() {
     }
 
     return $NugetPackagePath
+}
+
+function Get-ALGOHelper() 
+{
+    $webClient = New-Object System.Net.WebClient
+    $webClient.CachePolicy = New-Object System.Net.Cache.RequestCachePolicy -argumentList ([System.Net.Cache.RequestCacheLevel]::NoCacheNoStore)
+    $webClient.Encoding = [System.Text.Encoding]::UTF8
+    Write-Host "Downloading AL-Go Helper script"
+    $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
+    $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/preview/AL-Go-Helper.ps1', $ALGoHelperPath)
+    return $ALGoHelperPath
+}
+
+function Get-GithubHelper() 
+{
+    $webClient = New-Object System.Net.WebClient
+    $webClient.CachePolicy = New-Object System.Net.Cache.RequestCachePolicy -argumentList ([System.Net.Cache.RequestCacheLevel]::NoCacheNoStore)
+    $webClient.Encoding = [System.Text.Encoding]::UTF8
+    Write-Host "Downloading GitHub Helper module"
+    $GitHubHelperPath = "$([System.IO.Path]::GetTempFileName()).psm1"
+    $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/preview/Github-Helper.psm1', $GitHubHelperPath)
+    return $GitHubHelperPath
 }
 
 Export-ModuleMember -Function *-*
