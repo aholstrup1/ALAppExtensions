@@ -45,10 +45,10 @@ if ([System.Version] $latestBaseline -ge [System.Version] $currentBaseline) { #T
 
     $currentDate = (Get-Date).ToUniversalTime().ToString("yyMMddHHmm")
     $BranchName = "private/UpdateBaselineVersion-$latestBaseline-$currentDate"
-    #git checkout -b $BranchName | Out-Null
-    #git push --set-upstream origin $BranchName
+    git checkout -b $BranchName | Out-Null
+    git push --set-upstream origin $BranchName
 
-    #New-GitHubPullRequest -Title "Update baseline version to $latestBaseline" -Head $BranchName -Base $TargetBranch  -Token $Token
+    New-GitHubPullRequest -Title "Update baseline version to $latestBaseline" -Head $BranchName -Base $TargetBranch  -Token $Token
 }
 
 
