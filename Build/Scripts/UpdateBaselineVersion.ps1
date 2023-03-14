@@ -14,6 +14,7 @@ Write-Host "Repo: $Repo" -ForegroundColor Magenta
 Write-Host "TargetBranch: $TargetBranch" -ForegroundColor Magenta
 
 Import-Module $PSScriptRoot\EnlistmentHelperFunctions.psm1
+Import-Module $PSScriptRoot\GuardingV2ExtensionsHelper.psm1
 
 $latestBaseline = Get-LatestBaselineVersionFromArtifacts
 $currentBaseline = Get-ConfigValueFromKey -Key "baselineVersion" -ConfigType "BuildConfig" 
