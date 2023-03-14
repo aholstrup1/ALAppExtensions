@@ -9,6 +9,9 @@ defaults:
   run:
     shell: powershell
 
+#env:
+#  repoName: ${{ github.event.repository.name }}
+
 jobs:
   UpdateBaseline:
     runs-on: windows-latest
@@ -18,4 +21,4 @@ jobs:
       
       - name: Update Baseline Version
         run: | 
-          Build/Scripts/UpdateBaselineVersion.ps1 -Owner $GITHUB_REPOSITORY_OWNER -Repo $GITHUB_REPOSITORY_NAME -TargetBranch $GITHUB_REF_NAME -Token $GITHUB_TOKEN
+          Build/Scripts/UpdateBaselineVersion.ps1 -Owner $env:GITHUB_REPOSITORY_OWNER -Repo $env:GITHUB_REPOSITORY_NAME -TargetBranch $env:GITHUB_REF_NAME -Token $env:GITHUB_TOKEN
