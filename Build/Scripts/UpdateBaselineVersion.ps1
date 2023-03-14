@@ -56,13 +56,13 @@ function New-AutoSubmissionTopicBranch
 {
     param
     (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, ParameterSetName = 'BranchName')]
         [string] $BranchName,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, ParameterSetName = 'SubFolder')]
         [string] $SubFolder
     )
 
-    if ($SubFolder) {
+    if($PsCmdlet.ParameterSetName -eq "SubFolder") {
         $currentDate = (Get-Date).ToUniversalTime().ToString("yyMMddHHmm")
         $BranchName = "private/$SubFolder/$latestBaseline-$currentDate"
     }
