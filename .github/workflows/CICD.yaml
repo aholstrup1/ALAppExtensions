@@ -8,6 +8,8 @@ on:
       - '.github/workflows/*.yaml'
       - '!.github/workflows/CICD.yaml'
     branches: [ 'main' ]
+    
+run-name: 'CICD: ${{ github.event.head_commit.message }}'
 
 defaults:
   run:
