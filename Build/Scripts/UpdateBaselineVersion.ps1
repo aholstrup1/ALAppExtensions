@@ -13,6 +13,12 @@ Write-Host "Owner: $Owner" -ForegroundColor Magenta
 Write-Host "Repo: $Repo" -ForegroundColor Magenta
 Write-Host "TargetBranch: $TargetBranch" -ForegroundColor Magenta
 
+if (Get-Module -Name 'BcContainerHelper') {
+    Write-Host "Importing BcContainerHelper"
+    Install-Module -Name 'BcContainerHelper'
+    Import-Module -Name 'BcContainerHelper'
+}
+
 Import-Module $PSScriptRoot\EnlistmentHelperFunctions.psm1
 Import-Module $PSScriptRoot\GuardingV2ExtensionsHelper.psm1
 
