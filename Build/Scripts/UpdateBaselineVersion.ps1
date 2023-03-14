@@ -6,12 +6,16 @@ Param(
     [Parameter(Mandatory = $false)]
     [string]$TargetBranch = "main",
     [Parameter(Mandatory = $false)]
+    [string]$Actor,
+    [Parameter(Mandatory = $false)]
     [string]$Token
 )
 
 Write-Host "Owner: $Owner"
 Write-Host "Repo: $Repo"
 Write-Host "TargetBranch: $TargetBranch"
+Write-Host "Actor: $Actor"
+
 
 # Setup Enlistment
 $webClient = New-Object System.Net.WebClient
@@ -41,6 +45,9 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
     $currentDate = (Get-Date).ToUniversalTime().ToString("yyMMddHHmm")
     $BranchName = "private/UpdateBaselineVersion-$latestBaseline-$currentDate"
     git checkout -b $BranchName | Out-Null
+
+    git config --global user.email "$Actor@users.noreply.github.com"
+    git config --global user.name "$Actor"
 
     Set-ConfigValueFromKey -Key "baselineVersion" -Value $latestBaseline -ConfigType "BuildConfig"
 
