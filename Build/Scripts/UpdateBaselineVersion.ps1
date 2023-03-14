@@ -51,6 +51,7 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
 
     Set-ConfigValueFromKey -Key "baselineVersion" -Value $latestBaseline -ConfigType "BuildConfig"
 
+    git stage .
     git commit -m "Update baseline version to $latestBaseline"
     git push --set-upstream origin $BranchName
 
