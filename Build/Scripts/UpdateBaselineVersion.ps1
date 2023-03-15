@@ -33,7 +33,7 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
 
     # Create PR
     $Token | invoke-gh auth login --with-token
-    gh pr create --fill --head $Head --base $Base --repo $Repo --label "infrastructure"
+    gh pr create --fill --head $BranchName --base $TargetBranch --label "infrastructure"
 } else {
     Write-Host "Current baseline version is already up to date"
 }
