@@ -14,7 +14,7 @@ env:
 
 jobs:
   UpdateBaseline:
-    #if: github.repository_owner == 'microsoft'
+    if: github.repository_owner == 'microsoft'
     runs-on: windows-latest
     steps:
       - name: Checkout
