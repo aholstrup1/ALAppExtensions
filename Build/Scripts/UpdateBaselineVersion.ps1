@@ -32,8 +32,12 @@ if ([System.Version] $latestBaseline -gt [System.Version] $currentBaseline) {
     Push-AutoSubmissionChange -BranchName $BranchName -Files @("Build/BuildConfig.json") -CommitMessage $title
 
     # Create PR
-    gh auth status
-    gh pr create --fill --head $BranchName --base $TargetBranch --label "infrastructure"
+    $availableLabels = gh label list --json name | ConvertFrom-Json
+    if ("infrastructure" -in $availableLabels.name) {
+        gh pr create --fill --head $BranchName --base $TargetBranch --label "infrastructure"
+    } else {
+        gh pr create --fill --head $BranchName --base $TargetBranch
+    }
 } else {
     Write-Host "Current baseline version is already up to date"
 }
