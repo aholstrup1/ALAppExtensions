@@ -24,4 +24,4 @@ jobs:
         run: | 
           Build/Scripts/UpdateBaselineVersion.ps1 -Owner $env:GITHUB_REPOSITORY_OWNER -Repo $env:repoName -TargetBranch $env:GITHUB_REF_NAME -Token ${{ secrets.GHTOKENWORKFLOW }} -Actor $env:GITHUB_ACTOR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GHTOKENWORKFLOW }}

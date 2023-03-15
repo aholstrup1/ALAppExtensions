@@ -65,7 +65,7 @@ function New-AutoSubmissionTopicBranch
 
     if($PsCmdlet.ParameterSetName -eq "SubFolder") {
         $currentDate = (Get-Date).ToUniversalTime().ToString("yyMMddHHmm")
-        $BranchName = "private/$SubFolder/$latestBaseline-$currentDate"
+        $BranchName = "private/$SubFolder/$currentDate"
     }
     
     git checkout -b $BranchName | Out-Null
