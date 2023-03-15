@@ -11,10 +11,12 @@ Param(
     [string]$Token
 )
 
+Install-Module -Name BcContainerHelper -Force
+
+Import-Module BcContainerHelper
 Import-Module $PSScriptRoot\EnlistmentHelperFunctions.psm1
 Import-Module $PSScriptRoot\GuardingV2ExtensionsHelper.psm1
 Import-Module $PSScriptRoot\AutomatedSubmission.psm1
-Install-Module -Name BcContainerHelper
 
 $latestBaseline = Get-LatestBaselineVersionFromArtifacts
 $currentBaseline = Get-ConfigValueFromKey -Key "baselineVersion" -ConfigType "BuildConfig" 
