@@ -2,6 +2,7 @@
 This topic provides answers to frequently asked questions, and will be updated regularly.
 
 ## How do I getting started as a contributer?
+
  Visit the [Getting Started with Modules](https://docs.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-getting-started) documentation. 
 
 Have a look at the following articles for detailed walkthroughs:
