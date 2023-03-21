@@ -1,0 +1,13 @@
+{
+    "appFolders":  [
+        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit"
+    ],
+    "testFolders":  [
+    ],
+    "buildModes": [
+        "Translated"
+    ],
+    "doNotRunTests": true,
+    "enableAppSourceCop": true,
+    "enablePerTenantExtensionCop":  true
+}
