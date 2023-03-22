@@ -3,6 +3,7 @@
         "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit"
     ],
     "testFolders":  [
+        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit Tests"
     ],
     "buildModes": [
         "Translated"
