@@ -1,10 +1,12 @@
 {
     "appFolders":  [
-        "..\\Modules\\System"
+        "..\\Modules\\System",
+        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit"
     ],
     "testFolders":  [
         "..\\Modules\\System Test Libraries",
-        "..\\Modules\\System Tests"
+        "..\\Modules\\System Tests",
+        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit Tests"
     ],
     "buildModes": [
         "Translated"
