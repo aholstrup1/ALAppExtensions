@@ -1,8 +1,6 @@
 {
     "appFolders":  [
-        "..\\Modules\\System",
-        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit",
-        "..\\Modules\\DevTools\\BusinessCentralPerformanceToolkit Tests"
+        "..\\Modules\\System"
     ],
     "testFolders":  [
         "..\\Modules\\System Test Libraries",
