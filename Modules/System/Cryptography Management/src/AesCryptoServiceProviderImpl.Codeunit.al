@@ -16,7 +16,7 @@ codeunit 1467 "AesCryptoServiceProvider Impl." implements SymmetricAlgorithm
     begin
         DotNetAesCryptoServiceProvider := DotNetAesCryptoServiceProvider.AesCryptoServiceProvider();
         DotNetSymmetricAlgorithm := DotNetAesCryptoServiceProvider;
-        Message('Test');
+        Message('Test 2');
     end;
 
     procedure XmlEncrypmentMethodUrl(): Text
