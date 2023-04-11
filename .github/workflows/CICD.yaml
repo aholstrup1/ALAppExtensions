@@ -231,7 +231,7 @@ jobs:
       
       - name: Sign
         id: signApps
-        uses: aholstrup1/AL-Go-Actions/SignApp@main
+        uses: aholstrup1/AL-Go-Actions/Sign@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           azureKeyVaultURI: ${{ secrets.KEY_VAULT_URL }}
@@ -239,7 +239,7 @@ jobs:
           azureKeyVaultClientSecret: ${{ secrets.KEY_VAULT_CLIENT_SECRET }}
           azureKeyVaultTenantID: ${{ secrets.KEY_VAULT_TENANT_ID }}
           azureKeyVaultCertificateName: ${{ secrets.KEY_VAULT_CERTIFICATE_NAME }}
-          pathToFiles: ${{ matrix.project }}/.buildartifacts/Apps/
+          pathToFiles: ${{ matrix.project }}/.buildartifacts/Apps/*.app
 
       - name: Calculate Artifact names
         id: calculateArtifactsNames
