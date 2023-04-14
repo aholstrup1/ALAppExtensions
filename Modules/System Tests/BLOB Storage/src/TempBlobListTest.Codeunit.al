@@ -8,6 +8,7 @@ codeunit 135032 "Temp Blob List Test"
     Subtype = Test;
     TestPermissions = NonRestrictive;
 
+
     var
         Assert: Codeunit "Library Assert";
         PermissionsMock: Codeunit "Permissions Mock";
