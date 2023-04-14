@@ -37,5 +37,9 @@
   "CICDPushBranches": [
     "main"
   ],
+  "CICDPullRequestBranches": [
+    "main",
+    "release/22"
+  ],
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json"
 }
