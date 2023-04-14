@@ -1,10 +1,10 @@
 name: 'Pull Request Build'
 
 on:
-  pull_request_target:
+  pull_request:
     paths-ignore:
       - '**.md'
-    branches: [ 'main' ]
+    branches: [ 'main', 'release/22' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
