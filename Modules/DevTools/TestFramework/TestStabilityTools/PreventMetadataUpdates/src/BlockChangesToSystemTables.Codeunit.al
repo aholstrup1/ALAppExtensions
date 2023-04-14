@@ -7,6 +7,7 @@ codeunit 132553 "Block Changes to System Tables"
 {
     SingleInstance = true;
     EventSubscriberInstance = Manual;
+    
 
     trigger OnRun()
     begin
