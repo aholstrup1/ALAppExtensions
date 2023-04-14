@@ -8,7 +8,7 @@
 /// </summary>
 codeunit 130002 "Library Assert"
 {
- 
+  
     trigger OnRun()
     begin
     end;
