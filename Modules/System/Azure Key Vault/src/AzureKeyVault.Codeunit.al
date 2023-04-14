@@ -10,6 +10,7 @@ codeunit 2200 "Azure Key Vault"
 {
     Access = Public;
     SingleInstance = true;
+    
 
     var
         [NonDebuggable]
