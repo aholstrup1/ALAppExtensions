@@ -9,6 +9,7 @@ codeunit 144741 "BCPT Setup Card Test"
     Subtype = Test;
     TestPermissions = NonRestrictive;
     EventSubscriberInstance = Manual;
+    
 
     var
         Assert: Codeunit "Library Assert";
