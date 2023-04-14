@@ -10,6 +10,7 @@ enum 59 "Auto Format"
 {
     Extensible = true;
 
+
     /// <summary>
     /// Ignore the value that AutoFormatExpr passes and use the standard format for decimals instead.
     /// </summary>
