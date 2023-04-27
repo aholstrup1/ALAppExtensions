@@ -247,7 +247,7 @@ jobs:
 
       - name: Sign
         id: sign
-        uses: microsoft/AL-Go-Actions/Sign@preview
+        uses: microsoft/AL-Go-Actions/Sign@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           azureKeyVaultURI: ${{ secrets.KEY_VAULT_URL }}
@@ -439,7 +439,7 @@ jobs:
 
       - name: Sign
         id: sign
-        uses: microsoft/AL-Go-Actions/Sign@preview
+        uses: microsoft/AL-Go-Actions/Sign@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           azureKeyVaultURI: ${{ secrets.KEY_VAULT_URL }}
