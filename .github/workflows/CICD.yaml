@@ -213,7 +213,7 @@ jobs:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           settingsJson: ${{ env.Settings }}
-          secrets: 'licenseFileUrl,insiderSasToken,codeSignCertificateUrl,codeSignCertificatePassword,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,storageContext,gitHubPackagesContext,keyvaultCodesign.codesignKeyvaultUri,keyvaultCodesign.codesignKeyvaultClientId,keyvaultCodesign.codesignKeyvaultClientSecret,keyvaultCodesign.codesignKeyvaultTenantId,keyvaultCodesign.codesignKeyvaultCertificate'
+          secrets: 'licenseFileUrl,insiderSasToken,codeSignCertificateUrl,codeSignCertificatePassword,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,storageContext,gitHubPackagesContext,codesignKeyvaultUri,codesignKeyvaultClientId,codesignKeyvaultClientSecret,codesignKeyvaultTenantId,codesignKeyvaultCertificate'
       
       - name: Test 
         run: |
