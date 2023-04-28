@@ -206,14 +206,14 @@ jobs:
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
+        uses: aholstrup1/AL-Go/Actions/ReadSecrets@main
         env:
           secrets: ${{ toJson(secrets) }}
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           settingsJson: ${{ env.Settings }}
-          secrets: 'licenseFileUrl,insiderSasToken,codeSignCertificateUrl,codeSignCertificatePassword,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,storageContext,gitHubPackagesContext'
+          secrets: 'licenseFileUrl,insiderSasToken,codeSignCertificateUrl,codeSignCertificatePassword,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,storageContext,gitHubPackagesContext,codesignKeyvaultUri,codesignKeyvaultClientId,codesignKeyvaultClientSecret,codesignKeyvaultTenantId,codesignKeyvaultCertificate'
 
       - name: Determine ArtifactUrl
         uses: aholstrup1/AL-Go-Actions/DetermineArtifactUrl@main

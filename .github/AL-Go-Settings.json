@@ -37,5 +37,10 @@
   "CICDPushBranches": [
     "main"
   ],
-  "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json"
+  "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json",
+  "codesignKeyvaultUriSecretName": "KEY_VAULT_URL",
+  "codesignKeyvaultClientIdSecretName": "KEY_VAULT_CLIENT_ID",
+  "codesignKeyvaultClientSecretSecretName": "KEY_VAULT_CLIENT_SECRET",
+  "codesignKeyvaultTenantIdSecretName": "KEY_VAULT_TENANT_ID",
+  "codesignKeyvaultCertificateSecretName": "KEY_VAULT_CERTIFICATE_NAME"
 }
