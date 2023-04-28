@@ -223,6 +223,7 @@ jobs:
           $KeyvaultTenantIdSecretName = "${{ env.codesignKeyvaultTenantIdSecretName }}"
           $KeyvaultCertificateSecretName = "${{ env.codesignKeyvaultCertificateSecretName }}"
           
+          
           Write-Host "doNotSignApps=${{ env.doNotSignApps }}"
           Write-Host "KeyvaultUriSecretName=$KeyvaultUriSecretName"
           Write-Host "KeyvaultClientIdSecretName=$KeyvaultClientIdSecretName"
