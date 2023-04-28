@@ -222,8 +222,8 @@ jobs:
           $KeyvaultClientSecretSecretName = "${{ env.codesignKeyvaultClientSecretSecretName }}"
           $KeyvaultTenantIdSecretName = "${{ env.codesignKeyvaultTenantIdSecretName }}"
           $KeyvaultCertificateSecretName = "${{ env.codesignKeyvaultCertificateSecretName }}"
-
-
+          
+          Write-Host "doNotSignApps=${{ env.doNotSignApps }}"
           Write-Host "KeyvaultUriSecretName=$KeyvaultUriSecretName"
           Write-Host "KeyvaultClientIdSecretName=$KeyvaultClientIdSecretName"
           Write-Host "KeyvaultClientSecretSecretName=$KeyvaultClientSecretSecretName"
@@ -261,6 +261,7 @@ jobs:
           buildMode: ${{ matrix.buildMode }}
 
       - name: Sign
+        if: env.doNotSignApps == 'False' && env.codesignKeyvaultUriSecretName != ''
         id: sign
         uses: aholstrup1/AL-Go-Actions/Sign@main
         with:
