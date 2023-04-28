@@ -217,7 +217,7 @@ jobs:
       
       - name: Test 
         run: |
-          $clientSecretName = ${{ env.codesignKeyvaultClientSecret }}
+          $clientSecretName = ${{ env.codesignKeyvaultClientSecretSecretName }}
           Write-Host "clientSecretName=$clientSecretName"
           
       - name: Determine ArtifactUrl
