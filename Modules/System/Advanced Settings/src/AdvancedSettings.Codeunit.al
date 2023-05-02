@@ -15,6 +15,6 @@ codeunit 9202 "Advanced Settings"
     /// <param name="Handled">The flag which if set, would stop executing the OpenGeneralSetupExperience of the assisted setup guide.</param> 
     [IntegrationEvent(false, false)]
     internal procedure OnBeforeOpenGeneralSetupExperience(var PageID: Integer; var Handled: Boolean)
-    begin
+    begin 
     end;
 }
