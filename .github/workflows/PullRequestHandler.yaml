@@ -108,6 +108,8 @@ jobs:
       
       - name: Build Conclusion 
         id: BuildConclusion
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
           Write-Host "Evaluating $($jobs.jobs.Count) jobs"
@@ -424,6 +426,8 @@ jobs:
 
       - name: Build Conclusion 
         id: BuildConclusion
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
           Write-Host "Evaluating $($jobs.jobs.Count) jobs"
