@@ -105,6 +105,16 @@ jobs:
         with:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
+      
+      - name: Build Conclusion 
+        id: BuildConclusion
+        run: |
+          $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
+          Write-Host "Evaluating $($jobs.jobs.Count) jobs"
+          $failedJobs = $jobs.jobs | Where-Object conclusion -eq "failure"
+          if ($failedJobs) {
+            throw "The following jobs failed: $($failedJobs.name -join ', ')"
+          }
 
       - name: Download thisbuild artifacts
         if: env.workflowDepth > 1
@@ -411,3 +421,13 @@ jobs:
           shell: powershell
           eventId: "DO0104"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+
+      - name: Build Conclusion 
+        id: BuildConclusion
+        run: |
+          $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
+          Write-Host "Evaluating $($jobs.jobs.Count) jobs"
+          $failedJobs = $jobs.jobs | Where-Object conclusion -eq "failure"
+          if ($failedJobs) {
+            throw "The following jobs failed: $($failedJobs.name -join ', ')"
+          }
