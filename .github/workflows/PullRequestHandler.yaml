@@ -34,7 +34,7 @@ jobs:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
 
-      - uses: aholstrup1/AL-Go-Actions/VerifyPRChanges@main
+      - uses: aholstrup1/AL-Go-Actions/VerifyPRChanges@private/refactor_azurecreds
         with:
           baseSHA: ${{ github.event.pull_request.base.sha }}
           headSHA: ${{ github.event.pull_request.head.sha }}
@@ -61,14 +61,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: aholstrup1/AL-Go-Actions/WorkflowInitialize@main
+        uses: aholstrup1/AL-Go-Actions/WorkflowInitialize@private/refactor_azurecreds
         with:
           shell: powershell
           eventId: "DO0104"
 
       - name: Read settings
         id: ReadSettings
-        uses: aholstrup1/AL-Go-Actions/ReadSettings@main
+        uses: aholstrup1/AL-Go-Actions/ReadSettings@private/refactor_azurecreds
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -76,7 +76,7 @@ jobs:
           
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: aholstrup1/AL-Go-Actions/DetermineProjectsToBuild@main
+        uses: aholstrup1/AL-Go-Actions/DetermineProjectsToBuild@private/refactor_azurecreds
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -105,18 +105,6 @@ jobs:
         with:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
-      
-      - name: Build Conclusion 
-        id: BuildConclusion
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
-          Write-Host "Evaluating $($jobs.jobs.Count) jobs"
-          $failedJobs = $jobs.jobs | Where-Object conclusion -eq "failure"
-          if ($failedJobs) {
-            throw "The following jobs failed: $($failedJobs.name -join ', ')"
-          }
 
       - name: Download thisbuild artifacts
         if: env.workflowDepth > 1
@@ -125,14 +113,14 @@ jobs:
           path: '.dependencies'
 
       - name: Read settings
-        uses: aholstrup1/AL-Go-Actions/ReadSettings@main
+        uses: aholstrup1/AL-Go-Actions/ReadSettings@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
+        uses: aholstrup1/AL-Go-Actions/ReadSecrets@private/refactor_azurecreds
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -142,7 +130,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,gitHubPackagesContext'
 
       - name: Determine ArtifactUrl
-        uses: aholstrup1/AL-Go-Actions/DetermineArtifactUrl@main
+        uses: aholstrup1/AL-Go-Actions/DetermineArtifactUrl@private/refactor_azurecreds
         id: determineArtifactUrl
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
@@ -159,7 +147,7 @@ jobs:
 
       - name: Run pipeline
         id: RunPipeline
-        uses: aholstrup1/AL-Go-Actions/RunPipeline@main
+        uses: aholstrup1/AL-Go-Actions/RunPipeline@private/refactor_azurecreds
         env:
           BuildMode: ${{ matrix.buildMode }}
         with:
@@ -173,7 +161,7 @@ jobs:
 
       - name: Calculate Artifact names
         id: calculateArtifactsNames
-        uses: aholstrup1/AL-Go-Actions/CalculateArtifactNames@main
+        uses: aholstrup1/AL-Go-Actions/CalculateArtifactNames@private/refactor_azurecreds
         if: success() || failure()
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
@@ -235,7 +223,7 @@ jobs:
       - name: Analyze Test Results
         id: analyzeTestResults
         if: success() || failure()
-        uses: aholstrup1/AL-Go-Actions/AnalyzeTests@main
+        uses: aholstrup1/AL-Go-Actions/AnalyzeTests@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
@@ -243,7 +231,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: aholstrup1/AL-Go-Actions/PipelineCleanup@main
+        uses: aholstrup1/AL-Go-Actions/PipelineCleanup@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
@@ -281,14 +269,14 @@ jobs:
           path: '.dependencies'
 
       - name: Read settings
-        uses: aholstrup1/AL-Go-Actions/ReadSettings@main
+        uses: aholstrup1/AL-Go-Actions/ReadSettings@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
+        uses: aholstrup1/AL-Go-Actions/ReadSecrets@private/refactor_azurecreds
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -298,7 +286,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,keyVaultCertificateUrl,keyVaultCertificatePassword,keyVaultClientId,gitHubPackagesContext'
 
       - name: Determine ArtifactUrl
-        uses: aholstrup1/AL-Go-Actions/DetermineArtifactUrl@main
+        uses: aholstrup1/AL-Go-Actions/DetermineArtifactUrl@private/refactor_azurecreds
         id: determineArtifactUrl
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
@@ -315,7 +303,7 @@ jobs:
 
       - name: Run pipeline
         id: RunPipeline
-        uses: aholstrup1/AL-Go-Actions/RunPipeline@main
+        uses: aholstrup1/AL-Go-Actions/RunPipeline@private/refactor_azurecreds
         env:
           BuildMode: ${{ matrix.buildMode }}
         with:
@@ -329,7 +317,7 @@ jobs:
 
       - name: Calculate Artifact names
         id: calculateArtifactsNames
-        uses: aholstrup1/AL-Go-Actions/CalculateArtifactNames@main
+        uses: aholstrup1/AL-Go-Actions/CalculateArtifactNames@private/refactor_azurecreds
         if: success() || failure()
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
@@ -391,7 +379,7 @@ jobs:
       - name: Analyze Test Results
         id: analyzeTestResults
         if: success() || failure()
-        uses: aholstrup1/AL-Go-Actions/AnalyzeTests@main
+        uses: aholstrup1/AL-Go-Actions/AnalyzeTests@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
@@ -399,7 +387,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: aholstrup1/AL-Go-Actions/PipelineCleanup@main
+        uses: aholstrup1/AL-Go-Actions/PipelineCleanup@private/refactor_azurecreds
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
@@ -408,7 +396,7 @@ jobs:
   PostProcess:
     runs-on: [ windows-latest ]
     needs: [ Initialization, Build ]
-    if: always()
+    if: (!cancelled())
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -418,20 +406,8 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: aholstrup1/AL-Go-Actions/WorkflowPostProcess@main
+        uses: aholstrup1/AL-Go-Actions/WorkflowPostProcess@private/refactor_azurecreds
         with:
           shell: powershell
           eventId: "DO0104"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-
-      - name: Build Conclusion 
-        id: BuildConclusion
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $jobs = gh run view ${{ github.run_id }} --json jobs | ConvertFrom-Json
-          Write-Host "Evaluating $($jobs.jobs.Count) jobs"
-          $failedJobs = $jobs.jobs | Where-Object conclusion -eq "failure"
-          if ($failedJobs) {
-            throw "The following jobs failed: $($failedJobs.name -join ', ')"
-          }
