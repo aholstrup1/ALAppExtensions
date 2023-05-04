@@ -38,9 +38,5 @@
     "main"
   ],
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json",
-  "codeSignKeyvaultUriSecretName": "KEY_VAULT_URL",
-  "codeSignClientIdSecretName": "KEY_VAULT_CLIENT_ID",
-  "codeSignClientSecretSecretName": "KEY_VAULT_CLIENT_SECRET",
-  "codeSignTenantIdSecretName": "KEY_VAULT_TENANT_ID",
-  "codeSignCertificateSecretName": "KEY_VAULT_CERTIFICATE_NAME"
+  "keyVaultCodesignCertificateName": "testalgocert"
 }
