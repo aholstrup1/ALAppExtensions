@@ -1,6 +1,6 @@
 {
   "type": "PTE",
-  "templateUrl": "https://github.com/aholstrup1/AL-Go-PTE@private/refactor_azurecreds",
+  "templateUrl": "https://github.com/aholstrup1/AL-Go-PTE@main",
   "bcContainerHelperVersion": "preview",
   "runs-on": "windows-latest",
   "cacheImageName": "",
