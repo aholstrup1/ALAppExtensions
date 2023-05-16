@@ -183,7 +183,8 @@ jobs:
       fail-fast: false
     name: Build ${{ matrix.project }} - ${{ matrix.buildMode }}
     uses: mazhelez/AL-Go-Actions/.github/workflows/BuildALGoProject.yaml@extract-build-project-action
-    secrets: inherit
+    secrets:
+      insiderSasToken: ${{ secrets.insiderSasToken }}
     with:
       shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
       runsOn: ${{ needs.Initialization.outputs.githubRunner }}
