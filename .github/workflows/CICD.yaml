@@ -82,9 +82,9 @@ jobs:
       - name: test
         id: test
         env:
-          client_id: ${{ fromJson(secrets.AZURE_CREDENTALS) }}
+          CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
         run: |
-          Write-Host "client_id: $env:client_id"
+          Write-Host "CLIENT_SECRET: ${CLIENT_SECRET}"
 
       - name: Read secrets
         uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
