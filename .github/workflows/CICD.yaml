@@ -79,6 +79,13 @@ jobs:
           }
           Add-Content -Path $env:GITHUB_OUTPUT -Value "Secrets=$($deliveryTargetSecrets -join ',')"
 
+      - name: test
+        id: test
+        env:
+          client_id: ${{ fromJson(secrets.AZURE_CREDENTALS) }}
+        run: |
+          Write-Host "client_id: $env:client_id"
+
       - name: Read secrets
         uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
         env:
