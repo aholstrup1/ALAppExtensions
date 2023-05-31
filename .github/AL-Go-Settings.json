@@ -37,5 +37,6 @@
   "CICDPushBranches": [
     "main"
   ],
+  "keyVaultCodesignCertificateName": "testalgocert",
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json"
 }
