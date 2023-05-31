@@ -79,14 +79,6 @@ jobs:
           }
           Add-Content -Path $env:GITHUB_OUTPUT -Value "Secrets=$($deliveryTargetSecrets -join ',')"
 
-      - name: test
-        id: test
-        env:
-          CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
-          TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
-        run: |
-          Write-Host "CLIENT_SECRET: $env:CLIENT_ID"
-
       - name: Read secrets
         uses: aholstrup1/AL-Go-Actions/ReadSecrets@main
         env:
@@ -260,10 +252,10 @@ jobs:
         uses: aholstrup1/AL-Go-Actions/Sign@main
         with:
           shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
-          azureKeyVaultName: ${{ fromJSON(secrets.AZURE_CREDENTALS).keyVaultName }}
-          azureKeyVaultClientID: ${{ fromJSON(secrets.AZURE_CREDENTALS).clientId }}
-          azureKeyVaultClientSecret: ${{ fromJSON(secrets.AZURE_CREDENTALS).clientSecret }}
-          azureKeyVaultTenantID: ${{ fromJSON(secrets.AZURE_CREDENTALS).tenantId }}
+          azureKeyVaultName: ${{ fromJSON(secrets.AZURE_CREDENTIALS).keyVaultName }}
+          azureKeyVaultClientID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
+          azureKeyVaultClientSecret: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
+          azureKeyVaultTenantID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
           azureKeyVaultCertificateName: ${{ env.keyVaultCodesignCertificateName }}
           pathToFiles: '${{ matrix.project }}/.buildartifacts/Apps/*.app'
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
