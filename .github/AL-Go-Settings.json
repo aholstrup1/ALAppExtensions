@@ -38,5 +38,6 @@
     "main"
   ],
   "keyVaultCodesignCertificateName": "testalgocert",
+  "keyVaultName": "testalgosigningkeyvault1",
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json"
 }
