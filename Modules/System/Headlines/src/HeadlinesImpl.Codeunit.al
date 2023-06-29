@@ -120,7 +120,7 @@ codeunit 1470 "Headlines Impl."
         end;
 
         // check if the UserName is empty or contains only spaces
-        if (UserName = '') OR (DelChr(UserName, '=') = '') then
+        if (UserName = '') or (DelChr(UserName, '=') = '') then
             exit(GreetingTextWithoutUsername);
 
         GreetingTextWithUsername := StrSubstNo(GreetingTextWithUsername, UserName);

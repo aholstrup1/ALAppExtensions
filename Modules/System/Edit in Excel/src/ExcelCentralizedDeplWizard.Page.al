@@ -233,8 +233,8 @@ page 1480 "Excel Centralized Depl. Wizard"
 
     trigger OnOpenPage()
     begin
-        if not Get() then
-            Insert();
+        if not Rec.Get() then
+            Rec.Insert();
 
         Step := Step::Start;
         EnableControls();
@@ -271,7 +271,7 @@ page 1480 "Excel Centralized Depl. Wizard"
     begin
         if Backwards then
             Step := Step - 1
-        ELSE
+        else
             Step := Step + 1;
 
         EnableControls();
@@ -331,3 +331,4 @@ page 1480 "Excel Centralized Depl. Wizard"
         GoToIntegratedAppsLinkTxt: Label '1. In the Microsoft 365 admin center, go to Integrated Apps.';
         LearnAboutConfiguringBcForCentralizedDeploymentLinkTxt: Label 'Learn more about Configuring Business Central for Centralized Deployment​';
 }
+

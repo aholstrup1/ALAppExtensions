@@ -454,7 +454,7 @@ codeunit 9988 "Word Template Impl."
         if SplitDocument then
             MergeSplitDocument(RecordVariant, SaveFormat, EditDoc)
         else
-        MergeOneDocument(RecordVariant, SaveFormat, EditDoc);
+            MergeOneDocument(RecordVariant, SaveFormat, EditDoc);
     end;
 
     // Merges each record separately into individual documents and puts them into a zip.
@@ -765,7 +765,13 @@ codeunit 9988 "Word Template Impl."
     begin
         TableLookup.LookupMode(true);
         if TableLookup.RunModal() = Action::LookupOK then begin
+#if not CLEAN22
+#pragma warning disable AL0432
+#endif
             TableLookup.GetRecord(AllowedTables);
+#if not CLEAN22
+#pragma warning restore AL0432
+#endif
             exit(AllowedTables."Table ID");
         end;
     end;
@@ -1324,7 +1330,7 @@ codeunit 9988 "Word Template Impl."
                                                        FieldRef.Type::Media,
                                                        FieldRef.Type::RecordId]) then
                 IncludeField := false;
-            if (not UseDefaultFields) and WordTemplateField.Get(WordTemplate.Code, RecordRef.Number, FieldRef.Name) and WordTemplateField.Exclude then
+            if (not UseDefaultFields) and WordTemplateField.Get(WordTemplate.Code, RecordRef.Number, CopyStr(FieldRef.Name, 1, 30)) and WordTemplateField.Exclude then
                 IncludeField := false;
 
             if IncludeField then

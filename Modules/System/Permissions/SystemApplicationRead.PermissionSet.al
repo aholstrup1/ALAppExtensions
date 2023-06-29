@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-PermissionSet 21 "System Application - Read"
+permissionset 21 "System Application - Read"
 {
     Access = Internal;
     Assignable = false;

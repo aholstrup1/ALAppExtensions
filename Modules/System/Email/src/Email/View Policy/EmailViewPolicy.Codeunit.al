@@ -24,7 +24,7 @@ codeunit 8930 "Email View Policy"
         NullGuid: Guid;
     begin
         EmailViewPolicyRecord.SetRange("User Security ID", NullGuid);
-        If EmailViewPolicyRecord.IsEmpty() then
+        if EmailViewPolicyRecord.IsEmpty() then
             InsertDefault(EmailViewPolicy)
     end;
 

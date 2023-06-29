@@ -112,9 +112,8 @@ page 9555 "Record Lookup"
     end;
 
     var
-        [InDataSet]
         FieldsVisible: Integer;
-        FieldCaptions: Array[10] of Text;
+        FieldCaptions: array[10] of Text;
 
     internal procedure SetTableId(TableId: Integer)
     var

@@ -153,7 +153,6 @@ page 9856 "Metadata Permission Subform"
     end;
 
     var
-        [InDataSet]
         IsTableData: Boolean;
         IsNewRecord: Boolean;
         PermissionRecExists: Boolean;

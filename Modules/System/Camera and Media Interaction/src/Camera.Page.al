@@ -38,7 +38,7 @@ page 1908 Camera
             {
                 Caption = 'Could not connect to camera';
                 InstructionalText = 'Could not access the camera on the device. Make sure that you are using the app for Windows, Android, or iOS.';
-                Visible = NOT CameraAvailable;
+                Visible = not CameraAvailable;
             }
         }
     }
@@ -48,7 +48,6 @@ page 1908 Camera
         [RunOnClient]
         [WithEvents]
         CameraProvider: DotNet CameraProvider;
-        [InDataSet]
         CameraAvailable: Boolean;
 
 

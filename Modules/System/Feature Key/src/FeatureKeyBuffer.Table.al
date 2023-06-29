@@ -117,7 +117,7 @@ table 2609 "Feature Key Buffer"
 
     internal procedure CancelDataUpdateTask()
     begin
-        FeatureManagementFacade.CancelTask(FeatureDataUpdateStatus, True);
+        FeatureManagementFacade.CancelTask(FeatureDataUpdateStatus, true);
     end;
 
     internal procedure GetDataUpdateSessionId(): Integer

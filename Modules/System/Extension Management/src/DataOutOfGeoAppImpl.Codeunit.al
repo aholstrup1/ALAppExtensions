@@ -28,7 +28,7 @@ codeunit 2505 "Data Out Of Geo. App Impl."
 
     procedure Contains(AppID: Guid): Boolean
     begin
-        Exit(IsolatedStorage.Contains(AppID, DataScope::Module));
+        exit(IsolatedStorage.Contains(AppID, DataScope::Module));
     end;
 
     procedure AlreadyInstalled(): Boolean

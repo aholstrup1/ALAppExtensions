@@ -34,7 +34,7 @@ table 9017 "Plan Configuration"
         field(4; "Plan Name"; Text[50])
         {
             Editable = false;
-            CalcFormula = Lookup(Plan.Name Where("Plan ID" = Field("Plan ID")));
+            CalcFormula = lookup(Plan.Name where("Plan ID" = field("Plan ID")));
             Caption = 'Plan Name';
             FieldClass = FlowField;
         }

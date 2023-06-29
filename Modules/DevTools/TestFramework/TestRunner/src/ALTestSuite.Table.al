@@ -23,27 +23,27 @@ table 130451 "AL Test Suite"
         }
         field(3; "Tests to Execute"; Integer)
         {
-            CalcFormula = Count("Test Method Line" WHERE("Test Suite" = FIELD(Name),
-                                                          "Line Type" = CONST(Function),
-                                                          Run = CONST(true)));
+            CalcFormula = count("Test Method Line" where("Test Suite" = field(Name),
+                                                          "Line Type" = const(Function),
+                                                          Run = const(true)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(4; "Tests not Executed"; Integer)
         {
-            CalcFormula = Count("Test Method Line" WHERE("Test Suite" = FIELD(Name),
-                                                          "Line Type" = CONST(Function),
-                                                          Run = CONST(true),
-                                                          Result = CONST(" ")));
+            CalcFormula = count("Test Method Line" where("Test Suite" = field(Name),
+                                                          "Line Type" = const(Function),
+                                                          Run = const(true),
+                                                          Result = const(" ")));
             Editable = false;
             FieldClass = FlowField;
         }
         field(5; Failures; Integer)
         {
-            CalcFormula = Count("Test Method Line" WHERE("Test Suite" = FIELD(Name),
-                                                          "Line Type" = CONST(Function),
-                                                          Run = CONST(true),
-                                                          Result = CONST(Failure)));
+            CalcFormula = count("Test Method Line" where("Test Suite" = field(Name),
+                                                          "Line Type" = const(Function),
+                                                          Run = const(true),
+                                                          Result = const(Failure)));
             Editable = false;
             FieldClass = FlowField;
         }

@@ -1,37 +1,32 @@
-#if not CLEAN20
-// ------------------------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-table 135011 "Table With Media"
+table 132514 "Record Link Test Cross Company"
 {
-    Access = Internal;
-	ReplicateData = false;
+    ReplicateData = false;
+    DataPerCompany = false;
+    InherentEntitlements = RIMD;
+    InherentPermissions = RIMD;
 
     fields
     {
-        field(1; "Primary Key"; Integer)
+        field(1; PK; Integer)
         {
+            AutoIncrement = true;
             DataClassification = SystemMetadata;
         }
-        field(2; Media; Media)
-        {
-            DataClassification = SystemMetadata;
-        }
-        field(3; MediaSetField; MediaSet)
+        field(2; Field; Text[50])
         {
             DataClassification = SystemMetadata;
         }
     }
-
     keys
     {
-        key(Key1; "Primary Key")
+        key(Key1; PK, Field)
         {
             Clustered = true;
         }
     }
 }
-
-#endif

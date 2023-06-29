@@ -78,7 +78,7 @@ page 9989 "Word Templates"
             {
                 ApplicationArea = All;
                 Caption = 'Related Entities';
-                SubPageLink = Code = Field(Code);
+                SubPageLink = Code = field(Code);
                 Editable = false;
             }
         }

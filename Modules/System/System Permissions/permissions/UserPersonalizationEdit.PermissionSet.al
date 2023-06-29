@@ -6,7 +6,7 @@
 permissionset 91 "User Personalization - Edit"
 {
     Access = Public;
-    Assignable = False;
+    Assignable = false;
 
     IncludedPermissionSets = "User Personalization - Read";
 

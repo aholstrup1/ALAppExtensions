@@ -43,8 +43,8 @@ page 2503 "Extension Installation"
         MarketplaceExtnDeployment.SetAppID(Rec.ID);
         MarketplaceExtnDeployment.RunModal();
         if MarketplaceExtnDeployment.GetInstalledSelected() then
-            if NOT IsNullGuid(ID) then
-                ExtensionMarketplace.InstallMarketplaceExtension(ID, ResponseURL, MarketplaceExtnDeployment.GetLanguageId());
+            if not IsNullGuid(Rec.ID) then
+                ExtensionMarketplace.InstallMarketplaceExtension(Rec.ID, Rec.ResponseURL, MarketplaceExtnDeployment.GetLanguageId());
         CurrPage.Close();
     end;
 
@@ -78,4 +78,5 @@ page 2503 "Extension Installation"
             FieldRef.Value(Filter);
     end;
 }
+
 

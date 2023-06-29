@@ -17,6 +17,7 @@ table 9020 "Security Group"
     {
         field(1; "Code"; Code[20])
         {
+            DataClassification = SystemMetadata;
             NotBlank = true;
         }
         // User security ID of a user record that represents an AAD group or a Windows group 

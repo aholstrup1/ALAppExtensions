@@ -45,7 +45,7 @@ page 130455 "Command Line Test Tool"
                 begin
                     TestSuiteMgt.DeleteAllMethods(GlobalALTestSuite);
                     TestSuiteMgt.SelectTestMethodsByRange(GlobalALTestSuite, TestCodeunitRangeFilter);
-                    IF Rec.FindFirst() THEN;
+                    if Rec.FindFirst() then;
                 end;
             }
             field(TestProcedureRangeFilter; TestProcedureRangeFilter)
@@ -87,7 +87,7 @@ page 130455 "Command Line Test Tool"
                 begin
                     TestSuiteMgt.DeleteAllMethods(GlobalALTestSuite);
                     TestSuiteMgt.SelectTestMethodsByExtension(GlobalALTestSuite, ExtensionId);
-                    IF Rec.FindFirst() THEN;
+                    if Rec.FindFirst() then;
                 end;
             }
             field(DisableTestMethod; RemoveTestMethod)
@@ -543,10 +543,10 @@ page 130455 "Command Line Test Tool"
 
 
         TestMethodLine.SETRANGE(Name);
-        TestMethodLine.SETRANGE(Run, TRUE);
+        TestMethodLine.SETRANGE(Run, true);
         if TestMethodLine.IsEmpty() then begin
-            CodeunitTestMethodLine.VALIDATE(Run, FALSE);
-            CodeunitTestMethodLine.Modify(TRUE);
+            CodeunitTestMethodLine.VALIDATE(Run, false);
+            CodeunitTestMethodLine.Modify(true);
         end;
 
         CurrPage.Update();

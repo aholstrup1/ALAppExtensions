@@ -25,34 +25,34 @@ page 1875 "Manual Setup"
         {
             repeater(Group)
             {
-                field(Name; "Short Title")
+                field(Name; Rec."Short Title")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the name of the manual setup.';
                 }
-                field(ExtensionName; "Extension Name")
+                field(ExtensionName; Rec."Extension Name")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the extension which has added this setup.';
                 }
-                field(Description; Description)
+                field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies a description of the manual setup.';
                 }
-                field(Category; "Manual Setup Category")
+                field(Category; Rec."Manual Setup Category")
                 {
                     ApplicationArea = All;
                     Caption = 'Category';
                     ToolTip = 'Specifies the category enum to which the setup belongs';
                 }
-                field(Keywords; Keywords)
+                field(Keywords; Rec.Keywords)
                 {
                     ApplicationArea = All;
                     Caption = 'Keywords';
                     ToolTip = 'Specifies which keywords relate to the manual setup on the line.';
                 }
-                field(ExpectedDuration; "Expected Duration")
+                field(ExpectedDuration; Rec."Expected Duration")
                 {
                     ApplicationArea = All;
                     Caption = 'Expected Duration';
@@ -74,12 +74,12 @@ page 1875 "Manual Setup"
                 Scope = Repeater;
                 ShortCutKey = 'Return';
                 ToolTip = 'View or edit the setup for the application feature.';
-                Enabled = ("Object Type to Run" = "Object Type to Run"::Page) and ("Object ID to Run" <> 0);
+                Enabled = (Rec."Object Type to Run" = Rec."Object Type to Run"::Page) and (Rec."Object ID to Run" <> 0);
 
                 trigger OnAction()
                 begin
-                    if ("Object Type to Run" = "Object Type to Run"::Page) and ("Object ID to Run" <> 0) then
-                        Page.Run("Object ID to Run");
+                    if (Rec."Object Type to Run" = Rec."Object Type to Run"::Page) and (Rec."Object ID to Run" <> 0) then
+                        Page.Run(Rec."Object ID to Run");
                 end;
             }
         }
@@ -109,7 +109,7 @@ page 1875 "Manual Setup"
         GuidedExperienceImpl.GetContentForSetupPage(Rec, Rec."Guided Experience Type"::"Manual Setup");
 
         if FilterSet then
-            SetRange("Manual Setup Category", ManualSetupCategory);
+            Rec.SetRange("Manual Setup Category", ManualSetupCategory);
     end;
 
     internal procedure SetCategoryToDisplay(ManualSetupCategoryValue: Enum "Manual Setup Category")
@@ -118,4 +118,5 @@ page 1875 "Manual Setup"
         ManualSetupCategory := ManualSetupCategoryValue;
     end;
 }
+
 

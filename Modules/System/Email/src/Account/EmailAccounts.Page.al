@@ -396,12 +396,11 @@ page 8887 "Email Accounts"
 
     local procedure ShowAccountInformation()
     var
-        EmailAccountImpl: Codeunit "Email Account Impl.";
         Connector: Interface "Email Connector";
     begin
         UpdateAccounts := true;
 
-        if not EmailAccountImpl.IsValidConnector(Rec.Connector.AsInteger()) then
+        if not EmailAccountImpl.IsValidConnector(Rec.Connector) then
             Error(EmailConnectorHasBeenUninstalledMsg);
 
         Connector := Rec.Connector;
@@ -439,9 +438,7 @@ page 8887 "Email Accounts"
         DefaultEmailAccount: Record "Email Account";
         EmailAccountImpl: Codeunit "Email Account Impl.";
         EmailRateLimitImpl: Codeunit "Email Rate Limit Impl.";
-        [InDataSet]
         IsDefault: Boolean;
-        [InDataSet]
         RateLimit: Integer;
         CanUserManageEmailSetup: Boolean;
         DefaultTxt: Text;

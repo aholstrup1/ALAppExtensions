@@ -26,7 +26,7 @@ page 1470 "Product Videos"
             {
                 Caption = 'Available Videos';
                 Editable = false;
-                field(Title; Title)
+                field(Title; Rec.Title)
                 {
                     ApplicationArea = All;
                     Editable = false;
@@ -36,25 +36,25 @@ page 1470 "Product Videos"
                     var
                         Video: Codeunit Video;
                     begin
-                        Video.Play("Video Url");
-                        Video.OnVideoPlayed("Table Num", "System ID");
+                        Video.Play(Rec."Video Url");
+                        Video.OnVideoPlayed(Rec."Table Num", Rec."System ID");
                     end;
                 }
-                field(Category; Category)
+                field(Category; Rec.Category)
                 {
                     ApplicationArea = All;
                     Editable = false;
                     ToolTip = 'Specifies the video category.';
                     Visible = false;
                 }
-                field("App ID"; "App ID")
+                field("App ID"; Rec."App ID")
                 {
                     ApplicationArea = All;
                     Editable = false;
                     ToolTip = 'Specifies the source extension identifier.';
                     Visible = false;
                 }
-                field("Extension Name"; "Extension Name")
+                field("Extension Name"; Rec."Extension Name")
                 {
                     ApplicationArea = All;
                     Editable = false;
@@ -84,4 +84,5 @@ page 1470 "Product Videos"
         ShowSpecificCategory: Boolean;
         CategoryToShowVideosFor: Enum "Video Category";
 }
+
 

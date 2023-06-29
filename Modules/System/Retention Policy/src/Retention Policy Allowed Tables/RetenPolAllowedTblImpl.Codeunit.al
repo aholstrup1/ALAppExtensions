@@ -154,7 +154,7 @@ codeunit 3906 "Reten. Pol. Allowed Tbl. Impl."
         RetentionPolicyAllowedTable: Record "Retention Policy Allowed Table";
         AllObjWithCaption: Record AllObjWithCaption;
     begin
-        if RetentionPolicyAllowedTable.findset(false, false) then
+        if RetentionPolicyAllowedTable.findset(false) then
             repeat
                 if AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, RetentionPolicyAllowedTable."Table Id") then
                     AllowedList.Add(RetentionPolicyAllowedTable."Table Id");

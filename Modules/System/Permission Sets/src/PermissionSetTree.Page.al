@@ -166,6 +166,5 @@ page 9857 "Permission Set Tree"
         StyleExprInclusionStatus: Text;
         CurrRoleId: Code[30];
         CurrAppId: Guid;
-        [InDataSet]
         CurrScope: Option System,Tenant;
 }

@@ -14,7 +14,7 @@ page 137121 "Translation Test Page"
         {
             group(General)
             {
-                field(PK; PK)
+                field(PK; Rec.PK)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the primary key.';
@@ -27,7 +27,7 @@ page 137121 "Translation Test Page"
 
                     trigger OnAssistEdit()
                     begin
-                        Translation.Show(Rec, FieldNo(TextField));
+                        Translation.Show(Rec, Rec.FieldNo(TextField));
                     end;
                 }
             }
@@ -36,11 +36,12 @@ page 137121 "Translation Test Page"
 
     trigger OnAfterGetRecord()
     begin
-        TranslatedTextField := Translation.Get(Rec, FieldNo(TextField));
+        TranslatedTextField := Translation.Get(Rec, Rec.FieldNo(TextField));
     end;
 
     var
         Translation: Codeunit Translation;
         TranslatedTextField: Text;
 }
+
 

@@ -67,7 +67,7 @@ page 149006 "BCPT Suite API"
                     Caption = 'BCPT Suite Line';
                     EntityName = 'bcptSuiteLine';
                     EntitySetName = 'bcptSuiteLines';
-                    SubPageLink = "BCPT Code" = Field("Code");
+                    SubPageLink = "BCPT Code" = field("Code");
                 }
             }
         }

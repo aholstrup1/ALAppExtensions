@@ -39,5 +39,8 @@ table 9989 "Word Template Field"
         {
             Clustered = true;
         }
+        key(FieldNo; "Field No.")
+        {
+        }
     }
 }

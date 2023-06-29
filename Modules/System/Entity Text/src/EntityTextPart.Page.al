@@ -43,6 +43,7 @@ page 2012 "Entity Text Part"
         }
     }
 
+#pragma warning disable AL0482
     actions
     {
         area(Processing)
@@ -184,6 +185,7 @@ page 2012 "Entity Text Part"
             }
         }
     }
+#pragma warning restore AL0482
 
     trigger OnInit()
     begin

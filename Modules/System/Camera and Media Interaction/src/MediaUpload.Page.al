@@ -38,7 +38,7 @@ page 1909 "Media Upload"
             {
                 Caption = 'Could not acess the media.';
                 InstructionalText = 'Could not access the media on the device. Make sure that you are using the app for Windows, Android, or iOS.';
-                Visible = NOT MediaUploadAvailable;
+                Visible = not MediaUploadAvailable;
             }
         }
     }
@@ -48,7 +48,6 @@ page 1909 "Media Upload"
         [RunOnClient]
         [WithEvents]
         CameraProvider: DotNet CameraProvider;
-        [InDataSet]
         MediaUploadAvailable: Boolean;
 
     /// <summary>

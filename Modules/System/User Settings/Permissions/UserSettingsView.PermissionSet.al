@@ -18,7 +18,6 @@ permissionset 9176 "User Settings - View"
 
     Permissions = tabledata "All Profile" = r,
                   tabledata Company = r,
-                  tabledata "Tenant Profile" = r,
                   tabledata "Tenant Profile Setting" = rim,
                   tabledata "User Personalization" = rim;
 }

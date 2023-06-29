@@ -28,7 +28,7 @@ table 9019 "Default Permission Set In Plan"
         }
         field(4; "Role Name"; Text[30])
         {
-            CalcFormula = Lookup("Permission Set".Name Where("Role ID" = Field("Role ID")));
+            CalcFormula = lookup("Aggregate Permission Set".Name where("Role ID" = field("Role ID")));
             Caption = 'Name';
             FieldClass = FlowField;
         }
@@ -39,7 +39,7 @@ table 9019 "Default Permission Set In Plan"
         }
         field(6; "App Name"; Text[250])
         {
-            CalcFormula = Lookup("Published Application".Name Where(ID = Field("App ID"), "Tenant Visible" = Const(true)));
+            CalcFormula = lookup("Published Application".Name where(ID = field("App ID"), "Tenant Visible" = const(true)));
             Caption = 'Extension Name';
             FieldClass = FlowField;
         }

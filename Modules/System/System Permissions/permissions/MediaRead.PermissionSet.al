@@ -5,7 +5,7 @@
 
 permissionset 101 "Media - Read"
 {
-    Assignable = False;
+    Assignable = false;
 
     Permissions = tabledata Media = R,
                   tabledata "Media Set" = R,

@@ -10,7 +10,7 @@ page 2014 "Copilot Information"
 {
     ApplicationArea = All;
     Caption = 'Copilot';
-    AdditionalSearchTerms = 'OpenAI,AI,Copilot,Co-pilot';
+    AdditionalSearchTerms = 'OpenAI,AI,Copilot,Co-pilot,Artificial Intelligence,GPT,GTP,Dynamics 365 Copilot,ChatGPT';
     PageType = NavigatePage;
     SourceTable = "Privacy Notice";
     SourceTableTemporary = true;

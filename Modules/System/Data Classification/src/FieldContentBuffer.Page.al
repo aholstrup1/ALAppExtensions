@@ -24,7 +24,7 @@ page 1753 "Field Content Buffer"
         {
             repeater(Group)
             {
-                field(Value; Value)
+                field(Value; Rec.Value)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the field value.';
@@ -37,4 +37,5 @@ page 1753 "Field Content Buffer"
     {
     }
 }
+
 

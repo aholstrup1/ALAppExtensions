@@ -255,6 +255,7 @@ page 2718 "Page Summary Settings"
                 Caption = 'Try it out';
                 Visible = TryItOutActionVisible;
                 InFooterBar = true;
+                Image = Action;
 
                 trigger OnAction()
                 begin
@@ -352,7 +353,7 @@ page 2718 "Page Summary Settings"
     var
         PageSummaryProviderSettings: Record "Page Summary Settings";
     begin
-        If IsSaaS then begin
+        if IsSaaS then begin
             IntroSaasStepVisible := true;
             NextActionVisible := PageSummaryProviderSettings.ReadPermission() and PageSummaryProviderSettings.WritePermission();
         end else

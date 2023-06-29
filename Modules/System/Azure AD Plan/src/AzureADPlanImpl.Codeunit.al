@@ -29,7 +29,7 @@ codeunit 9018 "Azure AD Plan Impl."
         UserPlanAssignedMsg: Label 'User with authentication object ID %1 is assigned plan %2', Locked = true;
         PlanNotEnabledMsg: Label 'Plan is assigned to user but it is not enabled. Plan ID: %1', Locked = true;
         NotBCPlanAssignedMsg: Label 'Plan is assigned to user but it is not recognized as a BC plan. Plan ID: %1', Locked = true;
-        UserHasNoPlansMsg: Label 'User with authentication object ID %1 has no Business Central plans assigned', Locked = true;
+        DeviceUserWithBcPlanMsg: Label 'User with authentication object ID %1 is a member of the Device group, but also has Business Central plans assigned. The Device plan will not be assigned to this user.', Locked = true;
         DeviceUserCannotBeFirstUserErr: Label 'The device user cannot be the first user to log into the system.';
         UserGotPlanTxt: Label 'The Graph User with the authentication object ID %1 has a plan with ID %2 named %3.', Comment = '%1 = Authentication email (email); %2 = subscription plan ID (guid); %3 = Plan name (tex1t)', Locked = true;
         PlansDifferentCheckTxt: Label 'Checking if plans different for graph user with authentication object ID %1 and BC user with security ID %2.', Comment = '%1 = Authentication email (email); %2 = user security ID (guid)', Locked = true;
@@ -418,7 +418,7 @@ codeunit 9018 "Azure AD Plan Impl."
             exit;
 
         repeat
-            TempNavUserPlan.COPY(NavUserPlan, FALSE);
+            TempNavUserPlan.COPY(NavUserPlan, false);
             TempNavUserPlan.Insert();
         until NavUserPlan.Next() = 0;
 
@@ -441,7 +441,9 @@ codeunit 9018 "Azure AD Plan Impl."
                     NavUserPlan.Delete();
                     if RemovePermissionsOnDeletePlan then begin
 #if not CLEAN22
+#pragma warning disable AL0432
                         AzureADPlan.OnRemoveUserGroupsForUserAndPlan(NavUserPlan."Plan ID", NavUserPlan."User Security ID");
+#pragma warning restore AL0432
 #endif
                         IsCustomized := PlanConfiguration.IsCustomized(NavUserPlan."Plan ID");
                         if IsCustomized then
@@ -458,13 +460,12 @@ codeunit 9018 "Azure AD Plan Impl."
     [NonDebuggable]
     local procedure GetGraphUserPlans(var TempPlan: Record "Plan" temporary; var GraphUserInfo: DotNet UserInfo)
     var
+        PlanIds: Codeunit "Plan Ids";
         AssignedPlan: DotNet ServicePlanInfo;
         DirectoryRole: DotNet RoleInfo;
         ServicePlanIdValue: Variant;
-        HaveAssignedPlans: Boolean;
         DevicesPlanId: Guid;
         DevicesPlanName: Text;
-        SystemRoleAdded: Boolean;
     begin
         TempPlan.Reset();
         TempPlan.DeleteAll();
@@ -482,7 +483,6 @@ codeunit 9018 "Azure AD Plan Impl."
 
                 if Format(AssignedPlan.CapabilityStatus()) = 'Enabled' then begin
                     if IsBCServicePlan(ServicePlanIdValue) then begin
-                        HaveAssignedPlans := true;
                         AddToTempPlan(ServicePlanIdValue, Format(AssignedPlan.ServicePlanName()), TempPlan);
                         Session.LogMessage('00009KY', StrSubstNo(UserPlanAssignedMsg, Format(GraphUserInfo.ObjectId()), Format(ServicePlanIdValue)), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
                     end else
@@ -491,27 +491,34 @@ codeunit 9018 "Azure AD Plan Impl."
                     Session.LogMessage('0000I95', StrSubstNo(PlanNotEnabledMsg, Format(ServicePlanIdValue)), Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
             end;
 
-        if not HaveAssignedPlans then
-            Session.LogMessage('00009KZ', StrSubstNo(UserHasNoPlansMsg, Format(GraphUserInfo.ObjectId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
-
         // Loop through Azure AD Roles
         if not IsNull(GraphUserInfo.Roles()) then
             foreach DirectoryRole in GraphUserInfo.Roles() do
                 if IsBCServicePlan(DirectoryRole.RoleTemplateId()) then begin
                     AddToTempPlan(Format(DirectoryRole.RoleTemplateId()), Format(DirectoryRole.DisplayName()), TempPlan);
                     Session.LogMessage('00009L0', StrSubstNo(UserPlanAssignedMsg, Format(GraphUserInfo.ObjectId()), Format(DirectoryRole.RoleTemplateId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
-                    SystemRoleAdded := true;
                 end;
 
-        // If there are no Azure AD Plans and no system roles assigned, then check if its a device user
-        if HaveAssignedPlans or SystemRoleAdded then
-            exit;
-
+        // Check if the user is a member of the Device group
         if IsDeviceRole(GraphUserInfo) then begin
-            GetDevicesPlanInfo(DevicesPlanId, DevicesPlanName);
-            Session.LogMessage('00009L6', StrSubstNo(DevicePlanFoundMsg, DevicesPlanName, Format(GraphUserInfo.ObjectId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
-            AddToTempPlan(DevicesPlanId, DevicesPlanName, TempPlan);
-        end else
+            // Only assign the device plan if the user doesn't have any other plans (except possibly Internal Admin or M365 Collaboration)
+            TempPlan.SetFilter("Plan ID", '<>%1&<>%2&<>%3', PlanIDs.GetGlobalAdminPlanId(), PlanIds.GetD365AdminPlanId(), PlanIDs.GetMicrosoft365PlanId());
+
+            if TempPlan.IsEmpty() then begin
+                // Remove the Internal Admin and M365 Collaboration plans, if assigned
+                TempPlan.Reset();
+                TempPlan.DeleteAll();
+
+                GetDevicesPlanInfo(DevicesPlanId, DevicesPlanName);
+                Session.LogMessage('00009L6', StrSubstNo(DevicePlanFoundMsg, DevicesPlanName, Format(GraphUserInfo.ObjectId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
+                AddToTempPlan(DevicesPlanId, DevicesPlanName, TempPlan);
+            end else begin
+                Session.LogMessage('0000K5Z', StrSubstNo(DeviceUserWithBcPlanMsg, Format(GraphUserInfo.ObjectId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
+                TempPlan.Reset();
+            end;
+        end;
+
+        if TempPlan.IsEmpty() then
             Session.LogMessage('00009L7', StrSubstNo(NotBCUserMsg, Format(GraphUserInfo.ObjectId())), Verbosity::Normal, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', UserSetupCategoryTxt);
     end;
 
@@ -529,7 +536,7 @@ codeunit 9018 "Azure AD Plan Impl."
     begin
         if not IsNull(GraphUserInfo.Roles()) then
             foreach DirectoryRole in GraphUserInfo.Roles() do
-                if DirectoryRole.RoleTemplateId() = PlanIds.GetInternalAdminPlanId() then
+                if DirectoryRole.RoleTemplateId() in [PlanIds.GetGlobalAdminPlanId(), PlanIds.GetD365AdminPlanId()] then
                     exit(true);
 
         exit(false);
@@ -773,20 +780,19 @@ codeunit 9018 "Azure AD Plan Impl."
         Plan: Record "Plan";
         Handled: Boolean;
     begin
-        WITH TempPlan do begin
-            if GET(ServicePlanId) then
-                exit;
+        if TempPlan.GET(ServicePlanId) then
+            exit;
 
-            if Plan.GET(ServicePlanId) then;
+        if Plan.GET(ServicePlanId) then;
 
-            Init();
-            "Plan ID" := ServicePlanId;
-            Name := CopyStr(ServicePlanName, 1, MaxStrLen(Name));
-            OnInitializeRoleCenter("Role Center ID", Handled);
-            if not Handled then
-                "Role Center ID" := Plan."Role Center ID";
-            Insert();
-        end;
+        TempPlan.Init();
+        TempPlan."Plan ID" := ServicePlanId;
+        TempPlan.Name := CopyStr(ServicePlanName, 1, MaxStrLen(TempPlan.Name));
+        OnInitializeRoleCenter(TempPlan."Role Center ID", Handled);
+        if not Handled then
+            TempPlan."Role Center ID" := Plan."Role Center ID";
+        TempPlan.Insert();
+
     end;
 
     [NonDebuggable]
@@ -795,8 +801,9 @@ codeunit 9018 "Azure AD Plan Impl."
         PlanIds: Codeunit "Plan Ids";
     begin
         exit(
-            IsPlanAssignedToUser(PlanIds.GetInternalAdminPlanId(), SecurityID)
-            or IsPlanAssignedToUser(PlanIds.GetDelegatedAdminPlanId(), SecurityID));
+            IsPlanAssignedToUser(PlanIds.GetGlobalAdminPlanId(), SecurityID)
+            or IsPlanAssignedToUser(PlanIds.GetDelegatedAdminPlanId(), SecurityID)
+            or IsPlanAssignedToUser(PlanIds.GetD365AdminPlanId(), SecurityID));
     end;
 
     [NonDebuggable]

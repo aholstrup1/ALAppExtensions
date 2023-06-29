@@ -6,7 +6,7 @@
 /// <summary>
 /// This permission set allows editing of the list of languages.
 /// </summary>
-PermissionSet 43 "Language - Edit"
+permissionset 43 "Language - Edit"
 {
     Access = Internal;
     Assignable = false;

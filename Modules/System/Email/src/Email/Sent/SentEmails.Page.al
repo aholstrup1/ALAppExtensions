@@ -8,7 +8,7 @@
 /// </summary>
 page 8883 "Sent Emails"
 {
-    PageType = Worksheet;
+    PageType = List;
     Caption = 'Sent Emails';
     ApplicationArea = All;
     UsageCategory = Administration;
@@ -16,7 +16,6 @@ page 8883 "Sent Emails"
     SourceTableTemporary = true;
     Permissions = tabledata "Sent Email" = rd;
     InsertAllowed = false;
-    ModifyAllowed = false;
     Extensible = true;
 
     layout
@@ -42,6 +41,7 @@ page 8883 "Sent Emails"
             }
             repeater(SentEmails)
             {
+                Editable = false;
                 field(Desc; Rec.Description)
                 {
                     ApplicationArea = All;
@@ -234,7 +234,6 @@ page 8883 "Sent Emails"
         NewerThanDate: DateTime;
         EmailAccountId, SourceSystemID : Guid;
         SourceTableID: Integer;
-        [InDataSet]
         HasSourceRecord: Boolean;
         NoSentEmails: Boolean;
         EmailConnectorHasBeenUninstalledMsg: Label 'The email extension that was used to send this email has been uninstalled. To view information about the email account, you must reinstall the extension.';

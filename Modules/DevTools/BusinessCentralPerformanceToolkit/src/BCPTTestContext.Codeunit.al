@@ -98,14 +98,14 @@ codeunit 149003 "BCPT Test Context"
         BCPTLine: Record "BCPT Line";
     begin
         GetBCPTLine(BCPTLine);
-        Exit(BCPTLine.Parameters);
+        exit(BCPTLine.Parameters);
     end;
 
     /// <summary>
     /// Returns the requested paramater value associated with the session.
     /// </summary>
     /// <param name="ParameterName">Name of the parameter.</param>
-    Procedure GetParameter(ParameterName: Text): Text
+    procedure GetParameter(ParameterName: Text): Text
     var
         BCPTLine: Record "BCPT Line";
         dict: Dictionary of [Text, Text];

@@ -70,7 +70,7 @@ table 1470 "Product Video Buffer"
         {
             Caption = 'Extension Name';
             FieldClass = FlowField;
-            CalcFormula = Lookup("Published Application".Name where(ID = FIELD("App ID"), "Tenant Visible" = CONST(true)));
+            CalcFormula = lookup("Published Application".Name where(ID = field("App ID"), "Tenant Visible" = const(true)));
             Editable = false;
         }
         field(10; Category; Enum "Video Category")

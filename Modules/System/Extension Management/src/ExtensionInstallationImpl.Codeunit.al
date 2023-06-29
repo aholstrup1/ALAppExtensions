@@ -167,7 +167,7 @@ codeunit 2500 "Extension Installation Impl"
         end;
     end;
 
-    local procedure CheckPermissions()
+    procedure CheckPermissions()
     begin
         if not CanManageExtensions() then
             Error(NotSufficientPermissionErr);

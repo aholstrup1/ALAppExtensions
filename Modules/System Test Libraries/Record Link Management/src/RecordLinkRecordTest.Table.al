@@ -6,15 +6,18 @@
 table 132508 "Record Link Record Test"
 {
     ReplicateData = false;
+    DataClassification = SystemMetadata;
 
     fields
     {
         field(1; PK; Integer)
         {
+            DataClassification = SystemMetadata;
             AutoIncrement = true;
         }
         field(2; Field; Text[50])
         {
+            DataClassification = SystemMetadata;
         }
     }
     keys

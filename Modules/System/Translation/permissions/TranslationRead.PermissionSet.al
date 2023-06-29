@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-PermissionSet 3711 "Translation - Read"
+permissionset 3711 "Translation - Read"
 {
     Access = Public;
     Assignable = false;

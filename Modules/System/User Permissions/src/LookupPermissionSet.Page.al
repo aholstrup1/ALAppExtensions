@@ -16,7 +16,7 @@ page 9854 "Lookup Permission Set"
     PageType = List;
     SourceTable = "Aggregate Permission Set";
     SourceTableView = sorting(Scope, "Role ID", "App ID")
-                      order(Ascending);
+                      order(ascending);
 
     layout
     {
@@ -30,7 +30,7 @@ page 9854 "Lookup Permission Set"
                     ApplicationArea = All;
                     ToolTip = 'Specifies a permission set that defines the role.';
                 }
-                field(Name; Name)
+                field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the name of the permission set.';
@@ -76,4 +76,5 @@ page 9854 "Lookup Permission Set"
     var
         SelectedRecord: Record "Aggregate Permission Set";
 }
+
 

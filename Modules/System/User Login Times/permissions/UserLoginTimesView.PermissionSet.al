@@ -4,7 +4,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-PermissionSet 9013 "User Login Times - View"
+permissionset 9013 "User Login Times - View"
 {
     Access = Public;
     Assignable = false;

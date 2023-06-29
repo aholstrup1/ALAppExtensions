@@ -6,7 +6,7 @@
 permissionset 102 "Media - View"
 {
     Access = Public;
-    Assignable = False;
+    Assignable = false;
 
     IncludedPermissionSets = "Media - Read";
 

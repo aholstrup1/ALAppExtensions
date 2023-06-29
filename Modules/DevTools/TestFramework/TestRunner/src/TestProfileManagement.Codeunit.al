@@ -22,7 +22,7 @@ codeunit 130457 "Test Profile Management"
             exit;
 
         AllProfile.SetRange("Default Role Center", true);
-        if NOT AllProfile.IsEmpty() then
+        if not AllProfile.IsEmpty() then
             exit;
 
         ID := Page::"Test Role Center";

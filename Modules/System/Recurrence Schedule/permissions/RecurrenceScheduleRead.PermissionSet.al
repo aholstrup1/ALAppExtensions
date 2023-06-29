@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-PermissionSet 4690 "Recurrence Schedule - Read"
+permissionset 4690 "Recurrence Schedule - Read"
 {
     Access = Internal;
     Assignable = false;

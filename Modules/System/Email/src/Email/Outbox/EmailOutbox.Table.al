@@ -73,7 +73,7 @@ table 8888 "Email Outbox"
         {
             Access = Internal;
             FieldClass = FlowField;
-            CalcFormula = Lookup(User."User Name" where("User Security ID" = field("User Security Id")));
+            CalcFormula = lookup(User."User Name" where("User Security ID" = field("User Security Id")));
             Description = 'The field is marked as internal in order to prevent modifying it from code.';
         }
 

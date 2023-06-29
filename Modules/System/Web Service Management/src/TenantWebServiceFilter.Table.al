@@ -18,11 +18,13 @@ table 6712 "Tenant Web Service Filter"
     {
         field(1; "Entry ID"; Integer)
         {
+            DataClassification = SystemMetadata;
             AutoIncrement = true;
             Caption = 'Entry ID';
         }
         field(2; "Filter"; BLOB)
         {
+            DataClassification = CustomerContent;
             Caption = 'Filter';
         }
         field(3; TenantWebServiceID; RecordID)
@@ -32,6 +34,7 @@ table 6712 "Tenant Web Service Filter"
         }
         field(4; "Data Item"; Integer)
         {
+            DataClassification = SystemMetadata;
             Caption = 'Data Item';
         }
     }

@@ -23,7 +23,7 @@ page 2507 "Upload And Deploy Extension"
                 ApplicationArea = All;
                 Caption = 'Upload Extension';
                 Style = StrongAccent;
-                StyleExpr = TRUE;
+                StyleExpr = true;
             }
             field(FileName; FilePath)
             {
@@ -42,7 +42,7 @@ page 2507 "Upload And Deploy Extension"
                 ApplicationArea = All;
                 Caption = 'Deploy Extension';
                 Style = StrongAccent;
-                StyleExpr = TRUE;
+                StyleExpr = true;
             }
             field(DeployTo; DeployToValue)
             {

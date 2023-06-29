@@ -17,6 +17,7 @@ codeunit 1991 "Guided Experience Impl."
         TempBlob: Codeunit "Temp Blob";
         ObjectAndLinkToRunErr: Label 'You cannot insert a guided experience item with both an object to run and a link.';
         InvalidObjectTypeErr: Label 'The object type to run is not valid';
+        ExpectedDurationOverflowErr: Label 'The Expected Duration is too large: %1, it needs to be lower than 30000.', Comment = '%1 = Expected Duration in minutes';
         ObjectDoesNotExistErr: Label 'The object %1 %2 does not exist', Comment = '%1 = Object type, %2 = The object ID';
         RunSetupAgainQst: Label 'You have already completed the %1 assisted setup guide. Do you want to run it again?', Comment = '%1 = Assisted Setup Name';
         CodeFormatLbl: Label '%1_%2_%3_%4_%5', Locked = true;
@@ -468,7 +469,7 @@ codeunit 1991 "Guided Experience Impl."
     begin
         GuidedExperienceItem.CopyFilters(GuidedExperienceItemTemp);
         GuidedExperienceItemTemp.Reset();
-        GuidedExperienceItem.SetCurrentKey("Guided Experience Type", "Object Type to Run", "Object ID to Run", Link, Version);
+        GuidedExperienceItem.SetCurrentKey("Guided Experience Type", "Object Type to Run", "Object ID to Run", "Manual Setup Category", Link, Version);
         GuidedExperienceItem.SetRange("Guided Experience Type", GuidedExperienceItem."Guided Experience Type"::"Assisted Setup");
         GuidedExperienceItem.SetAscending(Version, false);
 
@@ -519,7 +520,7 @@ codeunit 1991 "Guided Experience Impl."
     var
         GuidedExperienceItem: Record "Guided Experience Item";
     begin
-        GuidedExperienceItem.SetCurrentKey("Guided Experience Type", "Object Type to Run", "Object ID to Run", Link, Version);
+        GuidedExperienceItem.SetCurrentKey("Guided Experience Type", "Object Type to Run", "Object ID to Run", "Manual Setup Category", Link, Version);
         GuidedExperienceItem.SetAscending(Version, false);
 
         GuidedExperienceItem.SetRange("Guided Experience Type", GuidedExperienceType);
@@ -545,17 +546,22 @@ codeunit 1991 "Guided Experience Impl."
                 (GuidedExperienceItem."Guided Experience Type" = PrevGuidedExperienceItem."Guided Experience Type")
             then
                 if (GuidedExperienceItem."Title" <> PrevGuidedExperienceItem."Title")
-                or (GuidedExperienceItem.Description <> PrevGuidedExperienceItem.Description)
-                or (GuidedExperienceItem."Video Url" <> PrevGuidedExperienceItem."Video Url")
-                or (GuidedExperienceItem."Video Category" <> PrevGuidedExperienceItem."Video Category")
-            then
+                    or (GuidedExperienceItem.Description <> PrevGuidedExperienceItem.Description)
+                    or (GuidedExperienceItem."Video Url" <> PrevGuidedExperienceItem."Video Url")
+                    or (GuidedExperienceItem."Video Category" <> PrevGuidedExperienceItem."Video Category")
+                then
                     InsertItem := true;
+
+            if (GuidedExperienceItem."Guided Experience Type" = GuidedExperienceItem."Guided Experience Type"::"Manual Setup") and
+                (GuidedExperienceItem."Manual Setup Category" <> PrevGuidedExperienceItem."Manual Setup Category")
+            then
+                InsertItem := true;
 
             if InsertItem then begin
                 InsertGuidedExperienceItemIfValid(GuidedExperienceItemTemp, GuidedExperienceItem);
                 InsertItem := false;
             end;
-            
+
             PrevGuidedExperienceItem := GuidedExperienceItem;
         until GuidedExperienceItem.Next() = 0;
     end;
@@ -718,6 +724,9 @@ codeunit 1991 "Guided Experience Impl."
     var
         IconInStream: InStream;
     begin
+        if ExpectedDuration > 30000 then
+            Error(ExpectedDurationOverflowErr, ExpectedDuration);
+
         GuidedExperienceItem.Code := Code;
         GuidedExperienceItem.Version := Version;
         GuidedExperienceItem.Title := Title;
@@ -970,6 +979,8 @@ codeunit 1991 "Guided Experience Impl."
             exit;
 
         GuidedExperienceItemToRefresh := GuidedExperienceItem;
+        CopyTranslationsToGuidedExperienceItem(GuidedExperienceItemToRefresh, GuidedExperienceItem);
+
         GuidedExperienceItemToRefresh.Modify();
     end;
 
@@ -998,8 +1009,6 @@ codeunit 1991 "Guided Experience Impl."
     end;
 
     local procedure InsertGuidedExperienceItemIfValid(var GuidedExperienceItemTemp: Record "Guided Experience Item" temporary; GuidedExperienceItem: Record "Guided Experience Item")
-    var
-        Translation: Text;
     begin
         if not (GuidedExperienceItem."Guided Experience Type" in
             ["Guided Experience Type"::Learn, "Guided Experience Type"::Video])
@@ -1013,6 +1022,15 @@ codeunit 1991 "Guided Experience Impl."
         GuidedExperienceItemTemp.TransferFields(GuidedExperienceItem);
         GuidedExperienceItemTemp.SystemId := GuidedExperienceItem.SystemId;
 
+        CopyTranslationsToGuidedExperienceItem(GuidedExperienceItemTemp, GuidedExperienceItem);
+
+        GuidedExperienceItemTemp.Insert();
+    end;
+
+    local procedure CopyTranslationsToGuidedExperienceItem(var GuidedExperienceItemTemp: Record "Guided Experience Item"; GuidedExperienceItem: Record "Guided Experience Item")
+    var
+        Translation: Text;
+    begin
         Translation := GetTranslationForField(GuidedExperienceItem, GuidedExperienceItem.FieldNo(Title));
         if Translation <> '' then
             GuidedExperienceItemTemp.Title := CopyStr(Translation, 1, MaxStrLen(GuidedExperienceItemTemp.Title));
@@ -1025,7 +1043,9 @@ codeunit 1991 "Guided Experience Impl."
         if Translation <> '' then
             GuidedExperienceItemTemp.Description := CopyStr(Translation, 1, MaxStrLen(GuidedExperienceItemTemp.Description));
 
-        GuidedExperienceItemTemp.Insert();
+        Translation := GetTranslationForField(GuidedExperienceItem, GuidedExperienceItem.FieldNo(Keywords));
+        if Translation <> '' then
+            GuidedExperienceItemTemp.Keywords := CopyStr(Translation, 1, MaxStrLen(GuidedExperienceItemTemp.Keywords));
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::Video, OnRegisterVideo, '', false, false)]

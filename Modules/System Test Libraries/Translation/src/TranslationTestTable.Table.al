@@ -5,6 +5,7 @@
 
 table 137121 "Translation Test Table"
 {
+    DataClassification = SystemMetadata;
     LookupPageID = "Translation Test Page";
     ReplicateData = false;
 

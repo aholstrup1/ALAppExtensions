@@ -6,7 +6,7 @@
 permissionset 87 "Metadata - Read"
 {
     Access = Public;
-    Assignable = False;
+    Assignable = false;
 
     IncludedPermissionSets = "Field Selection - Read",
                              "Object Selection - Read",
@@ -24,9 +24,13 @@ permissionset 87 "Metadata - Read"
                   tabledata "Report Metadata" = R,
                   tabledata "System Object" = R,
                   tabledata "Table Metadata" = R,
+#pragma warning disable AL0432
                   tabledata "Tenant Profile" = R,
+#pragma warning restore AL0432
                   tabledata "Tenant Profile Extension" = R,
+#pragma warning disable AL0432
                   tabledata "Tenant Profile Page Metadata" = R,
+#pragma warning restore AL0432
                   tabledata "Tenant Profile Setting" = R,
                   tabledata "Time Zone" = R,
                   tabledata "Windows Language" = R;

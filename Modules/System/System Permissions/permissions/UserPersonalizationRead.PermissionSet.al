@@ -6,7 +6,7 @@
 permissionset 92 "User Personalization - Read"
 {
     Access = Internal;
-    Assignable = False;
+    Assignable = false;
 
     Permissions = tabledata "Page Data Personalization" = R,
                   tabledata "User Personalization" = R,

@@ -471,7 +471,7 @@ codeunit 138700 "Retention Period Test"
         // Exercise
         RetentionPeriods."Retention Period".SetValue(RetentionPeriod."Retention Period"::"Custom");
         RetentionPeriods."Expiration Date".AssertEquals(0D);
-        AssertError
+        asserterror
             RetentionPeriods."Ret. Period Calculation".SetValue('3M');
 
         // Verify

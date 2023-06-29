@@ -29,11 +29,11 @@ page 3712 Translation
                     var
                         Language: Codeunit Language;
                     begin
-                        Language.LookupWindowsLanguageId("Language ID");
+                        Language.LookupWindowsLanguageId(Rec."Language ID");
                         CalculateLanguageFromID();
                     end;
                 }
-                field(Value; Value)
+                field(Value; Rec.Value)
                 {
                     ApplicationArea = All;
                     ToolTip = 'The translated text.';
@@ -57,10 +57,10 @@ page 3712 Translation
     var
         Language: Codeunit Language;
     begin
-        CalcFields("Language Name");
-        LanguageNameValue := "Language Name";
+        Rec.CalcFields("Language Name");
+        LanguageNameValue := Rec."Language Name";
         if LanguageNameValue = '' then
-            LanguageNameValue := Language.GetWindowsLanguageName("Language ID");
+            LanguageNameValue := Language.GetWindowsLanguageName(Rec."Language ID");
     end;
 
     var
@@ -83,4 +83,5 @@ page 3712 Translation
         CaptionTxt := CaptionText;
     end;
 }
+
 

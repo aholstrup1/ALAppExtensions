@@ -51,7 +51,7 @@ codeunit 3910 "Apply Retention Policy"
         ApplyRetentionPolicyImpl: Codeunit "Apply Retention Policy Impl.";
         ExpiredRecordExpirationDate: Date;
     begin
-        Exit(ApplyRetentionPolicyImpl.GetExpiredRecordCount(RetentionPolicySetup, ExpiredRecordExpirationDate))
+        exit(ApplyRetentionPolicyImpl.GetExpiredRecordCount(RetentionPolicySetup, ExpiredRecordExpirationDate))
     end;
 
     /// <summary>
@@ -64,7 +64,7 @@ codeunit 3910 "Apply Retention Policy"
     var
         ApplyRetentionPolicyImpl: Codeunit "Apply Retention Policy Impl.";
     begin
-        Exit(ApplyRetentionPolicyImpl.GetExpiredRecordCount(RetentionPolicySetup, ExpiredRecordExpirationDate))
+        exit(ApplyRetentionPolicyImpl.GetExpiredRecordCount(RetentionPolicySetup, ExpiredRecordExpirationDate))
     end;
 
     /// <summary>
