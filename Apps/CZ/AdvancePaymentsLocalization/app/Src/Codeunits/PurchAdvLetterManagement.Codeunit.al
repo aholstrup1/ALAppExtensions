@@ -451,6 +451,7 @@ codeunit 31019 "PurchAdvLetterManagement CZZ"
             GenJournalLine."VAT Registration No." := PurchAdvLetterHeaderCZZ."VAT Registration No.";
             GenJournalLine."Registration No. CZL" := PurchAdvLetterHeaderCZZ."Registration No.";
             GenJournalLine."Tax Registration No. CZL" := PurchAdvLetterHeaderCZZ."Tax Registration No.";
+            OnPostAdvancePaymentVATOnBeforeGenJnlPostLine(PurchAdvLetterHeaderCZZ, PurchAdvLetterEntryCZZ, GenJournalLine);
 
             BindSubscription(VATPostingSetupHandlerCZZ);
             GenJnlPostLine.RunWithCheck(GenJournalLine);
@@ -806,7 +807,12 @@ codeunit 31019 "PurchAdvLetterManagement CZZ"
         PurchAdvLetterEntryCZZ: Record "Purch. Adv. Letter Entry CZZ";
         AdvanceLetterTypeCZZ: Enum "Advance Letter Type CZZ";
         AmountToUse, UseAmount, UseAmountLCY : Decimal;
+        IsHandled: Boolean;
     begin
+        OnBeforePostAdvancePaymentUsage(AdvLetterUsageDocTypeCZZ, DocumentNo, PurchInvHeader, VendorLedgerEntry, GenJnlPostLine, Preview, IsHandled);
+        if IsHandled then
+            exit;
+
         if VendorLedgerEntry."Remaining Amount" = 0 then
             VendorLedgerEntry.CalcFields("Remaining Amount");
 
@@ -1241,7 +1247,9 @@ codeunit 31019 "PurchAdvLetterManagement CZZ"
                                     UseAmount := TempAdvancePostingBufferCZZ2.Amount;
                                     UseBaseAmount := TempAdvancePostingBufferCZZ2."VAT Base Amount";
                                 end;
-                                if UsedAmount < UseAmount then begin
+                                if (UsedAmount < UseAmount) or
+                                   (TempAdvancePostingBufferCZZ1."VAT %" <> TempAdvancePostingBufferCZZ2."VAT %")
+                                then begin
                                     UseAmount := UsedAmount;
                                     UseBaseAmount := Round(TempAdvancePostingBufferCZZ2."VAT Base Amount" * UseAmount / TempAdvancePostingBufferCZZ2.Amount, CurrencyGlob."Amount Rounding Precision", CurrencyGlob.VATRoundingDirection());
                                 end;
@@ -2233,6 +2241,7 @@ codeunit 31019 "PurchAdvLetterManagement CZZ"
                             GenJournalLine."Shortcut Dimension 1 Code", GenJournalLine."Shortcut Dimension 2 Code", GenJournalLine."Dimension Set ID", false);
 
                         InitGenJnlLineFromVendLedgEntry(VendorLedgerEntry, GenJournalLine, GenJournalLine."Document Type"::" ");
+                        GenJournalLine."Adv. Letter Template Code CZZ" := PurchAdvLetterHeaderCZZ."Advance Letter Code";
                         GenJournalLine.SetCurrencyFactor(PurchAdvLetterEntryCZZ."Currency Code", PurchAdvLetterEntryCZZ."Currency Factor");
                         GenJournalLine.Correction := true;
                         GenJournalLine.Amount := PurchAdvLetterEntryCZZ.Amount;
@@ -2695,6 +2704,16 @@ codeunit 31019 "PurchAdvLetterManagement CZZ"
 
     [IntegrationEvent(true, false)]
     local procedure OnPostAdvanceCreditMemoVATOnAfterGetDocument(PurchAdvLetterEntryCZZ: Record "Purch. Adv. Letter Entry CZZ"; var PostingDate: Date; var VATDate: Date; var OriginalDocumentVATDate: Date)
+    begin
+    end;
+
+    [IntegrationEvent(true, false)]
+    local procedure OnBeforePostAdvancePaymentUsage(AdvLetterUsageDocTypeCZZ: Enum "Adv. Letter Usage Doc.Type CZZ"; DocumentNo: Code[20]; var PurchInvHeader: Record "Purch. Inv. Header"; var VendorLedgerEntry: Record "Vendor Ledger Entry"; var GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line"; Preview: Boolean; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(true, false)]
+    local procedure OnPostAdvancePaymentVATOnBeforeGenJnlPostLine(PurchAdvLetterHeaderCZZ: Record "Purch. Adv. Letter Header CZZ"; PurchAdvLetterEntryCZZ: Record "Purch. Adv. Letter Entry CZZ"; var GenJournalLine: Record "Gen. Journal Line")
     begin
     end;
 }

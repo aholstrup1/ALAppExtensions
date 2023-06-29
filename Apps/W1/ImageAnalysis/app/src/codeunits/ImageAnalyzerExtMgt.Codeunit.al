@@ -165,8 +165,8 @@ codeunit 2027 "Image Analyzer Ext. Mgt."
         Notification.Send();
     end;
 
-#if not CLEAN22
-    [Obsolete('Notifications to enable image analysis have been discontinued.', '22.0')]
+#if not CLEAN23
+    [Obsolete('Notifications to enable image analysis have been discontinued.', '23.0')]
     procedure SendEnableNotification(CodeToSet: Code[20]; OnRecord: Option " ",Item,Contact)
     var
         SetupNotification: Notification;
@@ -188,7 +188,7 @@ codeunit 2027 "Image Analyzer Ext. Mgt."
         OnSendEnableNotification();
     end;
 
-    [Obsolete('Notifications to enable image analysis have been discontinued.', '22.0')]
+    [Obsolete('Notifications to enable image analysis have been discontinued.', '23.0')]
     procedure OpenSetupWizard(var SetupNotification: Notification)
     var
         Item: Record Item;

@@ -22,7 +22,7 @@ table 11732 "Cash Document Header CZP"
                 GetCashDeskCZP("Cash Desk No.");
                 CashDeskCZP.TestField(Blocked, false);
 
-                CreateDimFromDefaultDim(Rec.FieldNo("Partner No."));
+                CreateDimFromDefaultDim(Rec.FieldNo("Cash Desk No."));
             end;
         }
         field(2; "No."; Code[20])
@@ -443,7 +443,7 @@ table 11732 "Cash Document Header CZP"
                                         "Paid To" := Customer.Name;
                                 end;
                                 "VAT Registration No." := Customer."VAT Registration No.";
-                                "Registration No." := Customer."Registration No. CZL";
+                                "Registration No." := Customer.GetRegistrationNoTrimmedCZL();
                             end;
                         "Partner Type"::Vendor:
                             begin
@@ -455,7 +455,7 @@ table 11732 "Cash Document Header CZP"
                                         "Paid To" := Vendor.Name;
                                 end;
                                 "VAT Registration No." := Vendor."VAT Registration No.";
-                                "Registration No." := Vendor."Registration No. CZL";
+                                "Registration No." := Vendor.GetRegistrationNoTrimmedCZL();
                             end;
                         "Partner Type"::Contact:
                             begin
@@ -467,7 +467,7 @@ table 11732 "Cash Document Header CZP"
                                         "Paid To" := Contact.Name;
                                 end;
                                 "VAT Registration No." := Contact."VAT Registration No.";
-                                "Registration No." := Contact."Registration No. CZL";
+                                "Registration No." := Contact.GetRegistrationNoTrimmedCZL();
                             end;
                         "Partner Type"::"Salesperson/Purchaser":
                             begin
@@ -629,6 +629,7 @@ table 11732 "Cash Document Header CZP"
         "Amounts Including VAT" := CashDeskCZP."Amounts Including VAT";
         "Reason Code" := CashDeskCZP."Reason Code";
         Validate("Currency Code", CashDeskCZP."Currency Code");
+        CreateDimFromDefaultDim(0);
 
         if CashDeskUserCZP.Get("Cash Desk No.", UserId()) then
             case "Document Type" of

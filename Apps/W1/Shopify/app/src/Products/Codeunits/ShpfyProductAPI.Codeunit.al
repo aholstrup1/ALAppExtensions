@@ -119,7 +119,7 @@ codeunit 30176 "Shpfy Product API"
         end;
         ShopLocation.SetRange("Shop Code", ShopifyProduct."Shop Code");
         ShopLocation.SetRange(Active, true);
-        if ShopLocation.FindSet(false, false) then begin
+        if ShopLocation.FindSet(false) then begin
             GraphQuery.Append(', inventoryQuantities: [');
             repeat
                 GraphQuery.Append('{availableQuantity: 0, locationId: \"gid://shopify/Location/');
@@ -438,7 +438,7 @@ codeunit 30176 "Shpfy Product API"
         Data := ShopifyProduct.GetDescriptionHtml();
         if Data <> xShopifyProduct.GetDescriptionHtml() then begin
             GraphQuery.Append(', descriptionHtml: \"');
-            GraphQuery.Append(Data);
+            GraphQuery.Append(CommunicationMgt.EscapeGrapQLData(Data));
             GraphQuery.Append('\"');
         end;
         if ShopifyProduct."Product Type" <> xShopifyProduct."Product Type" then begin

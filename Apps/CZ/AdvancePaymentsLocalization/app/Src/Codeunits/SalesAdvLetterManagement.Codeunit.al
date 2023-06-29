@@ -39,6 +39,7 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
         SalesAdvLetterEntryCZZGlob."Global Dimension 1 Code" := GlDim1Code;
         SalesAdvLetterEntryCZZGlob."Global Dimension 2 Code" := GlDim2Code;
         SalesAdvLetterEntryCZZGlob."Dimension Set ID" := DimSetID;
+        SalesAdvLetterEntryCZZGlob."Customer No." := SalesAdvLetterEntryCZZGlob.GetCustomerNo();
         OnBeforeInsertAdvEntry(SalesAdvLetterEntryCZZGlob, Preview);
         if Preview then begin
             TempSalesAdvLetterEntryCZZGlob := SalesAdvLetterEntryCZZGlob;
@@ -408,6 +409,8 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
                 GenJournalLine."VAT Registration No." := SalesAdvLetterHeaderCZZ."VAT Registration No.";
                 GenJournalLine."Registration No. CZL" := SalesAdvLetterHeaderCZZ."Registration No.";
                 GenJournalLine."Tax Registration No. CZL" := SalesAdvLetterHeaderCZZ."Tax Registration No.";
+                OnPostAdvancePaymentVATOnBeforeGenJnlPostLine(SalesAdvLetterHeaderCZZ, SalesAdvLetterEntryCZZ, GenJournalLine);
+
                 BindSubscription(VATPostingSetupHandlerCZZ);
                 GenJnlPostLine.RunWithCheck(GenJournalLine);
                 UnbindSubscription(VATPostingSetupHandlerCZZ);
@@ -727,7 +730,12 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
         SalesAdvLetterEntryCZZ: Record "Sales Adv. Letter Entry CZZ";
         AdvanceLetterTypeCZZ: Enum "Advance Letter Type CZZ";
         AmountToUse, UseAmount, UseAmountLCY : Decimal;
+        IsHandled: Boolean;
     begin
+        OnBeforePostAdvancePaymentUsage(AdvLetterUsageDocTypeCZZ, DocumentNo, SalesInvoiceHeader, CustLedgerEntry, GenJnlPostLine, Preview, IsHandled);
+        if IsHandled then
+            exit;
+
         if CustLedgerEntry."Remaining Amount" = 0 then
             CustLedgerEntry.CalcFields("Remaining Amount");
 
@@ -804,13 +812,19 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
         SalesInvoiceHeader: Record "Sales Invoice Header";
         SalesInvoiceLine: Record "Sales Invoice Line";
         SalesAdvLetterEntryCZZ: Record "Sales Adv. Letter Entry CZZ";
+        FirstVATPostingSetup: Record "VAT Posting Setup";
         VATEntry: Record "VAT Entry";
         VATPostingSetup: Record "VAT Posting Setup";
         CustomerPostingGroup: Record "Customer Posting Group";
         GenJournalLine: Record "Gen. Journal Line";
         VATBaseCorr, VATAmountCorr : Decimal;
         CorrectLineDescriptionTxt: Label 'Advance VAT Correction';
+        IsHandled: Boolean;
     begin
+        OnBeforeCorrectDocumentAfterPaymentUsage(DocumentNo, CustLedgerEntry, GenJnlPostLine, IsHandled);
+        if IsHandled then
+            exit;
+
         if DocumentNo = '' then
             exit;
 
@@ -832,6 +846,18 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
 
         VATEntry.SetRange("Document No.", SalesInvoiceHeader."No.");
         VATEntry.SetRange("Posting Date", SalesInvoiceHeader."Posting Date");
+        // check whether multiple VAT rates is used
+        VATEntry.FindFirst();
+        FirstVATPostingSetup.Get(VATEntry."VAT Bus. Posting Group", VATEntry."VAT Prod. Posting Group");
+        VATEntry.SetFilter("VAT Prod. Posting Group", '<>%1', VATEntry."VAT Prod. Posting Group");
+        if VATEntry.FindSet() then
+            repeat
+                VATPostingSetup.Get(VATEntry."VAT Bus. Posting Group", VATEntry."VAT Prod. Posting Group");
+                // correction should applied only when one VAT rate is used
+                if FirstVATPostingSetup."VAT %" <> VATPostingSetup."VAT %" then
+                    exit;
+            until VATEntry.Next() = 0;
+        VATEntry.SetRange("VAT Prod. Posting Group");
         VATEntry.CalcSums(Base, Amount);
         VATBaseCorr := VATEntry.Base;
         VATAmountCorr := VATEntry.Amount;
@@ -1198,7 +1224,9 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
                                     UseAmount := TempAdvancePostingBufferCZZ2.Amount;
                                     UseBaseAmount := TempAdvancePostingBufferCZZ2."VAT Base Amount";
                                 end;
-                                if -UsedAmount > UseAmount then begin
+                                if (-UsedAmount > UseAmount) or
+                                   (TempAdvancePostingBufferCZZ1."VAT %" <> TempAdvancePostingBufferCZZ2."VAT %")
+                                then begin
                                     UseAmount := -UsedAmount;
                                     UseBaseAmount := Round(TempAdvancePostingBufferCZZ2."VAT Base Amount" * UseAmount / TempAdvancePostingBufferCZZ2.Amount, CurrencyGlob."Amount Rounding Precision", CurrencyGlob.VATRoundingDirection());
                                 end;
@@ -2447,6 +2475,21 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterPostAdvancePaymentUsage(AdvLetterUsageDocTypeCZZ: Enum "Adv. Letter Usage Doc.Type CZZ"; DocumentNo: Code[20]; var SalesInvoiceHeader: Record "Sales Invoice Header"; var CustLedgerEntry: Record "Cust. Ledger Entry"; var GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line"; Preview: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(true, false)]
+    local procedure OnBeforePostAdvancePaymentUsage(AdvLetterUsageDocTypeCZZ: Enum "Adv. Letter Usage Doc.Type CZZ"; DocumentNo: Code[20]; var SalesInvoiceHeader: Record "Sales Invoice Header"; var CustLedgerEntry: Record "Cust. Ledger Entry"; var GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line"; Preview: Boolean; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(true, false)]
+    local procedure OnBeforeCorrectDocumentAfterPaymentUsage(DocumentNo: Code[20]; var CustLedgerEntry: Record "Cust. Ledger Entry"; var GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(true, false)]
+    local procedure OnPostAdvancePaymentVATOnBeforeGenJnlPostLine(SalesAdvLetterHeaderCZZ: Record "Sales Adv. Letter Header CZZ"; SalesAdvLetterEntryCZZ: Record "Sales Adv. Letter Entry CZZ"; var GenJournalLine: Record "Gen. Journal Line")
     begin
     end;
 }

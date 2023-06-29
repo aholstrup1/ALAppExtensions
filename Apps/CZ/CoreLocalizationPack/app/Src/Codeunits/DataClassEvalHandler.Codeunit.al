@@ -23,6 +23,8 @@ codeunit 11710 "Data Class. Eval. Handler CZL"
         DetailedCustLedgEntry: Record "Detailed Cust. Ledg. Entry";
         DetailedVendorLedgEntry: Record "Detailed Vendor Ledg. Entry";
 #endif
+        DirectTransHeader: Record "Direct Trans. Header";
+        DirectTransLine: Record "Direct Trans. Line";
         EETEntryCZL: Record "EET Entry CZL";
         FinanceChargeMemoHeader: Record "Finance Charge Memo Header";
         GeneralLedgerSetup: Record "General Ledger Setup";
@@ -245,11 +247,19 @@ codeunit 11710 "Data Class. Eval. Handler CZL"
         DataClassificationMgt.SetFieldToNormal(Database::"Company Information", CompanyInformation.FieldNo("Default Bank Account Code CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Company Information", CompanyInformation.FieldNo("Bank Account Format Check CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Company Information", CompanyInformation.FieldNo("Tax Registration No. CZL"));
+#if not CLEAN23
+#pragma warning disable AL0432
         DataClassificationMgt.SetFieldToNormal(Database::Contact, Contact.FieldNo("Registration No. CZL"));
+#pragma warning restore AL0432
+#endif
         DataClassificationMgt.SetFieldToNormal(Database::Contact, Contact.FieldNo("Tax Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Copy Gen. Journal Parameters", CopyGenJournalParameters.FieldNo("Replace VAT Date CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Cust. Ledger Entry", CustLedgerEntry.FieldNo("VAT Date CZL"));
+#if not CLEAN23
+#pragma warning disable AL0432
         DataClassificationMgt.SetFieldToNormal(Database::Customer, Customer.FieldNo("Registration No. CZL"));
+#pragma warning restore AL0432
+#endif
         DataClassificationMgt.SetFieldToNormal(Database::Customer, Customer.FieldNo("Tax Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::Customer, Customer.FieldNo("Validate Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::Customer, Customer.FieldNo("Transaction Type CZL"));
@@ -265,6 +275,10 @@ codeunit 11710 "Data Class. Eval. Handler CZL"
         DataClassificationMgt.SetFieldToNormal(Database::"Detailed Vendor Ledg. Entry", DetailedVendorLedgEntry.FieldNo("Appl. Across Post. Groups CZL"));
 #pragma warning restore AL0432
 #endif
+        DataClassificationMgt.SetFieldToNormal(Database::"Direct Trans. Header", DirectTransHeader.FieldNo("Intrastat Exclude CZL"));
+        DataClassificationMgt.SetFieldToNormal(Database::"Direct Trans. Line", DirectTransLine.FieldNo("Tariff No. CZL"));
+        DataClassificationMgt.SetFieldToNormal(Database::"Direct Trans. Line", DirectTransLine.FieldNo("Statistic Indication CZL"));
+        DataClassificationMgt.SetFieldToNormal(Database::"Direct Trans. Line", DirectTransLine.FieldNo("Country/Reg. of Orig. Code CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Finance Charge Memo Header", FinanceChargeMemoHeader.FieldNo("Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"Finance Charge Memo Header", FinanceChargeMemoHeader.FieldNo("Tax Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"General Ledger Setup", GeneralLedgerSetup.FieldNo("Allow VAT Posting From CZL"));
@@ -768,7 +782,11 @@ codeunit 11710 "Data Class. Eval. Handler CZL"
         DataClassificationMgt.SetFieldToNormal(Database::"VAT Statement Name", VATStatementName.FieldNo("Attachments CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"VAT Statement Template", VATStatementTemplate.FieldNo("XML Format CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::"VAT Statement Template", VATStatementTemplate.FieldNo("Allow Comments/Attachments CZL"));
+#if not CLEAN23
+#pragma warning disable AL0432
         DataClassificationMgt.SetFieldToNormal(Database::Vendor, Vendor.FieldNo("Registration No. CZL"));
+#pragma warning restore AL0432
+#endif
         DataClassificationMgt.SetFieldToNormal(Database::Vendor, Vendor.FieldNo("Tax Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::Vendor, Vendor.FieldNo("Validate Registration No. CZL"));
         DataClassificationMgt.SetFieldToNormal(Database::Vendor, Vendor.FieldNo("Last Unreliab. Check Date CZL"));
