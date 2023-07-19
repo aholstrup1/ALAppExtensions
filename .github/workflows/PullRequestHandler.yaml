@@ -33,7 +33,7 @@ jobs:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
 
-      - uses: aholstrup/AL-Go/Actions/VerifyPRChanges@main
+      - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@main
         with:
           pullRequestId: ${{ github.event.pull_request.number }}
           prbaseRepository: ${{ github.event.pull_request.base.repo.full_name }}
