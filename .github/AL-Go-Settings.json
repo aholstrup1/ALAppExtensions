@@ -4,7 +4,7 @@
   "bcContainerHelperVersion": "preview",
   "runs-on": "windows-latest",
   "cacheImageName": "",
-  "UsePsSession": false,
+  "UsePsSession": false, 
   "artifact": "bcinsider//22.3/base/latest/{INSIDERSASTOKEN}",
   "country": "base",
   "useProjectDependencies": true,
