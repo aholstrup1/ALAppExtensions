@@ -32,8 +32,7 @@ jobs:
         with:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
-          with:
-            fetch-depth: 0
+          fetch-depth: 0
 
       - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@aholstrup/prvalidation
         with:
