@@ -7,7 +7,7 @@
   "UsePsSession": false, 
   "artifact": "bcinsider//22.3/base/latest/{INSIDERSASTOKEN}", 
   "country": "base",
-  "useProjectDependencies": true,
+  "useProjectDependencies": true, 
   "repoVersion": "22.3",
   "cleanModePreprocessorSymbols": [ 
     "CLEAN17",
