@@ -33,7 +33,7 @@ jobs:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
 
-      - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@aholstrup/prvalidation
+      - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@main
         with:
           baseSHA: ${{ github.event.pull_request.base.sha }}
           headSHA: ${{ github.event.pull_request.head.sha }}
