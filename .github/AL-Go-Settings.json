@@ -9,7 +9,7 @@
   "country": "base",
   "useProjectDependencies": true,
   "repoVersion": "22.3",
-  "cleanModePreprocessorSymbols": [
+  "cleanModePreprocessorSymbols": [ 
     "CLEAN17",
     "CLEAN18",
     "CLEAN19",
