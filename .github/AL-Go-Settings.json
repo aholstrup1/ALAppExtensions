@@ -10,7 +10,7 @@
   "useProjectDependencies": true,  
   "repoVersion": "22.3",  
   "cleanModePreprocessorSymbols": [   
-    "CLEAN17",
+    "CLEAN17", 
     "CLEAN18",
     "CLEAN19", 
     "CLEAN20", 
