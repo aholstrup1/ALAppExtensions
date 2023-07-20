@@ -38,7 +38,7 @@ jobs:
           baseSHA: ${{ github.event.pull_request.base.sha }}
           headSHA: ${{ github.event.pull_request.head.sha }}
           prbaseRepository: microsoft/AlAppExtensions
-          pullRequestId: 24106
+          pullRequestId: "24106"
 
   Initialization:
     needs: [ PregateCheck ]
