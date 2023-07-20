@@ -11,7 +11,7 @@ codeunit 1817 "Advanced Settings Impl."
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Navigation Bar Subscribers", OnBeforeDefaultOpenGeneralSetupExperience, '', false, false)]
     local procedure OpenGeneralSetupExperience(var Handled: Boolean)
-    var
+    var 
         AdvancedSettings: Codeunit "Advanced Settings";
         GeneralSetupID: Integer;
     begin
