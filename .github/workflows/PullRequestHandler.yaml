@@ -78,9 +78,15 @@ jobs:
       - name: TEST
         id: test
         env:
-          insidersastoken: ${{ secrets.INSIDERSASTOKEN }}
+          testsecret: ${{ secrets.TESTSECRET }}
+          eventname: ${{ github.event.name }}
         run: |
-          Write-Host "$env:insidersastoken"
+          Write-Host "$env:eventname"
+          Write-Host "$env:testsecret"
+          $sec = ($env:testsecret).ToLower()
+          $sec += "-ABC"
+          Write-Host $sec
+
       
       - name: Determine Workflow Depth
         id: DetermineWorkflowDepth
