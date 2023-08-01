@@ -9,7 +9,6 @@
   "country": "base",
   "useProjectDependencies": true,
   "repoVersion": "22.3",
-  "secretlessPRBuild": true,
   "cleanModePreprocessorSymbols": [
     "CLEAN17",
     "CLEAN18",
