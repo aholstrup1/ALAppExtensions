@@ -1,7 +1,7 @@
 name: 'Pull Request Build'
 
 on:
-  pull_request:
+  pull_request_target:
     paths-ignore:
       - '**.md'
     branches: [ 'main' ]
@@ -59,13 +59,6 @@ jobs:
         with:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
-      
-      - name: TEST
-        id: test
-        env:
-          eventname: github.event_name
-        run: |
-          Write-Host "eventname: $env:eventname"
 
       - name: Initialize the workflow
         id: init
