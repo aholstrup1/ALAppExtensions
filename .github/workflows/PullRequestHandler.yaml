@@ -62,10 +62,8 @@ jobs:
       
       - name: TEST
         id: test
-        env:
-          eventname: github.event_name
         run: |
-          Write-Host $env:eventname
+          Write-Host $ENV:GITHUB_EVENT_NAME
 
       - name: Initialize the workflow
         id: init
