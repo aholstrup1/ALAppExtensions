@@ -9,7 +9,7 @@
 #pragma warning disable AS0018
 codeunit 9012 "Azure AD Graph"
 {
-    Access = Public;
+    Access = Public;  
     InherentEntitlements = X;
     InherentPermissions = X;
 
