@@ -12,7 +12,7 @@ table 9701 "Cue Setup"
     Permissions = tabledata Field = r;
 
     fields
-    {
+    {  
         field(1; "User Name"; Code[50])
         {
             DataClassification = EndUserIdentifiableInformation;
