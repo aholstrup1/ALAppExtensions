@@ -89,9 +89,14 @@ jobs:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
+        
+         - name: TEST3
+           id: test3
+           run: |
+            Write-Host $ENV:GITHUB_EVENT_NAME
 
         - name: Read secrets
-          if: github.event.name != 'pull_request'
+          if: github.event_name != 'pull_request'
           uses: aholstrup1/AL-Go/Actions/ReadSecrets@main
           env:
             secrets: ${{ toJson(secrets) }}
