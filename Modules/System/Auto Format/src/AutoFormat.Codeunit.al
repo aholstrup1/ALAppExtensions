@@ -12,7 +12,7 @@ codeunit 45 "Auto Format"
     SingleInstance = true;
     InherentEntitlements = X;
     InherentPermissions = X;
-
+   
     var
         AutoFormatImpl: Codeunit "Auto Format Impl.";
 
