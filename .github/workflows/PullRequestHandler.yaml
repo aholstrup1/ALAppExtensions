@@ -74,6 +74,16 @@ jobs:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           getEnvironments: '*'
+
+      - name: Test Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@main
+        env:
+          secrets: ${{ toJson(secrets) }}
+        with:
+          shell: ${{ inputs.shell }}
+          parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
+          settingsJson: ${{ env.Settings }}
+          secrets: ''
       
       - name: Determine Workflow Depth
         id: DetermineWorkflowDepth
