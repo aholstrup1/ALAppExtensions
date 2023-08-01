@@ -44,7 +44,13 @@ jobs:
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           get: keyVaultName,ghTokenWorkflowSecretName,templateUrl
 
+      - name: TEST3
+        id: test3
+        run: |
+          Write-Host $ENV:GITHUB_EVENT_NAME
+
       - name: Read secrets
+        if: github.event_name != 'pull_request'
         uses: aholstrup1/AL-Go/Actions/ReadSecrets@main
         env:
           secrets: ${{ toJson(secrets) }}
