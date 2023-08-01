@@ -10,7 +10,7 @@
 codeunit 9012 "Azure AD Graph"
 {
     Access = Public;
-    InherentEntitlements = X;
+    InherentEntitlements = X;  
     InherentPermissions = X;
 
     var
