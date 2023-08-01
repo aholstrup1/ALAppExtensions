@@ -61,13 +61,13 @@ jobs:
           ref: refs/pull/${{ github.event.number }}/merge
       
       - name: TEST1
-        id: test
+        id: test1
         if: github.event.name == 'pull_request'
         run: |
           Write-Host $ENV:GITHUB_EVENT_NAME
       
       - name: TEST2
-        id: test
+        id: test2
         if: github.event.name != 'pull_request'
         run: |
           Write-Host $ENV:GITHUB_EVENT_NAME
