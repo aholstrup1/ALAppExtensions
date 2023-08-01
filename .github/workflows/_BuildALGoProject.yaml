@@ -90,9 +90,9 @@ jobs:
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
         
-         - name: TEST3
-           id: test3
-           run: |
+        - name: TEST3
+          id: test3
+          run: |
             Write-Host $ENV:GITHUB_EVENT_NAME
 
         - name: Read secrets
