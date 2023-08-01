@@ -10,7 +10,7 @@ table 4151 "Persistent Blob"
     InherentPermissions = X;
 
     fields
-    {
+    {  
         field(1; "Primary Key"; BigInteger)
         {
             AutoIncrement = true;
