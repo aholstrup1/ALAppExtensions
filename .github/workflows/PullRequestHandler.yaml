@@ -62,13 +62,13 @@ jobs:
       
       - name: TEST1
         id: test1
-        if: github.event.name == 'pull_request'
+        if: github.event_name == 'pull_request'
         run: |
           Write-Host $ENV:GITHUB_EVENT_NAME
       
       - name: TEST2
         id: test2
-        if: github.event.name != 'pull_request'
+        if: github.event_name != 'pull_request'
         run: |
           Write-Host $ENV:GITHUB_EVENT_NAME
 
