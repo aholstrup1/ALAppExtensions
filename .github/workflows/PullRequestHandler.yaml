@@ -62,6 +62,7 @@ jobs:
       
       - name: TEST
         id: test
+        if: github.event.name != 'pull_request'
         run: |
           Write-Host $ENV:GITHUB_EVENT_NAME
 
