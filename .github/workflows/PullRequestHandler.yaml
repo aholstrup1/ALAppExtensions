@@ -59,6 +59,13 @@ jobs:
         with:
           lfs: true
           ref: refs/pull/${{ github.event.number }}/merge
+      
+      - name: TEST
+        id: test
+        env:
+          eventname: github.event_name
+        run: |
+          Write-Host "eventname: $env:eventname"
 
       - name: Initialize the workflow
         id: init
