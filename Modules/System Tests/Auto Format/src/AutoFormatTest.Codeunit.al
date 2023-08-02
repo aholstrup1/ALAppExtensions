@@ -9,7 +9,7 @@ codeunit 132584 "Auto Format Test"
     SingleInstance = true;
     Subtype = Test;
     TestPermissions = NonRestrictive;
-
+  
     var 
         LibraryAssert: Codeunit "Library Assert";
         AutoFormatTest: Codeunit "Auto Format Test";
