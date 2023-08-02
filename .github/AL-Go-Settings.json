@@ -38,5 +38,5 @@
     "main"
   ],
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json",
-  "SecretlessPRBuild": true
+  "PRBuildTrigger": "pull_request_review"
 }
