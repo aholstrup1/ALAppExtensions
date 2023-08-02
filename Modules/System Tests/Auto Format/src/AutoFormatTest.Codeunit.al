@@ -10,7 +10,7 @@ codeunit 132584 "Auto Format Test"
     Subtype = Test;
     TestPermissions = NonRestrictive;
 
-    var
+    var 
         LibraryAssert: Codeunit "Library Assert";
         AutoFormatTest: Codeunit "Auto Format Test";
         AutoFormatEnum: Enum "Auto Format";
