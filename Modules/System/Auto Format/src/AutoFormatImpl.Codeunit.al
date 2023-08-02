@@ -22,7 +22,7 @@ codeunit 59 "Auto Format Impl."
         case AutoFormatType of
             EnumType::DefaultFormat:
                 begin
-                    Result := '';
+                    Result := '';  
                     Resolved := TRUE;
                 end;
             EnumType::CustomFormatExpr:
