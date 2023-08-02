@@ -76,12 +76,6 @@ jobs:
           with:
             ref: ${{ inputs.checkoutRef }}
             lfs: true
-      
-        - name: Download thisbuild artifacts
-          if: inputs.publishThisBuildArtifacts
-          uses: actions/download-artifact@v3
-          with:
-            path: '.dependencies'
 
         - name: Read settings
           uses: aholstrup1/AL-Go/Actions/ReadSettings@main
@@ -109,6 +103,7 @@ jobs:
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
             settingsJson: ${{ env.Settings }}
+            secretsJson: ${{ env.RepoSecrets }}
 
         - name: Cache Business Central Artifacts
           if: env.useCompilerFolder == 'True' && inputs.useArtifactCache && steps.determineArtifactUrl.outputs.ArtifactCacheKey
@@ -116,6 +111,15 @@ jobs:
           with:
             path: .artifactcache
             key: ${{ steps.determineArtifactUrl.outputs.ArtifactCacheKey }}
+
+        - name: Download Project Dependencies
+          id: DownloadProjectDependencies
+          uses: aholstrup1/AL-Go/Actions/DownloadProjectDependencies@main
+          with:
+            shell: ${{ inputs.shell }}
+            project: ${{ inputs.project }}
+            buildMode: ${{ inputs.buildMode }}
+            projectsDependenciesJson: ${{ inputs.projectDependenciesJson }}
 
         - name: Run pipeline
           id: RunPipeline
@@ -126,10 +130,11 @@ jobs:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
-            projectDependenciesJson: ${{ inputs.projectDependenciesJson }}
             settingsJson: ${{ env.Settings }}
             secretsJson: ${{ env.RepoSecrets }}
             buildMode: ${{ inputs.buildMode }}
+            installAppsJson: ${{ steps.DownloadProjectDependencies.outputs.DownloadedApps }}
+            installTestAppsJson: ${{ steps.DownloadProjectDependencies.outputs.DownloadedTestApps }}
 
         - name: Sign
           if: inputs.signArtifacts && env.doNotSignApps == 'False' && env.keyVaultCodesignCertificateName != ''
