@@ -14,7 +14,7 @@ codeunit 132584 "Auto Format Test"
         LibraryAssert: Codeunit "Library Assert";
         AutoFormatTest: Codeunit "Auto Format Test";
         AutoFormatEnum: Enum "Auto Format";
-
+ 
     [Test]
     procedure TestAutoFormatType0()
     var
