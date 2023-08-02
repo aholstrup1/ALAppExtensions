@@ -17,7 +17,7 @@ codeunit 2202 "Azure Key Vault Impl."
         [NonDebuggable]
         NavAzureKeyVaultClient: DotNet AzureKeyVaultClientHelper;
         [NonDebuggable]
-        AzureKeyVaultSecretProvider: DotNet IAzureKeyVaultSecretProvider;
+        AzureKeyVaultSecretProvider: DotNet IAzureKeyVaultSecretProvider;  
         SecretNotFoundErr: Label '%1 is not an application secret.', Comment = '%1 = Secret Name.';
         [NonDebuggable]
         CachedSecretsDictionary: Dictionary of [Text, Text];
