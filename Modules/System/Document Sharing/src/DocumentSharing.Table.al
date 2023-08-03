@@ -110,15 +110,6 @@ table 9560 "Document Sharing"
         {
             DataClassification = SystemMetadata;
         }
-
-        /// <summary>
-        /// Specifies the behavior when there is a conflict with an existing document.
-        /// </summary>
-        field(12; "Conflict Behavior"; Enum "Doc. Sharing Conflict Behavior")
-        {
-            DataClassification = SystemMetadata;
-            InitValue = Ask;
-        }
     }
 
     keys

@@ -4,13 +4,8 @@ enumextension 11704 "Manual Setup Category CZL" extends "Manual Setup Category"
     {
         Caption = 'EET';
     }
-#if not CLEAN22
     value(11701; "Intrastat CZL")
     {
-        Caption = 'Intrastat (Obsolete)';
-        ObsoleteState = Pending;
-        ObsoleteTag = '22.0';
-        ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
+        Caption = 'Intrastat';
     }
-#endif
 }

@@ -469,12 +469,10 @@ codeunit 30103 "Shpfy Communication Mgt."
     internal procedure SetShop(ShopCode: Code[20])
     var
         FeatureTelemetry: Codeunit "Feature Telemetry";
-        Dimensions: Dictionary of [Text, Text];
     begin
         Clear(Shop);
         Shop.Get(ShopCode);
-        Dimensions.Add('ShopId', Format(Shop."Shop Id"));
-        FeatureTelemetry.LogUsage('0000JW7', 'Shopify', 'A shop is set', Dimensions);
+        FeatureTelemetry.LogUsage('0000JW7', 'Shopify', Format(Shop."Shop Id"));
     end;
 
     /// <summary>

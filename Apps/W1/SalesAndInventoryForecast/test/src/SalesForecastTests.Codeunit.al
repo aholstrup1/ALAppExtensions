@@ -194,7 +194,6 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('CustomerConsentPageHandler')]
     procedure TestNotEnoughHistoricalData();
     var
         Item: Record Item;
@@ -260,7 +259,6 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('CustomerConsentPageHandler')]
     procedure TestMissingApiUriOpenSetup();
     var
         Item: Record Item;
@@ -403,7 +401,6 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('CustomerConsentPageHandler')]
     procedure TestKeyNeededBeforeScheduledExecution();
     var
         LibraryPermissions: Codeunit "Library - Permissions";
@@ -426,7 +423,7 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('JobQueueEntryCardPageHandler,CustomerConsentPageHandler')]
+    [HandlerFunctions('JobQueueEntryCardPageHandler')]
     procedure TestSetupScheduledExecution();
     var
         JobQueueEntry: Record "Job Queue Entry";
@@ -450,7 +447,6 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('CustomerConsentPageHandler')]
     procedure TestUpdateForecastActionThrowsErrorIfForecastingNotSetup();
     var
         LibraryPermissions: Codeunit "Library - Permissions";
@@ -746,7 +742,6 @@ codeunit 139540 "Sales Forecast Tests"
     end;
 
     [Test]
-    [HandlerFunctions('CustomerConsentPageHandler')]
     procedure TestSaaSUserDefinedAPI();
     var
         Item: Record Item;
@@ -1112,12 +1107,6 @@ codeunit 139540 "Sales Forecast Tests"
     procedure ConfirmHandler(Question: Text[1024]; var Reply: Boolean);
     begin
         Reply := true;
-    end;
-
-    [ModalPageHandler]
-    procedure CustomerConsentPageHandler(var ConsentMicrosoftConfirm: TestPage "Consent Microsoft Confirm")
-    begin
-        ConsentMicrosoftConfirm.Accept.Invoke();
     end;
 }
 

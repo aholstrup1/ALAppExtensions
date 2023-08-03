@@ -29,7 +29,6 @@ page 31175 "Advance Letter Appl. Edit CZZ"
                             Rec."Document No." := TempAdvanceLetterApplication."Document No.";
                             Rec."Posting Date" := TempAdvanceLetterApplication."Posting Date";
                             Rec.Amount := TempAdvanceLetterApplication.Amount;
-                            Rec."Amount (LCY)" := TempAdvanceLetterApplication."Amount (LCY)";
                         end
                     end;
 
@@ -42,7 +41,6 @@ page 31175 "Advance Letter Appl. Edit CZZ"
                             Rec."Document No." := TempAdvanceLetterApplication."Document No.";
                             Rec."Posting Date" := TempAdvanceLetterApplication."Posting Date";
                             Rec.Amount := TempAdvanceLetterApplication.Amount;
-                            Rec."Amount (LCY)" := TempAdvanceLetterApplication."Amount (LCY)";
                         end;
                     end;
                 }

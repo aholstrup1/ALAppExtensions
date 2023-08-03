@@ -22,11 +22,6 @@ page 1853 "Sales Forecast Setup Card"
             group(General)
             {
                 Caption = 'General';
-                field(Enabled; Enabled)
-                {
-                    ApplicationArea = Basic, Suite;
-                    ToolTip = 'Specifies if the forecasting feature is enabled.';
-                }
                 field("Period Type"; "Period Type")
                 {
                     ApplicationArea = Basic, Suite;
@@ -136,8 +131,7 @@ page 1853 "Sales Forecast Setup Card"
                 var
                     SalesForecastScheduler: Codeunit "Sales Forecast Scheduler";
                 begin
-                    Rec.CheckEnabled();
-                    Rec.CheckURIAndKey();
+                    CheckURIAndKey();
                     SalesForecastScheduler.CreateJobQueueEntryAndOpenCard();
                 end;
             }
@@ -157,8 +151,7 @@ page 1853 "Sales Forecast Setup Card"
                     JobQueueEntry: Record "Job Queue Entry";
                     SalesForecastScheduler: Codeunit "Sales Forecast Scheduler";
                 begin
-                    Rec.CheckEnabled();
-                    Rec.CheckURIAndKey();
+                    CheckURIAndKey();
                     SalesForecastScheduler.CreateJobQueueEntry(JobQueueEntry, false);
                     Codeunit.Run(Codeunit::"Job Queue - Enqueue", JobQueueEntry);
                     Message(UpdatingForecastsMsg);

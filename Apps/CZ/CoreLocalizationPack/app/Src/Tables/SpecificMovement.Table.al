@@ -1,15 +1,7 @@
 table 31077 "Specific Movement CZL"
 {
     Caption = 'Specific Movement';
-#if not CLEAN22
     LookupPageID = "Specific Movements CZL";
-    ObsoleteState = Pending;
-    ObsoleteTag = '22.0';
-#else
-    ObsoleteState = Removed;
-    ObsoleteTag = '25.0';
-#endif
-    ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
 
     fields
     {

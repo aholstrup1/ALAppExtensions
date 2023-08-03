@@ -26,8 +26,6 @@ codeunit 22200 "Review G/L Entry" implements "G/L Entry Reviewer"
             GLEntryReviewEntry.Insert(true);
         until GLEntry.Next() = 0;
 
-        OnAfterReviewEntries(GLEntry, GLEntryReviewEntry);
-
         FeatureTelemetry.LogUptake('0000J2W', 'Review G/L Entries', "Feature Uptake Status"::Used);
     end;
 
@@ -93,12 +91,6 @@ codeunit 22200 "Review G/L Entry" implements "G/L Entry Reviewer"
             GLEntryReviewSetup.Init();
             GLEntryReviewSetup.Insert();
         end;
-    end;
-
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterReviewEntries(var GLEntry: Record "G/L Entry"; var GLEntryReviewEntry: Record "G/L Entry Review Entry")
-    begin
     end;
 }
 

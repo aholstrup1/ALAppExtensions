@@ -231,9 +231,8 @@ report 31029 "Create Purch. Adv. Letter CZZ"
         AdvanceLetterApplicationCZZ."Advance Letter No." := PurchAdvLetterHeaderCZZ."No.";
         AdvanceLetterApplicationCZZ."Document Type" := AdvanceLetterApplicationCZZ."Document Type"::"Purchase Order";
         AdvanceLetterApplicationCZZ."Document No." := PurchaseHeader."No.";
-        PurchAdvLetterHeaderCZZ.CalcFields("Amount Including VAT", "Amount Including VAT (LCY)");
+        PurchAdvLetterHeaderCZZ.CalcFields("Amount Including VAT");
         AdvanceLetterApplicationCZZ.Amount := PurchAdvLetterHeaderCZZ."Amount Including VAT";
-        AdvanceLetterApplicationCZZ."Amount (LCY)" := PurchAdvLetterHeaderCZZ."Amount Including VAT (LCY)";
         AdvanceLetterApplicationCZZ.Insert();
     end;
 

@@ -56,11 +56,6 @@ table 31007 "Advance Letter Application CZZ"
             Caption = 'Amount';
             DataClassification = CustomerContent;
         }
-        field(9; "Amount (LCY)"; Decimal)
-        {
-            Caption = 'Amount (LCY)';
-            DataClassification = CustomerContent;
-        }
         field(11; "Amount to Use"; Decimal)
         {
             Caption = 'Amount to Use';
@@ -129,15 +124,13 @@ table 31007 "Advance Letter Application CZZ"
                 SalesAdvLetterEntryCZZ.SetRange(Cancelled, false);
                 SalesAdvLetterEntryCZZ.SetRange("Entry Type", SalesAdvLetterEntryCZZ."Entry Type"::Payment);
                 SalesAdvLetterEntryCZZ.SetFilter("Posting Date", '..%1', NewPostingDate);
-                SalesAdvLetterEntryCZZ.CalcSums(Amount, "Amount (LCY)");
+                SalesAdvLetterEntryCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount := -SalesAdvLetterEntryCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" := -SalesAdvLetterEntryCZZ."Amount (LCY)";
 
                 SalesAdvLetterEntryCZZ.SetRange("Entry Type", SalesAdvLetterEntryCZZ."Entry Type"::Usage);
                 SalesAdvLetterEntryCZZ.SetRange("Posting Date");
-                SalesAdvLetterEntryCZZ.CalcSums(Amount, "Amount (LCY)");
+                SalesAdvLetterEntryCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount -= SalesAdvLetterEntryCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" -= SalesAdvLetterEntryCZZ."Amount (LCY)";
 
                 AdvanceLetterApplicationCZZ.Reset();
                 AdvanceLetterApplicationCZZ.SetRange("Advance Letter Type", AdvanceLetterApplicationCZZ."Advance Letter Type"::Sales);
@@ -146,9 +139,8 @@ table 31007 "Advance Letter Application CZZ"
                 AdvanceLetterApplicationCZZ.SetFilter("Document Type", '<>%1', NewFromAdvLetterUsageDocTypeCZZ);
                 AdvanceLetterApplicationCZZ.SetFilter("Document No.", '<>%1', NewFromDocumentNo);
                 AdvanceLetterApplicationCZZ.FilterGroup(0);
-                AdvanceLetterApplicationCZZ.CalcSums(Amount, "Amount (LCY)");
+                AdvanceLetterApplicationCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount -= AdvanceLetterApplicationCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" -= AdvanceLetterApplicationCZZ."Amount (LCY)";
                 NewAdvanceLetterApplicationCZZ."Document Type" := NewFromAdvLetterUsageDocTypeCZZ;
                 NewAdvanceLetterApplicationCZZ."Document No." := NewFromDocumentNo;
                 if NewAdvanceLetterApplicationCZZ.Amount > 0 then
@@ -181,15 +173,13 @@ table 31007 "Advance Letter Application CZZ"
                 PurchAdvLetterEntryCZZ.SetRange(Cancelled, false);
                 PurchAdvLetterEntryCZZ.SetRange("Entry Type", PurchAdvLetterEntryCZZ."Entry Type"::Payment);
                 PurchAdvLetterEntryCZZ.SetFilter("Posting Date", '..%1', NewPostingDate);
-                PurchAdvLetterEntryCZZ.CalcSums(Amount, "Amount (LCY)");
+                PurchAdvLetterEntryCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount := PurchAdvLetterEntryCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" := PurchAdvLetterEntryCZZ."Amount (LCY)";
 
                 PurchAdvLetterEntryCZZ.SetRange("Entry Type", PurchAdvLetterEntryCZZ."Entry Type"::Usage);
                 PurchAdvLetterEntryCZZ.SetRange("Posting Date");
-                PurchAdvLetterEntryCZZ.CalcSums(Amount, "Amount (LCY)");
+                PurchAdvLetterEntryCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount += PurchAdvLetterEntryCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" += PurchAdvLetterEntryCZZ."Amount (LCY)";
 
                 AdvanceLetterApplicationCZZ.Reset();
                 AdvanceLetterApplicationCZZ.SetRange("Advance Letter Type", AdvanceLetterApplicationCZZ."Advance Letter Type"::Purchase);
@@ -198,9 +188,8 @@ table 31007 "Advance Letter Application CZZ"
                 AdvanceLetterApplicationCZZ.SetFilter("Document Type", '<>%1', NewFromAdvLetterUsageDocTypeCZZ);
                 AdvanceLetterApplicationCZZ.SetFilter("Document No.", '<>%1', NewFromDocumentNo);
                 AdvanceLetterApplicationCZZ.FilterGroup(0);
-                AdvanceLetterApplicationCZZ.CalcSums(Amount, "Amount (LCY)");
+                AdvanceLetterApplicationCZZ.CalcSums(Amount);
                 NewAdvanceLetterApplicationCZZ.Amount -= AdvanceLetterApplicationCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" -= AdvanceLetterApplicationCZZ."Amount (LCY)";
                 NewAdvanceLetterApplicationCZZ."Document Type" := NewFromAdvLetterUsageDocTypeCZZ;
                 NewAdvanceLetterApplicationCZZ."Document No." := NewFromDocumentNo;
                 if NewAdvanceLetterApplicationCZZ.Amount > 0 then begin
@@ -227,7 +216,6 @@ table 31007 "Advance Letter Application CZZ"
                 NewAdvanceLetterApplicationCZZ."Advance Letter No." := AdvanceLetterApplicationCZZ."Advance Letter No.";
                 NewAdvanceLetterApplicationCZZ."Posting Date" := AdvanceLetterApplicationCZZ."Posting Date";
                 NewAdvanceLetterApplicationCZZ.Amount := AdvanceLetterApplicationCZZ.Amount;
-                NewAdvanceLetterApplicationCZZ."Amount (LCY)" := AdvanceLetterApplicationCZZ."Amount (LCY)";
                 NewAdvanceLetterApplicationCZZ."Document Type" := NewFromAdvLetterUsageDocTypeCZZ;
                 NewAdvanceLetterApplicationCZZ."Document No." := NewFromDocumentNo;
                 case AdvanceLetterApplicationCZZ."Advance Letter Type" of

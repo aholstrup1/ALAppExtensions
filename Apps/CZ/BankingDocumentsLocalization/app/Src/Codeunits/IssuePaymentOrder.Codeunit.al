@@ -25,7 +25,6 @@ codeunit 31353 "Issue Payment Order CZB"
         IssPaymentOrderLineCZB: Record "Iss. Payment Order Line CZB";
         User: Record User;
         NoSeriesManagement: Codeunit NoSeriesManagement;
-        IsHandled: Boolean;
     begin
         OnBeforeIssuePaymentOrder(PaymentOrderHeaderCZB);
         PaymentOrderHeaderCZB.CheckPaymentOrderIssueRestrictions();
@@ -51,11 +50,8 @@ codeunit 31353 "Issue Payment Order CZB"
         IssPaymentOrderHeaderCZB.Init();
         IssPaymentOrderHeaderCZB.TransferFields(PaymentOrderHeaderCZB);
         BankAccount.TestField("Issued Payment Order Nos. CZB");
-        IsHandled := false;
-        OnIssuePaymentOrderCZBOnBeforeGetNextNo(PaymentOrderHeaderCZB, IssPaymentOrderHeaderCZB, IsHandled);
-        if not IsHandled then
-            if BankAccount."Issued Payment Order Nos. CZB" <> IssPaymentOrderHeaderCZB."No. Series" then
-                IssPaymentOrderHeaderCZB."No." := NoSeriesManagement.GetNextNo(BankAccount."Issued Payment Order Nos. CZB", IssPaymentOrderHeaderCZB."Document Date", true);
+        if BankAccount."Issued Payment Order Nos. CZB" <> IssPaymentOrderHeaderCZB."No. Series" then
+            IssPaymentOrderHeaderCZB."No." := NoSeriesManagement.GetNextNo(BankAccount."Issued Payment Order Nos. CZB", IssPaymentOrderHeaderCZB."Document Date", true);
 
         PaymentOrderHeaderCZB."Last Issuing No." := IssPaymentOrderHeaderCZB."No.";
 
@@ -243,11 +239,6 @@ codeunit 31353 "Issue Payment Order CZB"
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterCheckPaymentOrderLines(var PaymentOrderHeaderCZB: Record "Payment Order Header CZB");
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnIssuePaymentOrderCZBOnBeforeGetNextNo(var PaymentOrderHeaderCZB: Record "Payment Order Header CZB"; var IssPaymentOrderHeaderCZB: Record "Iss. Payment Order Header CZB"; var IsHandled: Boolean);
     begin
     end;
 }

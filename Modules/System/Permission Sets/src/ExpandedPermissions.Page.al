@@ -35,6 +35,7 @@ page 9862 "Expanded Permissions"
                 }
                 field("Object Name"; ObjectName)
                 {
+                    Caption = 'Object Name';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the name of the object to which the permissions apply.';
                     Style = Strong;
@@ -42,8 +43,8 @@ page 9862 "Expanded Permissions"
                 }
                 field("Object Caption"; ObjectCaption)
                 {
-                    ApplicationArea = All;
                     Caption = 'Object Caption';
+                    ApplicationArea = All;
                     ToolTip = 'Specifies the caption of the object that the permissions apply to.';
                     Style = Strong;
                     StyleExpr = ZeroObjStyleExpr;
@@ -96,7 +97,7 @@ page 9862 "Expanded Permissions"
 
     trigger OnAfterGetRecord()
     begin
-        PermissionImpl.GetObjectCaptionAndName(Rec, ObjectCaption, ObjectName);
+        PermissionImpl.GetObjectionCaptionAndName(Rec, ObjectCaption, ObjectName);
         ZeroObjStyleExpr := Rec."Object ID" = 0;
     end;
 

@@ -135,7 +135,6 @@ codeunit 4015 "Hybrid GP Wizard"
     var
         GPCompanyMigrationSettings: Record "GP Company Migration Settings";
         GPCompanyAdditionalSettings: Record "GP Company Additional Settings";
-        HybridCompanyStatus: Record "Hybrid Company Status";
     begin
         GPCompanyMigrationSettings.Reset();
         if GPCompanyMigrationSettings.FindSet() then
@@ -143,9 +142,6 @@ codeunit 4015 "Hybrid GP Wizard"
 
         if not GPCompanyAdditionalSettings.IsEmpty() then
             GPCompanyAdditionalSettings.DeleteAll();
-
-        if not HybridCompanyStatus.IsEmpty() then
-            HybridCompanyStatus.DeleteAll();
     end;
 
     local procedure ProcessesAreRunning(): Boolean

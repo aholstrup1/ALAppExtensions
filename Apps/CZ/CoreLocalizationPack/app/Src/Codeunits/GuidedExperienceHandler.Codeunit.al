@@ -25,11 +25,9 @@ codeunit 11747 "Guided Experience Handler CZL"
         RegisterEETServiceSetup();
         RegisterEETBusinessPremises();
         RegisterEETCashRegisters();
-#if not CLEAN22
         RegisterStatisticIndications();
         RegisterSpecificMovements();
         RegisterIntrastatDeliveryGroups();
-#endif
     end;
 
     local procedure RegisterInventoryMovementTemplates()
@@ -191,11 +189,10 @@ codeunit 11747 "Guided Experience Handler CZL"
         GuidedExperience.InsertManualSetup(EETCashRegisterNameTxt, EETCashRegisterNameTxt, EETCashRegisterDescriptionTxt,
           2, ObjectType::Page, Page::"EET Cash Registers CZL", ManualSetupCategory::"EET CZL", EETCashRegisterKeywordsTxt);
     end;
-#if not CLEAN22
-#pragma warning disable AL0432
+
     local procedure RegisterStatisticIndications()
     var
-        StatisticIndicationsNameTxt: Label 'Statistic Indications (Obsolete)';
+        StatisticIndicationsNameTxt: Label 'Statistic Indications';
         StatisticIndicationsDescriptionTxt: Label 'Set up or update Statistic Indications.';
         StatisticIndicationsKeywordsTxt: Label 'Intrastat';
     begin
@@ -205,7 +202,7 @@ codeunit 11747 "Guided Experience Handler CZL"
 
     local procedure RegisterSpecificMovements()
     var
-        SpecificMovementsNameTxt: Label 'Specific Movements (Obsolete)';
+        SpecificMovementsNameTxt: Label 'Specific Movements';
         SpecificMovementsDescriptionTxt: Label 'Set up or update Specific Movements.';
         SpecificMovementsKeywordsTxt: Label 'Intrastat';
     begin
@@ -215,13 +212,11 @@ codeunit 11747 "Guided Experience Handler CZL"
 
     local procedure RegisterIntrastatDeliveryGroups()
     var
-        IntrastatDeliveryGroupsNameTxt: Label 'Intrastat Delivery Groups (Obsolete)';
+        IntrastatDeliveryGroupsNameTxt: Label 'Intrastat Delivery Groups';
         IntrastatDeliveryGroupsDescriptionTxt: Label 'Set up or update Intrastat Delivery Groups.';
         IntrastatDeliveryGroupsKeywordsTxt: Label 'Intrastat';
     begin
         GuidedExperience.InsertManualSetup(IntrastatDeliveryGroupsNameTxt, IntrastatDeliveryGroupsNameTxt, IntrastatDeliveryGroupsDescriptionTxt,
           1, ObjectType::Page, Page::"Intrastat Delivery Groups CZL", ManualSetupCategory::"Intrastat CZL", IntrastatDeliveryGroupsKeywordsTxt);
     end;
-#pragma warning restore AL0432
-#endif
 }

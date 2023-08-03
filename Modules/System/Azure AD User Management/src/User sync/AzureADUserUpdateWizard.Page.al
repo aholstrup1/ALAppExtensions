@@ -136,10 +136,45 @@ page 9515 "Azure AD User Update Wizard"
             group(ListOfChanges)
             {
                 Visible = ListOfChangesVisible;
+                Caption = 'List of changes';
                 InstructionalText = 'To apply the changes, choose Finish.';
-                part(Changes; "Azure AD User Updates Part")
+                group(ChangesGroup)
                 {
-                    ApplicationArea = All;
+                    ShowCaption = false;
+                    repeater(Changes)
+                    {
+                        field("Display Name"; "Display Name")
+                        {
+                            ToolTip = 'The display name';
+                            ApplicationArea = All;
+                        }
+                        field("Authentication Object ID"; "Authentication Object ID")
+                        {
+                            ToolTip = 'The AAD user ID';
+                            ApplicationArea = All;
+                            Visible = false;
+                        }
+                        field("Update Type"; "Update Type")
+                        {
+                            ToolTip = 'The type of update';
+                            ApplicationArea = All;
+                        }
+                        field("Information"; "Update Entity")
+                        {
+                            ToolTip = 'The user information that will be updated';
+                            ApplicationArea = All;
+                        }
+                        field("Current Value"; "Current Value")
+                        {
+                            ToolTip = 'The current value';
+                            ApplicationArea = All;
+                        }
+                        field("New Value"; "New Value")
+                        {
+                            ToolTip = 'The value to replace the user information';
+                            ApplicationArea = All;
+                        }
+                    }
                 }
             }
             group(Finished)
@@ -224,7 +259,6 @@ page 9515 "Azure AD User Update Wizard"
                     AzureADUserSyncImpl: Codeunit "Azure AD User Sync Impl.";
                 begin
                     AzureADUserSyncImpl.FetchUpdatesFromAzureGraph(Rec);
-                    CurrPage.Changes.Page.SetUpdates(Rec);
 
                     ShowOverview();
                 end;

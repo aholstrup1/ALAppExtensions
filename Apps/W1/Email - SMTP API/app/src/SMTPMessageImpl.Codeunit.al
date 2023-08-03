@@ -11,12 +11,11 @@ codeunit 4614 "SMTP Message Impl"
         EmailMimeMessage: DotNet MimeMessage;
         MimeBodyBuilder: Dotnet MimeBodyBuilder;
         FromEmailParseFailureErr: Label 'The From address %1 could not be parsed correctly.', Comment = '%1=The email address';
-        EngRecipientErr: Label 'Could not add recipient %1.', Comment = '%1 = email address', Locked = true;
         RecipientErr: Label 'Could not add recipient %1.', Comment = '%1 = email address';
         EmailParseFailureErr: Label 'The address %1 could not be parsed correctly.', Comment = '%1=The email address';
         SmtpCategoryLbl: Label 'Email SMTP', Locked = true;
         ConcateLbl: Label '; %1', Locked = true;
-        FromNameOrEmailHasChangedTxt: Label 'The name or address has changed.', Locked = true;
+        FromNameOrEmailHasChangedTxt: Label 'The name or address has changed.';
         ObfuscateLbl: Label '%1*%2@%3', Comment = '%1 = First character of username , %2 = Last character of username, %3 = Host', Locked = true;
         ContentIdLbl: Label 'cid:%1', Comment = '%1 = Content id', Locked = true;
 
@@ -145,7 +144,7 @@ codeunit 4614 "SMTP Message Impl"
     begin
         InternetAddressList.Clear();
         if not TryParseInternetAddressList(InternetAddressList, Recipients) then begin
-            Session.LogMessage('0000B5N', StrSubstNo(EngRecipientErr, FormatListToString(Recipients, true)), Verbosity::Error, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', SmtpCategoryLbl);
+            Session.LogMessage('0000B5N', StrSubstNo(RecipientErr, FormatListToString(Recipients, true)), Verbosity::Error, DataClassification::EndUserPseudonymousIdentifiers, TelemetryScope::ExtensionPublisher, 'Category', SmtpCategoryLbl);
             Error(RecipientErr, FormatListToString(Recipients, false));
         end;
     end;

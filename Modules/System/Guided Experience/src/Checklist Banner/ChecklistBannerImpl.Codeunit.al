@@ -293,7 +293,7 @@ codeunit 1996 "Checklist Banner Impl."
         if Version <> 0 then
             GuidedExperienceItem.SetRange(Version, Version);
 
-        if (not EntityText.CanSuggest()) or IsThereThirdPartyGuidedExperienceItem(Version) then
+        if (not EntityText.CanSuggest()) or IsThereThirdPartyGuidedExperienceItem() then
             GuidedExperienceItem.SetFilter("Spotlight Tour Type", '<>%1', GuidedExperienceItem."Spotlight Tour Type"::Copilot);
 
         if GuidedExperienceItem.FindLast() then begin
@@ -312,12 +312,10 @@ codeunit 1996 "Checklist Banner Impl."
         end;
     end;
 
-    local procedure IsThereThirdPartyGuidedExperienceItem(Version: Integer): Boolean
+    local procedure IsThereThirdPartyGuidedExperienceItem(): Boolean
     var
         GuidedExperienceItem: Record "Guided Experience Item";
     begin
-        GuidedExperienceItem.ReadIsolation := IsolationLevel::ReadUncommitted;
-        GuidedExperienceItem.SetRange(Version, Version);
         GuidedExperienceItem.SetFilter("Extension Publisher", '<>%1', 'Microsoft');
         exit(not GuidedExperienceItem.IsEmpty());
     end;

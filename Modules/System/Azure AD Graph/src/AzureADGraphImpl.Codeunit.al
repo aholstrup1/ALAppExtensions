@@ -129,11 +129,11 @@ codeunit 9014 "Azure AD Graph Impl."
     end;
 
     [NonDebuggable]
-    procedure GetMembersPageForGroupId(GroupId: Text; NumberOfUsers: Integer; var UserInfoPage: DotNet UserInfoPage)
+    procedure GetMembersForGroupId(GroupId: Text; var GroupMembers: DotNet IEnumerable)
     begin
         // AzureAdGraphQuery will throw an exception if the group does not exist.
         // Ignoring this exception, and letting the caller to only check for IsNull(GroupMembers)
-        if TryGetMembersPageForGroupId(GroupId, NumberOfUsers, UserInfoPage) then;
+        if TryGetMembersForGroupId(GroupId, GroupMembers) then;
     end;
 
     [NonDebuggable]
@@ -146,10 +146,10 @@ codeunit 9014 "Azure AD Graph Impl."
 
     [NonDebuggable]
     [TryFunction]
-    local procedure TryGetMembersPageForGroupId(GroupId: Text; NumberOfUsers: Integer; var UserInfoPage: DotNet UserInfoPage)
+    local procedure TryGetMembersForGroupId(GroupId: Text; var GroupMembers: DotNet IEnumerable)
     begin
         if CanQueryGraph() then
-            UserInfoPage := GraphQuery.GetMembersPageForGroupId(GroupId, NumberOfUsers);
+            GroupMembers := GraphQuery.GetMembersForGroupId(GroupId);
     end;
 
     [NonDebuggable]

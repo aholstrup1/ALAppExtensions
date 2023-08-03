@@ -114,31 +114,37 @@ codeunit 31270 "Install Application CZC"
     local procedure CopyCustLedgerEntry();
     var
         CustLedgerEntry: Record "Cust. Ledger Entry";
-        CustLedgerEntryDataTransfer: DataTransfer;
     begin
-        CustLedgerEntryDataTransfer.SetTables(Database::"Cust. Ledger Entry", Database::"Cust. Ledger Entry");
-        CustLedgerEntryDataTransfer.AddFieldValue(CustLedgerEntry.FieldNo(Compensation), CustLedgerEntry.FieldNo("Compensation CZC"));
-        CustLedgerEntryDataTransfer.CopyFields();
+        CustLedgerEntry.SetLoadFields(Compensation);
+        if CustLedgerEntry.FindSet(true) then
+            repeat
+                CustLedgerEntry."Compensation CZC" := CustLedgerEntry.Compensation;
+                CustLedgerEntry.Modify(false);
+            until CustLedgerEntry.Next() = 0;
     end;
 
     local procedure CopyVendLedgerEntry();
     var
         VendorLedgerEntry: Record "Vendor Ledger Entry";
-        VendorLedgerEntryDataTransfer: DataTransfer;
     begin
-        VendorLedgerEntryDataTransfer.SetTables(Database::"Vendor Ledger Entry", Database::"Vendor Ledger Entry");
-        VendorLedgerEntryDataTransfer.AddFieldValue(VendorLedgerEntry.FieldNo(Compensation), VendorLedgerEntry.FieldNo("Compensation CZC"));
-        VendorLedgerEntryDataTransfer.CopyFields();
+        VendorLedgerEntry.SetLoadFields(Compensation);
+        if VendorLedgerEntry.FindSet(true) then
+            repeat
+                VendorLedgerEntry."Compensation CZC" := VendorLedgerEntry.Compensation;
+                VendorLedgerEntry.Modify(false);
+            until VendorLedgerEntry.Next() = 0;
     end;
 
     local procedure CopyGenJournalLine();
     var
         GenJournalLine: Record "Gen. Journal Line";
-        GenJournalLineDataTransfer: DataTransfer;
     begin
-        GenJournalLineDataTransfer.SetTables(Database::"Gen. Journal Line", Database::"Gen. Journal Line");
-        GenJournalLineDataTransfer.AddFieldValue(GenJournalLine.FieldNo(Compensation), GenJournalLine.FieldNo("Compensation CZC"));
-        GenJournalLineDataTransfer.CopyFields();
+        GenJournalLine.SetLoadFields(Compensation);
+        if GenJournalLine.FindSet(true) then
+            repeat
+                GenJournalLine."Compensation CZC" := GenJournalLine.Compensation;
+                GenJournalLine.Modify(false);
+            until GenJournalLine.Next() = 0;
     end;
 
     local procedure CopyCreditHeader();
@@ -297,11 +303,13 @@ codeunit 31270 "Install Application CZC"
     local procedure CopyPostedGenJournalLine();
     var
         PostedGenJournalLine: Record "Posted Gen. Journal Line";
-        PostedGenJournalLineDataTransfer: DataTransfer;
     begin
-        PostedGenJournalLineDataTransfer.SetTables(Database::"Posted Gen. Journal Line", Database::"Posted Gen. Journal Line");
-        PostedGenJournalLineDataTransfer.AddFieldValue(PostedGenJournalLine.FieldNo(Compensation), PostedGenJournalLine.FieldNo("Compensation CZC"));
-        PostedGenJournalLineDataTransfer.CopyFields();
+        PostedGenJournalLine.SetLoadFields(Compensation);
+        if PostedGenJournalLine.FindSet(true) then
+            repeat
+                PostedGenJournalLine."Compensation CZC" := PostedGenJournalLine.Compensation;
+                PostedGenJournalLine.Modify(false);
+            until PostedGenJournalLine.Next() = 0;
     end;
 
     local procedure MoveIncomingDocument()

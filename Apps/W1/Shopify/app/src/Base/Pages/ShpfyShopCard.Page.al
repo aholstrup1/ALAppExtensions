@@ -52,7 +52,7 @@ page 30101 "Shpfy Shop Card"
                     var
                         FeatureTelemetry: Codeunit "Feature Telemetry";
                     begin
-                        if not Enabled then
+                        if Not Enabled then
                             exit;
                         Rec.RequestAccessToken();
                         FeatureTelemetry.LogUptake('0000HUT', 'Shopify', Enum::"Feature Uptake Status"::"Set up");

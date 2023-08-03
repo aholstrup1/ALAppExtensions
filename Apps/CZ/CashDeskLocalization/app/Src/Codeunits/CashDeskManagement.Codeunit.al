@@ -203,7 +203,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromSalesInvoice(SalesInvoiceHeader: Record "Sales Invoice Header")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        CustLedgerEntry: Record "Cust. Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -212,14 +211,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         SalesInvoiceHeader.CalcFields("Amount Including VAT");
         if SalesInvoiceHeader."Amount Including VAT" = 0 then
-            exit;
-
-        CustLedgerEntry.SetCurrentKey("Document No.");
-        CustLedgerEntry.SetRange("Document No.", SalesInvoiceHeader."No.");
-        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::Invoice);
-        CustLedgerEntry.SetRange("Customer No.", SalesInvoiceHeader."Bill-to Customer No.");
-        CustLedgerEntry.SetRange(Open, true);
-        if CustLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(SalesInvoiceHeader."Cash Desk Code CZP");
@@ -241,7 +232,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromSalesCrMemo(SalesCrMemoHeader: Record "Sales Cr.Memo Header")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        CustLedgerEntry: Record "Cust. Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -250,14 +240,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         SalesCrMemoHeader.CalcFields("Amount Including VAT");
         if SalesCrMemoHeader."Amount Including VAT" = 0 then
-            exit;
-
-        CustLedgerEntry.SetCurrentKey("Document No.");
-        CustLedgerEntry.SetRange("Document No.", SalesCrMemoHeader."No.");
-        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::"Credit Memo");
-        CustLedgerEntry.SetRange("Customer No.", SalesCrMemoHeader."Bill-to Customer No.");
-        CustLedgerEntry.SetRange(Open, true);
-        if CustLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(SalesCrMemoHeader."Cash Desk Code CZP");
@@ -279,7 +261,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromPurchaseInvoice(PurchInvHeader: Record "Purch. Inv. Header")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        VendorLedgerEntry: Record "Vendor Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -288,14 +269,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         PurchInvHeader.CalcFields("Amount Including VAT");
         if PurchInvHeader."Amount Including VAT" = 0 then
-            exit;
-
-        VendorLedgerEntry.SetCurrentKey("Document No.");
-        VendorLedgerEntry.SetRange("Document No.", PurchInvHeader."No.");
-        VendorLedgerEntry.SetRange("Document Type", VendorLedgerEntry."Document Type"::Invoice);
-        VendorLedgerEntry.SetRange("Vendor No.", PurchInvHeader."Buy-from Vendor No.");
-        VendorLedgerEntry.SetRange(Open, true);
-        if VendorLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(PurchInvHeader."Cash Desk Code CZP");
@@ -317,7 +290,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromPurchaseCrMemo(PurchCrMemoHdr: Record "Purch. Cr. Memo Hdr.")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        VendorLedgerEntry: Record "Vendor Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -326,14 +298,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         PurchCrMemoHdr.CalcFields("Amount Including VAT");
         if PurchCrMemoHdr."Amount Including VAT" = 0 then
-            exit;
-
-        VendorLedgerEntry.SetCurrentKey("Document No.");
-        VendorLedgerEntry.SetRange("Document No.", PurchCrMemoHdr."No.");
-        VendorLedgerEntry.SetRange("Document Type", VendorLedgerEntry."Document Type"::"Credit Memo");
-        VendorLedgerEntry.SetRange("Vendor No.", PurchCrMemoHdr."Buy-from Vendor No.");
-        VendorLedgerEntry.SetRange(Open, true);
-        if VendorLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(PurchCrMemoHdr."Cash Desk Code CZP");
@@ -355,7 +319,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromServiceInvoice(ServiceInvoiceHeader: Record "Service Invoice Header")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        CustLedgerEntry: Record "Cust. Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -364,14 +327,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         ServiceInvoiceHeader.CalcFields("Amount Including VAT");
         if ServiceInvoiceHeader."Amount Including VAT" = 0 then
-            exit;
-
-        CustLedgerEntry.SetCurrentKey("Document No.");
-        CustLedgerEntry.SetRange("Document No.", ServiceInvoiceHeader."No.");
-        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::Invoice);
-        CustLedgerEntry.SetRange("Customer No.", ServiceInvoiceHeader."Bill-to Customer No.");
-        CustLedgerEntry.SetRange(Open, true);
-        if CustLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(ServiceInvoiceHeader."Cash Desk Code CZP");
@@ -393,7 +348,6 @@ codeunit 11724 "Cash Desk Management CZP"
     procedure CreateCashDocumentFromServiceCrMemo(ServiceCrMemoHeader: Record "Service Cr.Memo Header")
     var
         CashDocumentHeaderCZP: Record "Cash Document Header CZP";
-        CustLedgerEntry: Record "Cust. Ledger Entry";
         DummyCashDocumentLineCZP: Record "Cash Document Line CZP";
         CashDeskCZP: Record "Cash Desk CZP";
     begin
@@ -402,14 +356,6 @@ codeunit 11724 "Cash Desk Management CZP"
 
         ServiceCrMemoHeader.CalcFields("Amount Including VAT");
         if ServiceCrMemoHeader."Amount Including VAT" = 0 then
-            exit;
-
-        CustLedgerEntry.SetCurrentKey("Document No.");
-        CustLedgerEntry.SetRange("Document No.", ServiceCrMemoHeader."No.");
-        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::"Credit Memo");
-        CustLedgerEntry.SetRange("Customer No.", ServiceCrMemoHeader."Bill-to Customer No.");
-        CustLedgerEntry.SetRange(Open, true);
-        if CustLedgerEntry.IsEmpty() then
             exit;
 
         CashDeskCZP.Get(ServiceCrMemoHeader."Cash Desk Code CZP");

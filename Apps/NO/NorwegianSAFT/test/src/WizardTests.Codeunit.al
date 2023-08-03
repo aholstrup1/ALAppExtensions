@@ -23,7 +23,7 @@ codeunit 148101 "SAF-T Wizard Tests"
     var
         SAFTMappingRange: Record "SAF-T Mapping Range";
         SAFTMapping: Record "SAF-T Mapping";
-        VATReportingCode: Record "VAT Reporting Code";
+        VATCode: Record "VAT Code";
         SAFTSetupWizard: TestPage "SAF-T Setup Wizard";
         OldVATCodeQty: Integer;
     begin
@@ -31,7 +31,7 @@ codeunit 148101 "SAF-T Wizard Tests"
 
         Initialize();
         LibraryPermissions.SetTestabilitySoftwareAsAService(true);
-        OldVATCodeQty := VATReportingCode.Count();
+        OldVATCodeQty := VATCode.Count();
 
         SAFTSetupWizard.OpenEdit();
         SAFTSetupWizard.ActionNext.Invoke();
@@ -45,7 +45,7 @@ codeunit 148101 "SAF-T Wizard Tests"
 
         SAFTMapping.SetRange("Mapping Type", SAFTMapping."Mapping Type"::"Two Digit Standard Account");
         Assert.RecordIsNotEmpty(SAFTMapping);
-        Assert.IsTrue(VATReportingCode.Count() > OldVATCodeQty, 'No new VAT Codes been inserted');
+        Assert.IsTrue(VATCode.Count() > OldVATCodeQty, 'No new VAT Codes been inserted');
         LibraryPermissions.SetTestabilitySoftwareAsAService(false);
     end;
 
@@ -185,11 +185,7 @@ codeunit 148101 "SAF-T Wizard Tests"
     procedure MapVATPostingSetup()
     var
         SAFTMappingRange: Record "SAF-T Mapping Range";
-#if CLEAN23
-        VATReportingCode: Record "VAT Reporting Code";
-#else
         VATCode: Record "VAT Code";
-#endif
         VATPostingSetup: Record "VAT Posting Setup";
         AccountingPeriod: Record "Accounting Period";
         SAFTSetupWizard: TestPage "SAF-T Setup Wizard";
@@ -208,22 +204,13 @@ codeunit 148101 "SAF-T Wizard Tests"
         SAFTSetupWizard.ActionNext.Invoke();
         SAFTSetupWizard.ActionNext.Invoke();
 
-#if CLEAN23
-        VATReportingCode.FindSet();
-        LibraryVariableStorage.Enqueue(VATReportingCode.Code);
-        VATReportingCode.Next();
-        LibraryVariableStorage.Enqueue(VATReportingCode.Code);
-        SAFTSetupWizard.OpenVATMapping.Drilldown();
-        SAFTSetupWizard.VATMappedInfo.AssertEquals(StrSubstNo('1/%1', VATPostingSetup.Count()));
-#else
         VATCode.FindSet();
         LibraryVariableStorage.Enqueue(VATCode.Code);
         VATCode.Next();
         LibraryVariableStorage.Enqueue(VATCode.Code);
         SAFTSetupWizard.OpenVATMapping.Drilldown();
-        SAFTSetupWizard.VATMappedInfo.AssertEquals(StrSubstNo('1/%1', VATPostingSetup.Count()));
-#endif
 
+        SAFTSetupWizard.VATMappedInfo.AssertEquals(StrSubstNo('1/%1', VATPostingSetup.Count()));
         LibraryVariableStorage.AssertEmpty();
         LibraryPermissions.SetTestabilitySoftwareAsAService(false);
     end;
@@ -332,13 +319,8 @@ codeunit 148101 "SAF-T Wizard Tests"
     [ModalPageHandler]
     procedure MapVATPostingSetupModalPageHander(var SAFTVATPostingSetup: TestPage "SAF-T VAT Posting Setup")
     begin
-#if CLEAN23
-        SAFTVATPostingSetup."Sale VAT Reporting Code".SetValue(LibraryVariableStorage.DequeueText());
-        SAFTVATPostingSetup."Purch. VAT Reporting Code".SetValue(LibraryVariableStorage.DequeueText());
-#else
         SAFTVATPostingSetup."Sales SAF-T Standard Tax Code".SetValue(LibraryVariableStorage.DequeueText());
         SAFTVATPostingSetup."Purch. SAF-T Standard Tax Code".SetValue(LibraryVariableStorage.DequeueText());
-#endif
     end;
 
     [ModalPageHandler]

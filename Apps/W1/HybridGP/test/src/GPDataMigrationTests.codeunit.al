@@ -13,7 +13,6 @@ codeunit 139664 "GP Data Migration Tests"
         GPCustomer: Record "GP Customer";
         GPVendor: Record "GP Vendor";
         GPVendorAddress: Record "GP Vendor Address";
-        GPCustomerAddress: Record "GP Customer Address";
         GPSY06000: Record "GP SY06000";
         GPMC40200: Record "GP MC40200";
         GPPM00100: Record "GP PM00100";
@@ -22,7 +21,6 @@ codeunit 139664 "GP Data Migration Tests"
         GPRM00201: Record "GP RM00201";
         GPPOP10100: Record "GP POP10100";
         GPPOP10110: Record "GP POP10110";
-        GPSY01200: Record "GP SY01200";
         GPTestHelperFunctions: Codeunit "GP Test Helper Functions";
         CustomerFacade: Codeunit "Customer Data Migration Facade";
         CustomerMigrator: Codeunit "GP Customer Migrator";
@@ -57,7 +55,6 @@ codeunit 139664 "GP Data Migration Tests"
     var
         Customer: Record "Customer";
         GenJournalLine: Record "Gen. Journal Line";
-        ShipToAddress: Record "Ship-to Address";
         InitialGenJournalLineCount: Integer;
         CustomerCount: Integer;
     begin
@@ -175,21 +172,6 @@ codeunit 139664 "GP Data Migration Tests"
         GenJournalLine.SetRange("Account No.", '#1');
         Assert.IsTrue(GenJournalLine.FindFirst(), 'Could not locate Gen. Journal Line.');
         Assert.AreEqual('', GenJournalLine."Bal. Account No.", 'Incorrect Bal. Account No. on Gen. Journal Line.');
-
-
-        // [WHEN] Customer addresses are migrated
-        // [THEN] Email addresses are included with the addresses when they are valid
-        Assert.IsTrue(ShipToAddress.Get('#1', 'PRIMARY'), 'Customer primary address does not exist.');
-        Assert.AreEqual('GoodEmailAddress@testing.tst', ShipToAddress."E-Mail", 'Customer primary address email was not set correctly.');
-
-        Assert.IsTrue(ShipToAddress.Get('#1', 'BILLING'), 'Customer billing address does not exist.');
-        Assert.AreEqual('GoodEmailAddress2@testing.tst', ShipToAddress."E-Mail", 'Customer billing address email was not set correctly.');
-
-        Assert.IsTrue(ShipToAddress.Get('#1', 'WAREHOUSE'), 'Customer warehouse address does not exist.');
-        Assert.AreEqual('', ShipToAddress."E-Mail", 'Customer warehouse address email should be empty.');
-
-        Assert.IsTrue(ShipToAddress.Get('#1', 'OTHER'), 'Customer other address does not exist.');
-        Assert.AreEqual('', ShipToAddress."E-Mail", 'Customer other address email should be empty.');
     end;
 
     [Test]
@@ -542,20 +524,6 @@ codeunit 139664 "GP Data Migration Tests"
         GenJournalLine.SetRange("Account No.", 'V3130');
         Assert.IsTrue(GenJournalLine.FindFirst(), 'Could not locate Gen. Journal Line.');
         Assert.AreEqual('1', GenJournalLine."Bal. Account No.", 'Incorrect Bal. Account No. on Gen. Journal Line.');
-
-        // [WHEN] Vendor addresses are migrated
-        // [THEN] Email addresses are included with the addresses when they are valid
-        Assert.IsTrue(OrderAddress.Get('ACME', 'PRIMARY'), 'Vendor primary address does not exist.');
-        Assert.AreEqual('GoodEmailAddress@testing.tst', OrderAddress."E-Mail", 'Vendor primary address email was not set correctly.');
-
-        Assert.IsTrue(RemitAddress.Get('REMIT TO', 'ACME'), 'Vendor remit address does not exist.');
-        Assert.AreEqual('GoodEmailAddress2@testing.tst', RemitAddress."E-Mail", 'Vendor remit address email was not set correctly.');
-
-        Assert.IsTrue(OrderAddress.Get('ACETRAVE0001', 'PRIMARY'), 'Vendor primary address does not exist.');
-        Assert.AreEqual('', OrderAddress."E-Mail", 'Vendor primary address email should be empty.');
-
-        Assert.IsTrue(RemitAddress.Get('REMIT TO', 'ACETRAVE0001'), 'Vendor remit address does not exist.');
-        Assert.AreEqual('', RemitAddress."E-Mail", 'Vendor remit address email should be empty.');
     end;
 
     [Test]
@@ -1398,7 +1366,6 @@ codeunit 139664 "GP Data Migration Tests"
         GPConfiguration.DeleteAll();
         GPTestHelperFunctions.DeleteAllSettings();
         GPCustomer.DeleteAll();
-        GPCustomerAddress.DeleteAll();
         GPVendorAddress.DeleteAll();
         GPVendor.DeleteAll();
         GPPM00100.DeleteAll();
@@ -1407,7 +1374,6 @@ codeunit 139664 "GP Data Migration Tests"
         GPRM00201.DeleteAll();
         GPPOP10100.DeleteAll();
         GPPOP10110.DeleteAll();
-        GPSY01200.DeleteAll();
 
         if not GenBusPostingGroup.Get(PostingGroupCodeTxt) then begin
             GenBusPostingGroup.Validate("Code", PostingGroupCodeTxt);
@@ -1462,7 +1428,9 @@ codeunit 139664 "GP Data Migration Tests"
 
     local procedure CreateCustomerData()
     begin
-        Clear(GPCustomer);
+        GPCustomer.DeleteAll();
+
+        GPCustomer.Init();
         GPCustomer.CUSTNMBR := '!WOW!';
         GPCustomer.CUSTNAME := 'Oh! What a feeling!';
         GPCustomer.STMTNAME := 'Oh! What a feeling!';
@@ -1489,7 +1457,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPCustomer.TAXEXMT1 := '';
         GPCustomer.Insert();
 
-        Clear(GPCustomer);
+        GPCustomer.Init();
         GPCustomer.CUSTNMBR := '"AMERICAN"';
         GPCustomer.CUSTNAME := '"American Clothing"';
         GPCustomer.STMTNAME := '"American Clothing"';
@@ -1516,7 +1484,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPCustomer.TAXEXMT1 := '';
         GPCustomer.Insert();
 
-        Clear(GPCustomer);
+        GPCustomer.Init();
         GPCustomer.CUSTNMBR := '#1';
         GPCustomer.CUSTNAME := '#1 Company';
         GPCustomer.STMTNAME := '#1 Company';
@@ -1542,82 +1510,6 @@ codeunit 139664 "GP Data Migration Tests"
         GPCustomer.UPSZONE := 'P3';
         GPCustomer.TAXEXMT1 := '';
         GPCustomer.Insert();
-
-        Clear(GPCustomerAddress);
-        GPCustomerAddress.CUSTNMBR := CopyStr(GPCustomer.CUSTNMBR, 1, MaxStrLen(GPCustomerAddress.CUSTNMBR));
-        GPCustomerAddress.ADRSCODE := 'PRIMARY';
-        GPCustomerAddress.ADDRESS1 := GPCustomer.ADDRESS1;
-        GPCustomerAddress.CITY := GPCustomer.CITY;
-        GPCustomerAddress.CNTCPRSN := 'Test user';
-        GPCustomerAddress.SHIPMTHD := 'GROUND';
-        GPCustomerAddress.STATE := GPCustomer.STATE;
-        GPCustomerAddress.ZIP := GPCustomer.ZIPCODE;
-        GPCustomerAddress.TAXSCHID := GPCustomer.TAXSCHID;
-        GPCustomerAddress.Insert();
-
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'CUS';
-        GPSY01200.Master_ID := GPCustomerAddress.CUSTNMBR;
-        GPSY01200.ADRSCODE := GPCustomerAddress.ADRSCODE;
-        GPSY01200.INET1 := 'GoodEmailAddress@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPCustomerAddress);
-        GPCustomerAddress.CUSTNMBR := CopyStr(GPCustomer.CUSTNMBR, 1, MaxStrLen(GPCustomerAddress.CUSTNMBR));
-        GPCustomerAddress.ADRSCODE := 'BILLING';
-        GPCustomerAddress.ADDRESS1 := GPCustomer.ADDRESS1;
-        GPCustomerAddress.CITY := GPCustomer.CITY;
-        GPCustomerAddress.CNTCPRSN := 'Test user';
-        GPCustomerAddress.SHIPMTHD := 'GROUND';
-        GPCustomerAddress.STATE := GPCustomer.STATE;
-        GPCustomerAddress.ZIP := GPCustomer.ZIPCODE;
-        GPCustomerAddress.TAXSCHID := GPCustomer.TAXSCHID;
-        GPCustomerAddress.Insert();
-
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'CUS';
-        GPSY01200.Master_ID := GPCustomerAddress.CUSTNMBR;
-        GPSY01200.ADRSCODE := GPCustomerAddress.ADRSCODE;
-        GPSY01200.INET1 := 'GoodEmailAddress2@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPCustomerAddress);
-        GPCustomerAddress.CUSTNMBR := CopyStr(GPCustomer.CUSTNMBR, 1, MaxStrLen(GPCustomerAddress.CUSTNMBR));
-        GPCustomerAddress.ADRSCODE := 'WAREHOUSE';
-        GPCustomerAddress.ADDRESS1 := GPCustomer.ADDRESS1;
-        GPCustomerAddress.CITY := GPCustomer.CITY;
-        GPCustomerAddress.CNTCPRSN := 'Test user';
-        GPCustomerAddress.SHIPMTHD := 'GROUND';
-        GPCustomerAddress.STATE := GPCustomer.STATE;
-        GPCustomerAddress.ZIP := GPCustomer.ZIPCODE;
-        GPCustomerAddress.TAXSCHID := GPCustomer.TAXSCHID;
-        GPCustomerAddress.Insert();
-
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'CUS';
-        GPSY01200.Master_ID := GPCustomerAddress.CUSTNMBR;
-        GPSY01200.ADRSCODE := GPCustomerAddress.ADRSCODE;
-        GPSY01200.INET1 := 'bad email address@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPCustomerAddress);
-        GPCustomerAddress.CUSTNMBR := CopyStr(GPCustomer.CUSTNMBR, 1, MaxStrLen(GPCustomerAddress.CUSTNMBR));
-        GPCustomerAddress.ADRSCODE := 'OTHER';
-        GPCustomerAddress.ADDRESS1 := GPCustomer.ADDRESS1;
-        GPCustomerAddress.CITY := GPCustomer.CITY;
-        GPCustomerAddress.CNTCPRSN := 'Test user';
-        GPCustomerAddress.SHIPMTHD := 'GROUND';
-        GPCustomerAddress.STATE := GPCustomer.STATE;
-        GPCustomerAddress.ZIP := GPCustomer.ZIPCODE;
-        GPCustomerAddress.TAXSCHID := GPCustomer.TAXSCHID;
-        GPCustomerAddress.Insert();
-
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'CUS';
-        GPSY01200.Master_ID := GPCustomerAddress.CUSTNMBR;
-        GPSY01200.ADRSCODE := GPCustomerAddress.ADRSCODE;
-        GPSY01200.INET1 := '';
-        GPSY01200.Insert();
     end;
 
     local procedure CreateCustomerTrx()
@@ -1759,7 +1651,10 @@ codeunit 139664 "GP Data Migration Tests"
 
     local procedure CreateVendorData()
     begin
-        Clear(GPVendor);
+        GPVendor.DeleteAll();
+        GPVendorAddress.DeleteAll();
+
+        GPVendor.Init();
         GPVendor.VENDORID := '%#$!<>';
         GPVendor.VENDNAME := 'Light';
         GPVendor.SEARCHNAME := 'Light';
@@ -1784,7 +1679,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '&2010';
         GPVendor.VENDNAME := 'American Airlines Cargo';
         GPVendor.SEARCHNAME := 'American Airlines Cargo';
@@ -1809,7 +1704,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '(=)';
         GPVendor.VENDNAME := 'L.B. Foster Company';
         GPVendor.SEARCHNAME := 'L.B. Foster Company';
@@ -1834,7 +1729,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '10(61)';
         GPVendor.VENDNAME := 'ACS Hydrolics';
         GPVendor.SEARCHNAME := 'ACS Hydrolics';
@@ -1859,7 +1754,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '100000';
         GPVendor.VENDNAME := 'Alexander & Alexander';
         GPVendor.SEARCHNAME := 'Alexander & Alexander';
@@ -1884,7 +1779,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1021';
         GPVendor.VENDNAME := 'Swieco';
         GPVendor.SEARCHNAME := 'Swieco';
@@ -1909,7 +1804,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1090';
         GPVendor.VENDNAME := 'Adleta Company, Inc.';
         GPVendor.SEARCHNAME := 'Adleta Company, Inc.';
@@ -1934,7 +1829,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '110ADV';
         GPVendor.VENDNAME := 'Lighting Technologies';
         GPVendor.SEARCHNAME := 'Lighting Technologies';
@@ -1959,7 +1854,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1122';
         GPVendor.VENDNAME := 'Airborne Express';
         GPVendor.SEARCHNAME := 'Airborne Express';
@@ -1984,7 +1879,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1123';
         GPVendor.VENDNAME := 'Electric & Air Tool Company';
         GPVendor.SEARCHNAME := 'Electric & Air Tool Company';
@@ -2009,7 +1904,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1140';
         GPVendor.VENDNAME := 'Air, Power Tool & Hoist Inc.';
         GPVendor.SEARCHNAME := 'Air, Power Tool & Hoist Inc.';
@@ -2034,7 +1929,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '11460';
         GPVendor.VENDNAME := 'Bowen Supply, Inc.';
         GPVendor.SEARCHNAME := 'Bowen Supply, Inc.';
@@ -2059,7 +1954,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '1160';
         GPVendor.VENDNAME := 'Risco, Inc.';
         GPVendor.SEARCHNAME := 'Risco, Inc.';
@@ -2084,7 +1979,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '11@20%';
         GPVendor.VENDNAME := 'Shield Plastic Co.';
         GPVendor.SEARCHNAME := 'Shield Plastic Co.';
@@ -2109,7 +2004,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3009';
         GPVendor.VENDNAME := 'Jorgensen Stell and Aluminum';
         GPVendor.SEARCHNAME := 'Jorgensen Stell and Aluminum';
@@ -2134,7 +2029,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3025';
         GPVendor.VENDNAME := 'Kilsby-Roberts';
         GPVendor.SEARCHNAME := 'Kilsby-Roberts';
@@ -2159,7 +2054,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3030';
         GPVendor.VENDNAME := 'Kaltenback Inc.';
         GPVendor.SEARCHNAME := 'Kaltenback Inc.';
@@ -2184,7 +2079,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3070';
         GPVendor.VENDNAME := 'L.M. Berry & co. -NYPS';
         GPVendor.SEARCHNAME := 'L.M. Berry & co. -NYPS';
@@ -2209,7 +2104,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3080';
         GPVendor.VENDNAME := 'Lake Shore Electric';
         GPVendor.SEARCHNAME := 'Lake Shore Electric';
@@ -2234,7 +2129,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3090';
         GPVendor.VENDNAME := 'Lane McDuff Company Inc.';
         GPVendor.SEARCHNAME := 'Lane McDuff Company Inc.';
@@ -2259,7 +2154,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3102';
         GPVendor.VENDNAME := 'Franklin Elextric Services';
         GPVendor.SEARCHNAME := 'Franklin Elextric Services';
@@ -2284,7 +2179,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3102-0';
         GPVendor.VENDNAME := 'Lay Machinery Company, Inc.';
         GPVendor.SEARCHNAME := 'Lay Machinery Company, Inc.';
@@ -2309,7 +2204,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '3160';
         GPVendor.VENDNAME := 'Quist Paper Company';
         GPVendor.SEARCHNAME := 'Quist Paper Company';
@@ -2334,7 +2229,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '55544';
         GPVendor.VENDNAME := 'Longhorn Gasket & Supply Co.';
         GPVendor.SEARCHNAME := 'Longhorn Gasket & Supply Co.';
@@ -2359,7 +2254,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '6544';
         GPVendor.VENDNAME := 'John Roberts';
         GPVendor.SEARCHNAME := 'John Roberts';
@@ -2384,7 +2279,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '9999';
         GPVendor.VENDNAME := 'Lighting Technologies';
         GPVendor.SEARCHNAME := 'Lighting Technologies';
@@ -2409,7 +2304,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := ':V6544';
         GPVendor.VENDNAME := 'Sarah Roberts';
         GPVendor.SEARCHNAME := 'Sarah Roberts';
@@ -2434,7 +2329,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := '?11 40';
         GPVendor.VENDNAME := 'Friplex Tire & Appliance';
         GPVendor.SEARCHNAME := 'Friplex Tire & Appliance';
@@ -2459,7 +2354,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'A11--70';
         GPVendor.VENDNAME := 'Alexander & Alexander';
         GPVendor.SEARCHNAME := 'Alexander & Alexander';
@@ -2484,7 +2379,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'ACETRAVE0001';
         GPVendor.VENDNAME := 'A Travel Company';
         GPVendor.SEARCHNAME := 'A Travel Company';
@@ -2509,8 +2404,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '';
         GPVendor.Insert();
 
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodePrimaryTxt;
         GPVendorAddress.VNDCNTCT := 'Greg Powell';
         GPVendorAddress.ADDRESS1 := '123 Riley Street';
@@ -2522,15 +2417,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '29455501010000';
         GPVendorAddress.Insert();
 
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'VEN';
-        GPSY01200.Master_ID := GPVendorAddress.VENDORID;
-        GPSY01200.ADRSCODE := GPVendorAddress.ADRSCODE;
-        GPSY01200.INET1 := 'bad email address@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodeRemitToTxt;
         GPVendorAddress.VNDCNTCT := 'Greg Powell';
         GPVendorAddress.ADDRESS1 := 'Box 342';
@@ -2542,20 +2430,13 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '29455501020000';
         GPVendorAddress.Insert();
 
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'VEN';
-        GPSY01200.Master_ID := GPVendorAddress.VENDORID;
-        GPSY01200.ADRSCODE := GPVendorAddress.ADRSCODE;
-        GPSY01200.INET1 := '                          ';
-        GPSY01200.Insert();
-
-        Clear(GPPM00200);
-        GPPM00200.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPPM00200.VENDORID));
+        GPPM00200.Init();
+        GPPM00200.VENDORID := GPVendor.VENDORID;
         GPPM00200.VADDCDPR := AddressCodePrimaryTxt;
         GPPM00200.VADCDTRO := AddressCodeRemitToTxt;
         GPPM00200.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'ACETRAVE0002';
         GPVendor.VENDNAME := 'A Travel Company 2';
         GPVendor.SEARCHNAME := 'A Travel Company 2';
@@ -2580,8 +2461,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '';
         GPVendor.Insert();
 
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodePrimaryTxt;
         GPVendorAddress.VNDCNTCT := 'Greg Powell Jr.';
         GPVendorAddress.ADDRESS1 := '124 Riley Street';
@@ -2593,8 +2474,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '61855501040000';
         GPVendorAddress.Insert();
 
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodeWarehouseTxt;
         GPVendorAddress.VNDCNTCT := 'Greg Powell Jr.';
         GPVendorAddress.ADDRESS1 := '124 Riley Street';
@@ -2606,13 +2487,13 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '00000000000000';
         GPVendorAddress.Insert();
 
-        Clear(GPPM00200);
-        GPPM00200.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPPM00200.VENDORID));
+        GPPM00200.Init();
+        GPPM00200.VENDORID := GPVendor.VENDORID;
         GPPM00200.VADDCDPR := AddressCodePrimaryTxt;
         GPPM00200.VADCDSFR := AddressCodeRemitToTxt;
         GPPM00200.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'ACME';
         GPVendor.VENDNAME := 'Acme Truck Line';
         GPVendor.SEARCHNAME := 'Acme Truck Line';
@@ -2637,8 +2518,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodePrimaryTxt;
         GPVendorAddress.VNDCNTCT := 'Mr. Lashro';
         GPVendorAddress.ADDRESS1 := 'P.O. Box 183';
@@ -2650,15 +2531,8 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '30543212900000';
         GPVendorAddress.Insert();
 
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'VEN';
-        GPSY01200.Master_ID := GPVendorAddress.VENDORID;
-        GPSY01200.ADRSCODE := GPVendorAddress.ADRSCODE;
-        GPSY01200.INET1 := 'GoodEmailAddress@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPVendorAddress);
-        GPVendorAddress.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPVendorAddress.VENDORID));
+        GPVendorAddress.Init();
+        GPVendorAddress.VENDORID := GPVendor.VENDORID;
         GPVendorAddress.ADRSCODE := AddressCodeRemitToTxt;
         GPVendorAddress.VNDCNTCT := 'Mr. Lashro';
         GPVendorAddress.ADDRESS1 := 'P.O. Box 183';
@@ -2670,20 +2544,13 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendorAddress.FAXNUMBR := '30543212900000';
         GPVendorAddress.Insert();
 
-        Clear(GPSY01200);
-        GPSY01200.Master_Type := 'VEN';
-        GPSY01200.Master_ID := GPVendorAddress.VENDORID;
-        GPSY01200.ADRSCODE := GPVendorAddress.ADRSCODE;
-        GPSY01200.INET1 := 'GoodEmailAddress2@testing.tst';
-        GPSY01200.Insert();
-
-        Clear(GPPM00200);
-        GPPM00200.VENDORID := CopyStr(GPVendor.VENDORID, 1, MaxStrLen(GPPM00200.VENDORID));
+        GPPM00200.Init();
+        GPPM00200.VENDORID := GPVendor.VENDORID;
         GPPM00200.VADDCDPR := AddressCodePrimaryTxt;
         GPPM00200.VADCDTRO := AddressCodeRemitToTxt;
         GPPM00200.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'ADEMCO';
         GPVendor.VENDNAME := 'ADEMCO';
         GPVendor.SEARCHNAME := 'ADEMCO';
@@ -2708,7 +2575,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'AIRCARG';
         GPVendor.VENDNAME := 'American Airlines Cargo';
         GPVendor.SEARCHNAME := 'American Airlines Cargo';
@@ -2733,7 +2600,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'AMERICA';
         GPVendor.VENDNAME := 'American Airlines Cargo';
         GPVendor.SEARCHNAME := 'American Airlines Cargo';
@@ -2758,7 +2625,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'C1161';
         GPVendor.VENDNAME := 'All Controls Company';
         GPVendor.SEARCHNAME := 'All Controls Company';
@@ -2783,7 +2650,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'CHUB';
         GPVendor.VENDNAME := 'Chub';
         GPVendor.SEARCHNAME := 'Chub';
@@ -2808,7 +2675,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'CORWIN';
         GPVendor.VENDNAME := 'CORWIN';
         GPVendor.SEARCHNAME := 'CORWIN';
@@ -2833,7 +2700,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'DUFFY';
         GPVendor.VENDNAME := 'Duffy';
         GPVendor.SEARCHNAME := 'Duffy';
@@ -2858,7 +2725,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'FREIGHT';
         GPVendor.VENDNAME := 'Air Freight Services';
         GPVendor.SEARCHNAME := 'Air Freight Services';
@@ -2883,7 +2750,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'GERELL';
         GPVendor.VENDNAME := 'Gerell';
         GPVendor.SEARCHNAME := 'Gerell';
@@ -2908,7 +2775,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'KNIGHT';
         GPVendor.VENDNAME := 'Knight';
         GPVendor.SEARCHNAME := 'Knight';
@@ -2933,7 +2800,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'LASITOR';
         GPVendor.VENDNAME := 'Lasitor plumbing';
         GPVendor.SEARCHNAME := 'Lasitor plumbing';
@@ -2958,7 +2825,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'LNESTAR';
         GPVendor.VENDNAME := 'Lone Star Fuel Injections';
         GPVendor.SEARCHNAME := 'Lone Star Fuel Injections';
@@ -2983,7 +2850,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'LONSTAR';
         GPVendor.VENDNAME := 'Lone Star Gas Company';
         GPVendor.SEARCHNAME := 'Lone Star Gas Company';
@@ -3008,7 +2875,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'MACHO';
         GPVendor.VENDNAME := 'Macho Tire Company';
         GPVendor.SEARCHNAME := 'Macho Tire Company';
@@ -3033,7 +2900,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'RAYS';
         GPVendor.VENDNAME := 'Rays Auto Supply';
         GPVendor.SEARCHNAME := 'Rays Auto Supply';
@@ -3058,7 +2925,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'S.S. SALES';
         GPVendor.VENDNAME := 'S.S. Sales';
         GPVendor.SEARCHNAME := 'S.S. Sales';
@@ -3083,7 +2950,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V1030';
         GPVendor.VENDNAME := 'ABF Freight Systems Inc.';
         GPVendor.SEARCHNAME := 'ABF Freight Systems Inc.';
@@ -3108,7 +2975,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V1100';
         GPVendor.VENDNAME := 'Advanced Image Systems Inc.';
         GPVendor.SEARCHNAME := 'Advanced Image Systems Inc.';
@@ -3133,7 +3000,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V1150000';
         GPVendor.VENDNAME := 'Aircom Fasterners';
         GPVendor.SEARCHNAME := 'Aircom Fasterners';
@@ -3158,7 +3025,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V3110';
         GPVendor.VENDNAME := 'Joe Lancaster';
         GPVendor.SEARCHNAME := 'Joe Lancaster';
@@ -3183,7 +3050,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-002978';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V3120';
         GPVendor.VENDNAME := 'Quist Paper Company';
         GPVendor.SEARCHNAME := 'Quist Paper Company';
@@ -3208,7 +3075,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendor);
+        GPVendor.Init();
         GPVendor.VENDORID := 'V3130';
         GPVendor.VENDNAME := 'Lmd Telecom, Inc.';
         GPVendor.SEARCHNAME := 'Lmd Telecom, Inc.';
@@ -3233,7 +3100,7 @@ codeunit 139664 "GP Data Migration Tests"
         GPVendor.TXIDNMBR := '45-0029728';
         GPVendor.Insert();
 
-        Clear(GPVendorAddress);
+        GPVendorAddress.Init();
         GPVendorAddress.VENDORID := 'V3130';
         GPVendorAddress.ADRSCODE := AddressCodePrimaryTxt;
         GPVendorAddress.VNDCNTCT := 'Test Contact';

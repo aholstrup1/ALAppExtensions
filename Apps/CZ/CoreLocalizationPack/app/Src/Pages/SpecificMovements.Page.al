@@ -1,14 +1,10 @@
-#if not CLEAN22
 page 31038 "Specific Movements CZL"
 {
     ApplicationArea = Basic, Suite;
-    Caption = 'Specific Movements (Obsolete)';
+    Caption = 'Specific Movements';
     PageType = List;
     SourceTable = "Specific Movement CZL";
     UsageCategory = Administration;
-    ObsoleteState = Pending;
-    ObsoleteTag = '22.0';
-    ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
 
     layout
     {
@@ -49,4 +45,3 @@ page 31038 "Specific Movements CZL"
         }
     }
 }
-#endif

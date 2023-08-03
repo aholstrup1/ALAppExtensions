@@ -1,14 +1,10 @@
-#if not CLEAN22
 page 31078 "Statistic Indications CZL"
 {
     ApplicationArea = Basic, Suite;
-    Caption = 'Statistic Indications (Obsolete)';
+    Caption = 'Statistic Indications';
     PageType = List;
     SourceTable = "Statistic Indication CZL";
     UsageCategory = Administration;
-    ObsoleteState = Pending;
-    ObsoleteTag = '22.0';
-    ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
 
     layout
     {
@@ -54,4 +50,3 @@ page 31078 "Statistic Indications CZL"
         }
     }
 }
-#endif

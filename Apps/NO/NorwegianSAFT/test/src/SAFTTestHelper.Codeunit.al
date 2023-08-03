@@ -423,19 +423,19 @@ codeunit 148099 "SAF-T Test Helper"
     local procedure SetupVATPostingSetupMapping()
     var
         VATPostingSetup: Record "VAT Posting Setup";
-        VATReportingCode: Record "VAT Reporting Code";
+        VATCode: Record "VAT Code";
     begin
         VATPostingSetup.FindSet();
         VATPostingSetup.Next(); // do not specify any value for Standard Tax Code in order to verify that NA value will be exported in the XML file
-        VATReportingCode.FindSet();
+        VATCode.FindSet();
         repeat
-            VATPostingSetup.Validate("Sale VAT Reporting Code", VATReportingCode.Code);
-            VATPostingSetup.Validate("Purch. VAT Reporting Code", VATReportingCode.Code);
+            VATPostingSetup.Validate("Sales SAF-T Standard Tax Code", VATCode.Code);
+            VATPostingSetup.Validate("Purch. SAF-T Standard Tax Code", VATCode.Code);
             VATPostingSetup.Validate("Calc. Prop. Deduction VAT", false);
             VATPostingSetup.Modify(true);
-            VATReportingCode.Next();
+            VATCode.Next();
         until VATPostingSetup.Next() = 0;
-        VATReportingCode.ModifyAll(Compensation, false);
+        VATCode.ModifyAll(Compensation, false);
     end;
 
     local procedure SetupCompanyBankAccounts()

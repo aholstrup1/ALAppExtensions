@@ -178,18 +178,12 @@ pageextension 11746 "Posted Purch. Credit Memo CZL" extends "Posted Purchase Cre
                     Editable = false;
                     ToolTip = 'Specifies when the purchase header will use European Union third-party intermediate trade rules. This option complies with VAT accounting standards for EU third-party trade.';
                 }
-#if not CLEAN22
                 field("Intrastat Exclude CZL"; Rec."Intrastat Exclude CZL")
                 {
                     ApplicationArea = Basic, Suite;
-                    Caption = 'Intrastat Exclude (Obsolete)';
                     Editable = false;
                     ToolTip = 'Specifies that entry will be excluded from intrastat.';
-                    ObsoleteState = Pending;
-                    ObsoleteTag = '22.0';
-                    ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
                 }
-#endif
             }
             group(PaymentsCZL)
             {
@@ -259,21 +253,15 @@ pageextension 11746 "Posted Purch. Credit Memo CZL" extends "Posted Purchase Cre
                 }
             }
         }
-#if not CLEAN22
         addafter("Ship-to")
         {
             field("Physical Transfer CZL"; Rec."Physical Transfer CZL")
             {
                 ApplicationArea = Basic, Suite;
-                Caption = 'Physical Transfer (Obsolete)';
-                ToolTip = 'Specifies if there is physical transfer of the item.';
                 Editable = false;
-                ObsoleteState = Pending;
-                ObsoleteTag = '22.0';
-                ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
+                ToolTip = 'Specifies if there is physical transfer of the item.';
             }
         }
-#endif
     }
 
     actions

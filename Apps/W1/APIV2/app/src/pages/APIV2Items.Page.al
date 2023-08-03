@@ -29,20 +29,11 @@ page 30008 "APIV2 - Items"
                 }
                 field(displayName; Description)
                 {
-                    Caption = 'Display Name';
+                    Caption = 'DisplayName';
 
                     trigger OnValidate()
                     begin
                         RegisterFieldSet(FieldNo(Description));
-                    end;
-                }
-                field(displayName2; Rec."Description 2")
-                {
-                    Caption = 'Display Name 2';
-
-                    trigger OnValidate()
-                    begin
-                        RegisterFieldSet(FieldNo("Description 2"));
                     end;
                 }
                 field(type; Type)

@@ -24,7 +24,7 @@ codeunit 9802 "Log Activity Permissions"
         OnBeforeStart(SessionIdVar);
         TempTablePermissionBuffer.DeleteAll();
         if IsNull(EventReceiver) then
-            EventReceiver := EventReceiver.NavPermissionEventReceiver(SessionIdVar);
+            EventReceiver := EventReceiver.NavPermissionEventReceiver(SessionId());
 
         EventReceiver.RegisterForEvents();
     end;

@@ -85,7 +85,7 @@ codeunit 9026 "User Login Time Tracker"
     end;
 
     /// <summary>
-    /// Updates or creates the last login information of the current user (first, last and penultimate login date) for the current company.
+    /// Updates or creates the last login information of the current user (first, last and penultimate login date) for both the current company and for the environment.
     /// </summary>
     [Scope('OnPrem')]
     procedure CreateOrUpdateLoginInfo()
@@ -93,17 +93,6 @@ codeunit 9026 "User Login Time Tracker"
         UserLoginTimeTrackerImpl: Codeunit "User Login Time Tracker Impl.";
     begin
         UserLoginTimeTrackerImpl.CreateOrUpdateLoginInfo();
-    end;
-
-    /// <summary>
-    /// Creates login information of the current user for the environment.
-    /// </summary>
-    [Scope('OnPrem')]
-    procedure CreateEnvironmentLoginInfo()
-    var
-        UserLoginTimeTrackerImpl: Codeunit "User Login Time Tracker Impl.";
-    begin
-        UserLoginTimeTrackerImpl.CreateEnvironmentLoginInfo();
     end;
 
 #if not CLEAN21

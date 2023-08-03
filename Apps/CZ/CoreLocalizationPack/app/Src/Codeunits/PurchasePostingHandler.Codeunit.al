@@ -465,15 +465,11 @@ codeunit 31039 "Purchase Posting Handler CZL"
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnAfterCheckPurchDoc', '', false, false)]
-    local procedure CheckVatDateOnAfterCheckPurchDoc(var PurchHeader: Record "Purchase Header")
+    local procedure CheckIntrastatAndVatDateOnAfterCheckPurchDoc(var PurchHeader: Record "Purchase Header")
     var
         VATDateHandlerCZL: Codeunit "VAT Date Handler CZL";
     begin
-#if not CLEAN22
-#pragma warning disable AL0432
         PurchHeader.CheckIntrastatMandatoryFieldsCZL();
-#pragma warning restore AL0432
-#endif
         VATDateHandlerCZL.CheckVATDateCZL(PurchHeader);
     end;
 
@@ -609,8 +605,6 @@ codeunit 31039 "Purchase Posting Handler CZL"
         if PurchCrMemoHdr."Variable Symbol CZL" = '' then
             PurchCrMemoHdr."Variable Symbol CZL" := BankOperationsFunctionsCZL.CreateVariableSymbol(PurchCrMemoHdr."Vendor Cr. Memo No.");
     end;
-#if not CLEAN22
-#pragma warning disable AL0432
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnAfterTestPurchLine', '', false, false)]
     local procedure CheckIntrastatOnAfterTestPurchLine(PurchHeader: Record "Purchase Header"; PurchLine: Record "Purchase Line")
@@ -641,6 +635,8 @@ codeunit 31039 "Purchase Posting Handler CZL"
         ItemJournalLine."Incl. in Intrastat Amount CZL" := TempItemChargeAssignmentPurch."Incl. in Intrastat Amount CZL";
         ItemJournalLine."Incl. in Intrastat S.Value CZL" := TempItemChargeAssignmentPurch."Incl. in Intrastat S.Value CZL";
     end;
+#if not CLEAN22
+#pragma warning disable AL0432
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnAfterValidatePostingAndDocumentDate', '', false, false)]
     local procedure ValidateVATDateOnAfterValidatePostingAndDocumentDate(var PurchaseHeader: Record "Purchase Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean)
@@ -674,7 +670,8 @@ codeunit 31039 "Purchase Posting Handler CZL"
                 PurchaseHeader.Modify();
             end;
     end;
-
+#pragma warning restore AL0432 
+#endif
     [EventSubscriber(ObjectType::Report, Report::"Purchase Document - Test", 'OnAfterCheckPurchaseDoc', '', false, false)]
     local procedure CheckIntrastatMandatoryFieldsOnAfterCheckPurchaseDoc(PurchaseHeader: Record "Purchase Header"; var ErrorCounter: Integer; var ErrorText: array[99] of Text[250])
     var
@@ -699,8 +696,6 @@ codeunit 31039 "Purchase Posting Handler CZL"
                     AddError(StrSubstNo(MustBeSpecifiedLbl, PurchaseHeader.FieldCaption("Shipment Method Code")), ErrorCounter, ErrorText);
         end;
     end;
-#pragma warning restore AL0432 
-#endif
 
     [EventSubscriber(ObjectType::Report, Report::"Purchase Document - Test", 'OnAfterCheckPurchaseDoc', '', false, false)]
     local procedure CheckExternalDocumentNoOnAfterCheckPurchaseDoc(PurchaseHeader: Record "Purchase Header"; var ErrorCounter: Integer; var ErrorText: array[99] of Text[250])

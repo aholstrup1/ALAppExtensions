@@ -7,131 +7,60 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
             Caption = 'Tariff No.';
             TableRelation = "Tariff Number";
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
-#if not CLEAN22
-#pragma warning disable AL0432
+
             trigger OnValidate()
             begin
                 if "Tariff No. CZL" <> xRec."Tariff No. CZL" then
                     "Statistic Indication CZL" := '';
             end;
-#pragma warning restore AL0432
-#endif
         }
         field(31051; "Physical Transfer CZL"; Boolean)
         {
             Caption = 'Physical Transfer';
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
         }
         field(31052; "Incl. in Intrastat Amount CZL"; Boolean)
         {
             Caption = 'Incl. in Intrastat Amount';
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
-#if not CLEAN22
 
             trigger OnValidate()
             begin
                 TestField("Item Charge No.");
             end;
-#endif
         }
         field(31053; "Incl. in Intrastat S.Value CZL"; Boolean)
         {
             Caption = 'Incl. in Intrastat Stat. Value';
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
-#if not CLEAN22
 
             trigger OnValidate()
             begin
                 TestField("Item Charge No.");
             end;
-#endif
         }
         field(31054; "Net Weight CZL"; Decimal)
         {
             Caption = 'Net Weight';
             DecimalPlaces = 0 : 5;
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
         field(31057; "Country/Reg. of Orig. Code CZL"; Code[10])
         {
             Caption = 'Country/Region of Origin Code';
             TableRelation = "Country/Region";
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
         field(31058; "Statistic Indication CZL"; Code[10])
         {
             Caption = 'Statistic Indication';
-            DataClassification = CustomerContent;
-#if not CLEAN22
             TableRelation = "Statistic Indication CZL".Code where("Tariff No." = field("Tariff No. CZL"));
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions.';
+            DataClassification = CustomerContent;
         }
         field(31059; "Intrastat Transaction CZL"; Boolean)
         {
             Caption = 'Intrastat Transaction';
             DataClassification = CustomerContent;
-#if not CLEAN22
-            ObsoleteState = Pending;
-            ObsoleteTag = '22.0';
-#else
-            ObsoleteState = Removed;
-            ObsoleteTag = '25.0';
-#endif
-            ObsoleteReason = 'Intrastat related functionalities are moved to Intrastat extensions. This field is not used any more.';
         }
         field(31079; "Invt. Movement Template CZL"; Code[10])
         {
@@ -165,9 +94,7 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
             DataClassification = CustomerContent;
         }
     }
-#if not CLEAN22
 
-    [Obsolete('Intrastat related functionalities are moved to Intrastat extensions. This function is not used any more.', '22.0')]
     procedure CheckIntrastatCZL()
     var
         StatutoryReportingSetupCZL: Record "Statutory Reporting Setup CZL";
@@ -196,7 +123,6 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
         end;
     end;
 
-    [Obsolete('Intrastat related functionalities are moved to Intrastat extensions. This function is not used any more.', '22.0')]
     procedure CopyFromTransferLineCZL(TransferLine: Record "Transfer Line")
     var
         TransferHeader: Record "Transfer Header";
@@ -213,7 +139,6 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
         "Intrastat Transaction CZL" := TransferHeader.IsIntrastatTransactionCZL();
     end;
 
-    [Obsolete('Intrastat related functionalities are moved to Intrastat extensions. This function is not used any more.', '22.0')]
     procedure CopyFromServiceShipmentLineCZL(ServiceShipmentLine: Record "Service Shipment Line")
     begin
         "Tariff No. CZL" := ServiceShipmentLine."Tariff No. CZL";
@@ -224,5 +149,4 @@ tableextension 11709 "Item Journal Line CZL" extends "Item Journal Line"
             if ServiceShipmentLine."Qty. per Unit of Measure" <> 0 then
                 "Net Weight CZL" := Round("Net Weight CZL" / ServiceShipmentLine."Qty. per Unit of Measure", 0.00001);
     end;
-#endif
 }

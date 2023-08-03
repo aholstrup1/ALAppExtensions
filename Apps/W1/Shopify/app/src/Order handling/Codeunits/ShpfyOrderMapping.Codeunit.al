@@ -216,7 +216,7 @@ codeunit 30163 "Shpfy Order Mapping"
         if ContactBusinessRelation.FindFirst() then begin
             Contact.SetRange(Type, "contact Type"::Person);
             Contact.SetRange("Company No.", ContactBusinessRelation."Contact No.");
-            Contact.SetFilter(Name, '''@' + ContactName.Replace('''', '''''') + '''');
+            Contact.SetFilter(Name, '@' + ContactName);
             if Contact.FindFirst() then
                 exit(Contact."No.");
         end;

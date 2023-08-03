@@ -10,7 +10,6 @@ codeunit 31360 "Bank Statement Management CZB"
         if IsHandled then
             exit;
 
-        BankAccount.SetRange(Blocked, false);
         SelectedBankAccountForBankStatement := SelectBankAccount(BankAccount);
         if SelectedBankAccountForBankStatement then begin
             CheckBankAccessAllowed(BankAccount."No.");

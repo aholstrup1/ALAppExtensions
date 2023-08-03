@@ -24,7 +24,6 @@ codeunit 4615 "MailKit Client" implements "iSMTP Client"
 
     procedure Connect(Host: Text; Port: Integer; SecureConnection: Boolean) Connected: Boolean
     var
-        Language: Codeunit Language;
         Dimensions: Dictionary of [Text, Text];
     begin
         if IsNull(SmtpClient) then
@@ -32,14 +31,13 @@ codeunit 4615 "MailKit Client" implements "iSMTP Client"
         Connected := TryConnect(Host, Port, SecureConnection);
 
         Dimensions.Add('Category', SMTPAPICategoryTxt);
-        Dimensions.Add('Connected', Language.ToDefaultLanguage(Connected));
+        Dimensions.Add('Connected', Format(Connected));
 
         Session.LogMessage('0000GKJ', ConnectedToSMTPServerTxt, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, Dimensions);
     end;
 
     procedure Authenticate(Authentication: Enum "SMTP Authentication Types"; var SMTPAuthentication: Codeunit "SMTP Authentication") Authenticated: Boolean
     var
-        Language: Codeunit Language;
         Dimensions: Dictionary of [Text, Text];
     begin
         if IsNull(SmtpClient) then
@@ -47,14 +45,13 @@ codeunit 4615 "MailKit Client" implements "iSMTP Client"
         Authenticated := TryAuthenticate(Authentication, SMTPAuthentication);
 
         Dimensions.Add('Category', SMTPAPICategoryTxt);
-        Dimensions.Add('Authenticated', Language.ToDefaultLanguage(Authenticated));
+        Dimensions.Add('Authenticated', Format(Authenticated));
 
         Session.LogMessage('0000GKK', AuthenticatedToServerTxt, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, Dimensions);
     end;
 
     procedure Send(SMTPMessage: Codeunit "SMTP Message") Sent: Boolean
     var
-        Language: Codeunit Language;
         Dimensions: Dictionary of [Text, Text];
     begin
         if IsNull(SmtpClient) then
@@ -62,7 +59,7 @@ codeunit 4615 "MailKit Client" implements "iSMTP Client"
         Sent := TrySendMessage(SMTPMessage);
 
         Dimensions.Add('Category', SMTPAPICategoryTxt);
-        Dimensions.Add('Sent', Language.ToDefaultLanguage(Sent));
+        Dimensions.Add('Sent', Format(Sent));
 
         Session.LogMessage('0000GKL', SentEmailTxt, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, Dimensions);
     end;
