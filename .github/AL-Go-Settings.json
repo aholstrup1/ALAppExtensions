@@ -38,5 +38,5 @@
     "main"
   ],
   "rulesetFile": "..\\Build\\Rulesets\\module.ruleset.json",
-  "PullrequestTrigger": "pull_request"
+  "PullrequestTrigger": "pull_request_target"
 }
