@@ -76,79 +76,80 @@ jobs:
           with:
             ref: ${{ inputs.checkoutRef }}
             lfs: true
-      
-        - name: Download thisbuild artifacts
-          if: inputs.publishThisBuildArtifacts
-          uses: actions/download-artifact@v3
-          with:
-            path: '.dependencies'
 
         - name: Read settings
-          uses: microsoft/AL-Go-Actions/ReadSettings@preview
+          uses: aholstrup1/AL-Go/Actions/ReadSettings@main
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
+            get: useCompilerFolder,keyVaultCodesignCertificateName,doNotSignApps
 
         - name: Read secrets
-          uses: microsoft/AL-Go-Actions/ReadSecrets@preview
+          if: github.event_name != 'pull_request'
+          uses: aholstrup1/AL-Go/Actions/ReadSecrets@main
           env:
             secrets: ${{ toJson(secrets) }}
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
-            settingsJson: ${{ env.Settings }}
             secrets: ${{ inputs.secrets }}
 
         - name: Determine ArtifactUrl
-          uses: microsoft/AL-Go-Actions/DetermineArtifactUrl@preview
+          uses: aholstrup1/AL-Go/Actions/DetermineArtifactUrl@main
           id: determineArtifactUrl
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
-            settingsJson: ${{ env.Settings }}
             secretsJson: ${{ env.RepoSecrets }}
 
         - name: Cache Business Central Artifacts
-          if: env.useCompilerFolder == 'True' && inputs.useArtifactCache && steps.determineArtifactUrl.outputs.ArtifactCacheKey
+          if: env.useCompilerFolder == 'True' && inputs.useArtifactCache && env.ArtifactCacheKey
           uses: actions/cache@v3
           with:
             path: .artifactcache
-            key: ${{ steps.determineArtifactUrl.outputs.ArtifactCacheKey }}
+            key: ${{ env.ArtifactCacheKey }}
+
+        - name: Download Project Dependencies
+          id: DownloadProjectDependencies
+          uses: aholstrup1/AL-Go/Actions/DownloadProjectDependencies@main
+          with:
+            shell: ${{ inputs.shell }}
+            project: ${{ inputs.project }}
+            buildMode: ${{ inputs.buildMode }}
+            projectsDependenciesJson: ${{ inputs.projectDependenciesJson }}
 
         - name: Run pipeline
           id: RunPipeline
-          uses: microsoft/AL-Go-Actions/RunPipeline@preview
+          uses: aholstrup1/AL-Go/Actions/RunPipeline@main
           env:
             BuildMode: ${{ inputs.buildMode }}
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
             project: ${{ inputs.project }}
-            projectDependenciesJson: ${{ inputs.projectDependenciesJson }}
-            settingsJson: ${{ env.Settings }}
             secretsJson: ${{ env.RepoSecrets }}
             buildMode: ${{ inputs.buildMode }}
+            installAppsJson: ${{ steps.DownloadProjectDependencies.outputs.DownloadedApps }}
+            installTestAppsJson: ${{ steps.DownloadProjectDependencies.outputs.DownloadedTestApps }}
 
         - name: Sign
           if: inputs.signArtifacts && env.doNotSignApps == 'False' && env.keyVaultCodesignCertificateName != ''
           id: sign
-          uses: microsoft/AL-Go-Actions/Sign@preview
+          uses: aholstrup1/AL-Go/Actions/Sign@main
           with:
             shell: ${{ needs.Initialization.outputs.githubRunnerShell }}
             azureCredentialsJson: ${{ secrets.AZURE_CREDENTIALS }}
-            settingsJson: ${{ env.Settings }}
             pathToFiles: '${{ inputs.project }}/.buildartifacts/Apps/*.app'
             parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
         - name: Calculate Artifact names
           id: calculateArtifactsNames
-          uses: microsoft/AL-Go-Actions/CalculateArtifactNames@preview
+          uses: aholstrup1/AL-Go/Actions/CalculateArtifactNames@main
           if: success() || failure()
           with:
             shell: ${{ inputs.shell }}
-            settingsJson: ${{ env.Settings }}
             project: ${{ inputs.project }}
             buildMode: ${{ inputs.buildMode }}
             branchName: ${{ github.ref_name }}
@@ -231,16 +232,16 @@ jobs:
         - name: Analyze Test Results
           id: analyzeTestResults
           if: success() || failure()
-          uses: microsoft/AL-Go-Actions/AnalyzeTests@preview
+          uses: aholstrup1/AL-Go/Actions/AnalyzeTests@main
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
-            Project: ${{ inputs.project }}
+            project: ${{ inputs.project }}
 
         - name: Cleanup
           if: always()
-          uses: microsoft/AL-Go-Actions/PipelineCleanup@preview
+          uses: aholstrup1/AL-Go/Actions/PipelineCleanup@main
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
-            Project: ${{ inputs.project }}
+            project: ${{ inputs.project }}
