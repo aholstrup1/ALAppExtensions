@@ -18,7 +18,7 @@ page 130454 "Select TestRunner"
             repeater(Control1)
             {
                 ShowCaption = false;
-                field("Object ID"; Rec."Object ID")
+                field("Object ID"; Rec."Object ID") 
                 {
                     ApplicationArea = All;
                     Tooltip = 'Specifies the Object ID';
