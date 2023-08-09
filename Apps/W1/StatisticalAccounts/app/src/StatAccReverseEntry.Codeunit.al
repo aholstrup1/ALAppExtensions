@@ -16,11 +16,8 @@ codeunit 2630 "Stat. Acc. Reverse Entry"
 
         InsertReversalEntry(Number, TempReversalEntry, RevType);
         TempReversalEntry.SetCurrentKey("Document No.", "Posting Date", "Entry Type", "Entry No.");
-        if not HideDialog then begin
-            StatAccReverseEntries.SetReversalEntries(TempReversalEntry);
-            StatAccReverseEntries.RunModal();
-        end else
-            PostReversal(TempReversalEntry);
+        StatAccReverseEntries.SetReversalEntries(TempReversalEntry);
+        StatAccReverseEntries.RunModal();
     end;
 
     internal procedure PostReversal(ReversalEntry: Record "Reversal Entry")
