@@ -6,5 +6,6 @@
     ],
     "doNotPublishApps": true,
     "enableAppSourceCop": true,
-    "enablePerTenantExtensionCop":  true
+    "enablePerTenantExtensionCop":  true,
+    "bcContainerHelperVersion": "https://microsofteur-my.sharepoint.com/:u:/g/personal/mazhelez_microsoft_com/EZIOnHVbC6JItNj4UjrEL78BQSXiMhkeK6TO2PpOA64CKA?e=7qJFfX"
 }
