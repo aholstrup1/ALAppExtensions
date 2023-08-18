@@ -10,5 +10,6 @@
     ],
     "doNotRunTests": true,
     "enableAppSourceCop": true,
-    "enablePerTenantExtensionCop":  true
+    "enablePerTenantExtensionCop":  true,
+    "bcContainerHelperVersion": "https://github.com/aholstrup1/navcontainerhelper"
 }
