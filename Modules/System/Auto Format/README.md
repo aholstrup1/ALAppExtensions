@@ -4,7 +4,7 @@ Use this module to do the following:
 - Format decimals for text messages in the same way that the system formats decimals in fields.
 - Get the default rounding precision.
 
-For on-premises versions, you can also use this module to personalize expressions for formatting data.
+For on-premises versions, you can also use this module to personalize expressions for formatting data.  
 
 Remarks
 This module introduces the following changes:
