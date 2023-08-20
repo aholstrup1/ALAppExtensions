@@ -178,7 +178,7 @@ codeunit 130002 "Library Assert"
     begin
         RecordRef.GetTable(RecVariant);
         RecRefIsNotEmpty(RecordRef);
-    end;
+    
 
     /// <summary>
     /// Tests whether the specified table is non-empty and throws an exception if it is.
