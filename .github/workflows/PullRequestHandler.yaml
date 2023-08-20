@@ -29,12 +29,7 @@ jobs:
     if: (github.event.pull_request.base.repo.full_name != github.event.pull_request.head.repo.full_name) && (github.event_name != 'pull_request')
     runs-on: [ windows-latest ]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: true
-          ref: refs/pull/${{ github.event.number }}/merge
-
-      - uses: microsoft/AL-Go-Actions/VerifyPRChanges@v3.2
+      - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@main
 
   Initialization:
     needs: [ PregateCheck ]
@@ -57,14 +52,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.2
+        uses: aholstrup1/AL-Go/Actions/WorkflowInitialize@main
         with:
           shell: powershell
           eventId: "DO0104"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
+        uses: aholstrup1/AL-Go/Actions/ReadSettings@main
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -77,7 +72,7 @@ jobs:
           
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.2
+        uses: aholstrup1/AL-Go/Actions/DetermineProjectsToBuild@main
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -129,15 +124,9 @@ jobs:
     needs: [ Initialization, Build ]
     if: (!cancelled())
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-          ref: refs/pull/${{ github.event.number }}/merge
-
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.2
+        uses: aholstrup1/AL-Go/Actions/WorkflowPostProcess@main
         with:
           shell: powershell
           eventId: "DO0104"
