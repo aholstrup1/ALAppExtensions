@@ -22,7 +22,7 @@ table 130451 "AL Test Suite"
             DataClassification = CustomerContent;
         }
         field(3; "Tests to Execute"; Integer)
-        {
+  
             CalcFormula = Count("Test Method Line" WHERE("Test Suite" = FIELD(Name),
                                                           "Line Type" = CONST(Function),
                                                           Run = CONST(true)));
