@@ -6,7 +6,7 @@ table 11510 "Swiss QR-Bill Buffer"
                   TableData "Cust. Ledger Entry" = rm;
 
     fields
-    {
+    { 
         field(1; "Entry No."; Integer) 
         {
             Caption = 'Entry No.';
