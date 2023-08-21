@@ -7,7 +7,7 @@ table 11510 "Swiss QR-Bill Buffer"
 
     fields
     {
-        field(1; "Entry No."; Integer)
+        field(1; "Entry No."; Integer) 
         {
             Caption = 'Entry No.';
             AutoIncrement = true;
