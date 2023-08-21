@@ -1,6 +1,6 @@
 table 11510 "Swiss QR-Bill Buffer"
 {
-    Caption = 'QR-Bill Buffer';
+    Caption = 'QR-Bill Buffer'; 
     DataClassification = CustomerContent;
     Permissions = TableData "Sales Invoice Header" = rm,
                   TableData "Cust. Ledger Entry" = rm;
