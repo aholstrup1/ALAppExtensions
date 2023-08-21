@@ -8,7 +8,7 @@ codeunit 11106 "Data Load AT"
         CountryCodeTxt: Label 'AT', Locked = true;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"W1 Data Load", 'OnAfterW1DataLoadForVersion', '', false, false)]
-    local procedure LoadDataForAT_15x(HybridReplicationSummary: Record "Hybrid Replication Summary"; CountryCode: Text; TargetVersion: Decimal)
+    local procedure LoadDataForAT_15x(HybridReplicationSummary: Record "Hybrid Replication Summary"; CountryCode: Text; TargetVersion: Decimal) 
     begin
         if CountryCode <> CountryCodeTxt then
             exit;
