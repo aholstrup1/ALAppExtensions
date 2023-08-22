@@ -21,7 +21,6 @@ codeunit 130500 "Any"
     procedure Boolean(): Boolean
     begin
         exit(GetNextValue(2) = 2);
-    end;
 
     /// <summary>
     /// Provides an integer between 1 and the given value
