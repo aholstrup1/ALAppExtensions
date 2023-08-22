@@ -1,6 +1,6 @@
 table 4045 "Stg Data Exch Def MX"
 {
-    ReplicateData = false;
+    ReplicateData = false; 
 #if not CLEAN21
     ObsoleteState = Pending;
     ObsoleteReason = 'This functionality will be replaced by invoking the actual upgrade from each of the apps';
