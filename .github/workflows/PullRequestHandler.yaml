@@ -29,7 +29,7 @@ jobs:
     if: (github.event.pull_request.base.repo.full_name != github.event.pull_request.head.repo.full_name) && (github.event_name != 'pull_request')
     runs-on: [ windows-latest ]
     steps:
-      - uses: aholstrup1/AL-Go/Actions/VerifyPRChanges@main
+      - uses: freddydk/AL-Go/Actions/VerifyPRChanges@enverr
 
   Initialization:
     needs: [ PregateCheck ]
@@ -52,18 +52,17 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: aholstrup1/AL-Go/Actions/WorkflowInitialize@main
+        uses: freddydk/AL-Go/Actions/WorkflowInitialize@enverr
         with:
           shell: powershell
           eventId: "DO0104"
 
       - name: Read settings
         id: ReadSettings
-        uses: aholstrup1/AL-Go/Actions/ReadSettings@main
+        uses: freddydk/AL-Go/Actions/ReadSettings@enverr
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-          getEnvironments: '*'
       
       - name: Determine Workflow Depth
         id: DetermineWorkflowDepth
@@ -72,7 +71,7 @@ jobs:
           
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: aholstrup1/AL-Go/Actions/DetermineProjectsToBuild@main
+        uses: freddydk/AL-Go/Actions/DetermineProjectsToBuild@enverr
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -127,7 +126,7 @@ jobs:
     steps:
       - name: Pull Request Status Check
         id: PullRequestStatusCheck
-        uses: aholstrup1/AL-Go/Actions/PullRequestStatusCheck@main
+        uses: freddydk/AL-Go/Actions/PullRequestStatusCheck@enverr
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
