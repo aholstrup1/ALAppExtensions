@@ -1,6 +1,6 @@
 {
   "type": "PTE",
-  "templateUrl": "https://github.com/aholstrup1/AL-Go-Actions@main",
+  "templateUrl": "https://github.com/aholstrup1/AL-Go@main",
   "bcContainerHelperVersion": "private",
   "runs-on": "windows-latest",
   "cacheImageName": "",
