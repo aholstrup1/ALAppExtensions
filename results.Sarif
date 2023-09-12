@@ -7,8 +7,8 @@
                     "version": "1.0.0",
                     "rules": [
                         {
-                            "id": "AL0432",
-                            "name": "AL0432",
+                            "id": "AL0667",
+                            "name": "AL0667",
                             "defaultConfiguration": {
                                 "level": "warning"
                             },
@@ -18,13 +18,34 @@
                                 ]
                             },
                             "help": {
-                                "text": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/diagnostics/diagnostic-al432"
+                                "text": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/diagnostics/diagnostic-al667"
                             },
                             "shortDescription": {
-                                "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
+                                "text": "\u0027FindSet\u0027 is being deprecated in the versions: \u002711.0\u0027 or greater.  This warning will become an error in a future release."
                             },
                             "fullDescription": {
-                                "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
+                                "text": "\u0027FindSet\u0027 is being deprecated in the versions: \u002711.0\u0027 or greater.  This warning will become an error in a future release."
+                            }
+                        },
+                        {
+                            "id": "AA0207",
+                            "name": "AA0207",
+                            "defaultConfiguration": {
+                                "level": "warning"
+                            },
+                            "properties": {
+                                "tags": [
+                                    "Design"
+                                ]
+                            },
+                            "help": {
+                                "text": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/codecop-aa0207"
+                            },
+                            "shortDescription": {
+                                "text": "The EventSubscriber method must be local."
+                            },
+                            "fullDescription": {
+                                "text": "The EventSubscriber method must be local."
                             }
                         }
                     ]
@@ -33,21 +54,21 @@
             "results": [
                 {
                     "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
+                        "text": "\u0027FindSet\u0027 is being deprecated in the versions: \u002711.0\u0027 or greater.  This warning will become an error in a future release."
                     },
-                    "ruleId": "AL0432",
+                    "ruleId": "AL0667",
                     "level": "warning",
                     "locations": [
                         {
                             "physicalLocation": {
                                 "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
+                                    "uri": "Modules/DevTools/TestFramework/TestRunner/src/ALTestTool.Page.al"
                                 },
                                 "region": {
-                                    "startLine": 29,
-                                    "endColumn": 67,
-                                    "startColumn": 51,
-                                    "endLine": 29
+                                    "startLine": 524,
+                                    "endColumn": 47,
+                                    "startColumn": 12,
+                                    "endLine": 524
                                 }
                             }
                         }
@@ -55,593 +76,21 @@
                 },
                 {
                     "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
+                        "text": "The EventSubscriber method must be local."
                     },
-                    "ruleId": "AL0432",
+                    "ruleId": "AA0207",
                     "level": "warning",
                     "locations": [
                         {
                             "physicalLocation": {
                                 "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
+                                    "uri": "Modules/DevTools/TestFramework/TestRunner/src/ALTestRunnerResetEnvironment.Codeunit.al"
                                 },
                                 "region": {
-                                    "startLine": 30,
-                                    "endColumn": 101,
-                                    "startColumn": 85,
-                                    "endLine": 30
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 30,
-                                    "endColumn": 136,
-                                    "startColumn": 120,
-                                    "endLine": 30
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 56,
-                                    "endColumn": 81,
-                                    "startColumn": 51,
-                                    "endLine": 56
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 57,
-                                    "endColumn": 128,
-                                    "startColumn": 98,
-                                    "endLine": 57
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 57,
-                                    "endColumn": 177,
-                                    "startColumn": 147,
-                                    "endLine": 57
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 65,
-                                    "endColumn": 67,
-                                    "startColumn": 51,
-                                    "endLine": 65
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 66,
-                                    "endColumn": 101,
-                                    "startColumn": 85,
-                                    "endLine": 66
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 66,
-                                    "endColumn": 136,
-                                    "startColumn": 120,
-                                    "endLine": 66
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 92,
-                                    "endColumn": 81,
-                                    "startColumn": 51,
-                                    "endLine": 92
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 93,
-                                    "endColumn": 128,
-                                    "startColumn": 98,
-                                    "endLine": 93
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 93,
-                                    "endColumn": 177,
-                                    "startColumn": 147,
-                                    "endLine": 93
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 101,
-                                    "endColumn": 67,
-                                    "startColumn": 51,
-                                    "endLine": 101
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 102,
-                                    "endColumn": 101,
-                                    "startColumn": 85,
-                                    "endLine": 102
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 128,
-                                    "endColumn": 81,
-                                    "startColumn": 51,
-                                    "endLine": 128
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 129,
-                                    "endColumn": 128,
-                                    "startColumn": 98,
-                                    "endLine": 129
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 137,
-                                    "endColumn": 67,
-                                    "startColumn": 51,
-                                    "endLine": 137
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 138,
-                                    "endColumn": 101,
-                                    "startColumn": 85,
-                                    "endLine": 138
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 164,
-                                    "endColumn": 81,
-                                    "startColumn": 51,
-                                    "endLine": 164
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 165,
-                                    "endColumn": 128,
-                                    "startColumn": 98,
-                                    "endLine": 165
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 35,
-                                    "endColumn": 70,
-                                    "startColumn": 54,
-                                    "endLine": 35
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 62,
-                                    "endColumn": 84,
-                                    "startColumn": 54,
-                                    "endLine": 62
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 71,
-                                    "endColumn": 70,
-                                    "startColumn": 54,
-                                    "endLine": 71
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 98,
-                                    "endColumn": 84,
-                                    "startColumn": 54,
-                                    "endLine": 98
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 107,
-                                    "endColumn": 70,
-                                    "startColumn": 54,
-                                    "endLine": 107
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 134,
-                                    "endColumn": 84,
-                                    "startColumn": 54,
-                                    "endLine": 134
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile\u0027 is marked for removal. Reason: The table will only contain the profiles created using the in-client profile configuration and will not contain profiles from extensions anymore. Use the AllProfile table instead.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 143,
-                                    "endColumn": 70,
-                                    "startColumn": 54,
-                                    "endLine": 143
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "message": {
-                        "text": "Table \u0027Tenant Profile Page Metadata\u0027 is marked for removal. Reason: The table will only contain the page customizations created using the in-client profile configuration and will not contain page customizations from extensions anymore.."
-                    },
-                    "ruleId": "AL0432",
-                    "level": "warning",
-                    "locations": [
-                        {
-                            "physicalLocation": {
-                                "artifactLocation": {
-                                    "uri": "Modules/DevTools/TestFramework/TestStabilityTools/PreventMetadataUpdates/src/BlockChangesToSystemTables.Codeunit.al"
-                                },
-                                "region": {
-                                    "startLine": 170,
-                                    "endColumn": 84,
-                                    "startColumn": 54,
-                                    "endLine": 170
+                                    "startLine": 37,
+                                    "endColumn": 30,
+                                    "startColumn": 15,
+                                    "endLine": 37
                                 }
                             }
                         }
