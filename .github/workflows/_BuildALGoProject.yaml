@@ -194,7 +194,6 @@ jobs:
 
         - name: Publish artifacts - error logs
           uses: actions/upload-artifact@v3
-          if: inputs.publishArtifacts
           with:
             name: ${{ steps.calculateArtifactsNames.outputs.AppsArtifactsName }}-ErrorLogs
             path: '${{ inputs.project }}/.buildartifacts/ErrorLogs/'
