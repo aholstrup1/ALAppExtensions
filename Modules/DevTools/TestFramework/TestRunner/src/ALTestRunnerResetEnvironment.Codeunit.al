@@ -32,11 +32,9 @@ codeunit 130453 "ALTestRunner Reset Environment"
     end;
 
 #if not CLEAN22
-#pragma warning disable AA0207
     [Obsolete('The procedure will be made local.', '22.0')]
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Test Runner - Mgt", 'OnAfterCodeunitRun', '', false, false)]
     procedure AfterTestMethod(var TestMethodLine: Record "Test Method Line")
-#pragma warning restore AA0207
 #else
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Test Runner - Mgt", 'OnAfterCodeunitRun', '', false, false)]
     local procedure AfterTestMethod(var TestMethodLine: Record "Test Method Line")
