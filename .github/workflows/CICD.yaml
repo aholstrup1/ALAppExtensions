@@ -263,32 +263,22 @@ jobs:
           projects: ${{ needs.Initialization.outputs.projects }}
           deliveryTarget: ${{ matrix.deliveryTarget }}
           artifacts: '.artifacts'
-
+ 
   CodeAnalysis:
     if: (!cancelled())
     runs-on: [ windows-latest ]
     needs: [ Build ]
-    env:
-      errorLogsPath: ${{ github.workspace }}/.errorLogs
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: ${{ env.errorLogsPath }}
-
       - name: Code Analysis
         id: CodeAnalysis
-        uses: aholstrup1/AL-Go/Actions/CodeAnalysis@main
+        uses: aholstrup1/AL-Go-Actions/CodeAnalysis@main
         with:
           shell: powershell
-          errorLogPath: ${{ env.errorLogsPath }}
 
   PostProcess:
     if: (!cancelled())
     runs-on: [ windows-latest ]
-    needs: [ Initialization, Build, Deploy, Deliver, CodeAnalysis ]
+    needs: [ Initialization, Build, Deploy, Deliver ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3

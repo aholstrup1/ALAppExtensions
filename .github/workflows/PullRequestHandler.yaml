@@ -119,27 +119,17 @@ jobs:
       projectDependenciesJson: ${{ needs.Initialization.outputs.projectDependenciesJson }}
       secrets: 'licenseFileUrl,insiderSasToken,keyVaultCertificateUrl,*keyVaultCertificatePassword,keyVaultClientId,gitHubPackagesContext,applicationInsightsConnectionString'
       publishThisBuildArtifacts: ${{ needs.Initialization.outputs.workflowDepth > 1 }}
-
+  
   CodeAnalysis:
     if: (!cancelled())
     runs-on: [ windows-latest ]
     needs: [ Build ]
-    env:
-      errorLogsPath: ${{ github.workspace }}/.errorLogs
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: ${{ env.errorLogsPath }}
-
       - name: Code Analysis
         id: CodeAnalysis
-        uses: aholstrup1/AL-Go/Actions/CodeAnalysis@main
+        uses: aholstrup1/AL-Go-Actions/CodeAnalysis@main
         with:
           shell: powershell
-          errorLogPath: ${{ env.errorLogsPath }}
 
   StatusCheck:
     runs-on: [ windows-latest ]
