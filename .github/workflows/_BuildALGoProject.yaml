@@ -191,7 +191,7 @@ jobs:
             name: ${{ steps.calculateArtifactsNames.outputs.AppsArtifactsName }}
             path: '${{ inputs.project }}/.buildartifacts/Apps/'
             if-no-files-found: ignore
-
+        
         - name: Publish artifacts - error logs
           uses: actions/upload-artifact@v3
           with:
