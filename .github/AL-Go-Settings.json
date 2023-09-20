@@ -16,7 +16,7 @@
     "CLEAN20",
     "CLEAN21",
     "CLEAN22"
-  ],
+  ], 
   "unusedALGoSystemFiles": [
     "AddExistingAppOrTestApp.yaml",
     "CreateApp.yaml",
