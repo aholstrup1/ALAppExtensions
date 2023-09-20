@@ -103,7 +103,7 @@ jobs:
             getSecrets: '${{ inputs.secrets }},appDependencyProbingPathsSecrets'
 
         - name: Determine ArtifactUrl
-          uses: microsoft/AL-Go/Actions/DetermineArtifactUrl@ce6a36367580e96a44bbc3b5dd31238d945cf8fe
+          uses: microsoft/AL-Go/Actions/DetermineArtifactUrl@f6b2df044b4fc0f5a4a298c0085b04f1bf2c82ea
           id: determineArtifactUrl
           env:
             Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
