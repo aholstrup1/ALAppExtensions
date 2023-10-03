@@ -241,7 +241,7 @@ jobs:
         - name: Analyze Test Results
           id: analyzeTestResults
           if: success() || failure()
-          uses: microsoft/AL-Go/Actions/AnalyzeTests@31944622373d473cf9b727a320333e170290265b
+          uses: aholstrup1/AL-Go/Actions/AnalyzeTests@main
           with:
             shell: ${{ inputs.shell }}
             parentTelemetryScopeJson: ${{ inputs.parentTelemetryScopeJson }}
