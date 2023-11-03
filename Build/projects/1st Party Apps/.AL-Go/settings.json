@@ -1,0 +1,12 @@
+{
+    "projectName": "System Application",
+    "appFolders":  [
+        "..\\..\\..\\Apps\\W1\\*"
+    ],
+    "buildModes": [
+        "Translated"
+    ],
+    "doNotRunTests": true,
+    "useCompilerFolder": true,
+    "doNotPublishApps": true
+}
