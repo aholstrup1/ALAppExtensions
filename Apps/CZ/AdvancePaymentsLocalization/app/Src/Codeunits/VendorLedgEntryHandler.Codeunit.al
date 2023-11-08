@@ -1,3 +1,12 @@
+﻿// ------------------------------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+// ------------------------------------------------------------------------------------------------
+namespace Microsoft.Finance.AdvancePayments;
+
+using Microsoft.Finance.GeneralLedger.Journal;
+using Microsoft.Purchases.Payables;
+
 codeunit 31021 "Vendor Ledg. Entry Handler CZZ"
 {
     var
@@ -16,7 +25,7 @@ codeunit 31021 "Vendor Ledg. Entry Handler CZZ"
         IsRelatedToAdvanceLetter := IsRelatedToAdvanceLetter or (VendorLedgerEntry."Advance Letter No. CZZ" <> '');
     end;
 
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Journal Line Handler CZL", 'OnBeforeGetPayablesAccountNo', '', false, false)]
+    [EventSubscriber(ObjectType::Table, Database::"Vendor Ledger Entry", 'OnBeforeGetPayablesAccountNoCZL', '', false, false)]
     local procedure GetPayablesAccountNo(VendorLedgerEntry: Record "Vendor Ledger Entry"; var GLAccountNo: Code[20]; var IsHandled: Boolean)
     var
         PurchAdvLetterHeaderCZZ: Record "Purch. Adv. Letter Header CZZ";
@@ -37,7 +46,7 @@ codeunit 31021 "Vendor Ledg. Entry Handler CZZ"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"VendEntry-Apply Posted Entries", 'OnApplyVendEntryFormEntryOnAfterCheckEntryOpen', '', false, false)]
     local procedure CheckAdvanceOnApplyVendEntryFormEntryOnAfterCheckEntryOpen(ApplyingVendLedgEntry: Record "Vendor Ledger Entry")
     begin
-        if (ApplyingVendLedgEntry."Advance Letter No. CZZ" <> '') or
+        if (ApplyingVendLedgEntry."Advance Letter No. CZZ" <> '') and
            (ApplyingVendLedgEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);
@@ -46,7 +55,7 @@ codeunit 31021 "Vendor Ledg. Entry Handler CZZ"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"VendEntry-Apply Posted Entries", 'OnPostUnApplyVendorOnAfterGetVendLedgEntry', '', false, false)]
     local procedure CheckAdvanceOnPostUnApplyVendorOnAfterGetVendLedgEntry(var VendorLedgerEntry: Record "Vendor Ledger Entry")
     begin
-        if (VendorLedgerEntry."Advance Letter No. CZZ" <> '') or
+        if (VendorLedgerEntry."Advance Letter No. CZZ" <> '') and
            (VendorLedgerEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);
@@ -58,7 +67,7 @@ codeunit 31021 "Vendor Ledg. Entry Handler CZZ"
         VendorLedgerEntry: Record "Vendor Ledger Entry";
     begin
         VendorLedgerEntry.Get(DtldVendLedgEntry."Vendor Ledger Entry No.");
-        if (VendorLedgerEntry."Advance Letter No. CZZ" <> '') or
+        if (VendorLedgerEntry."Advance Letter No. CZZ" <> '') and
            (VendorLedgerEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);

@@ -1,3 +1,19 @@
+﻿// ------------------------------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+// ------------------------------------------------------------------------------------------------
+namespace Microsoft.Bank.Documents;
+
+using Microsoft.Bank.BankAccount;
+using Microsoft.Foundation.Calendar;
+using Microsoft.HumanResources.Employee;
+using Microsoft.HumanResources.Payables;
+using Microsoft.Purchases.Payables;
+using Microsoft.Purchases.Vendor;
+using Microsoft.Sales.Customer;
+using Microsoft.Sales.Receivables;
+using System.Utilities;
+
 #pragma warning disable AL0432
 report 31280 "Suggest Payments CZB"
 {
@@ -46,6 +62,8 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
+                    if IsAlreadySuggested("Entry No.") then
+                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -99,6 +117,8 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
+                    if IsAlreadySuggested("Entry No.") then
+                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -156,6 +176,8 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
+                    if IsAlreadySuggested("Entry No.") then
+                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -200,6 +222,8 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
+                    if IsAlreadySuggested("Entry No.") then
+                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -608,5 +632,13 @@ report 31280 "Suggest Payments CZB"
     begin
         if Employee."No." <> EmployeeNo then
             Employee.Get(EmployeeNo);
+    end;
+
+    local procedure IsAlreadySuggested(EntryNo: Integer): Boolean
+    var
+        PaymentOrderLineCZB2: Record "Payment Order Line CZB";
+    begin
+        PaymentOrderLineCZB2.SetRange("Applies-to C/V/E Entry No.", EntryNo);
+        exit(not PaymentOrderLineCZB2.IsEmpty());
     end;
 }

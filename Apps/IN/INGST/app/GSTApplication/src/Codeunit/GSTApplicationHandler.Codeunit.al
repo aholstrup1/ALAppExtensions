@@ -2436,12 +2436,12 @@ codeunit 18430 "GST Application Handler"
         AppliedAmt: Decimal;
         AppliedAmtLCY: Decimal;
     begin
-        if Customer.Get(NewCVLedgEntryBuf."CV No.") then begin
+        if Customer.Get(NewCVLedgEntryBuf."CV No.") and (GenJnlLine."Account Type" = GenJnlLine."Account Type"::Customer) then begin
             SetGSTApplicationSourceSales(NewCVLedgEntryBuf, GenJnlLine, Customer);
             GSTApplSessionMgt.GetGSTTransactionType(GSTTransactionType);
         end
         else
-            if Vendor.Get(NewCVLedgEntryBuf."CV No.") then begin
+            if Vendor.Get(NewCVLedgEntryBuf."CV No.") and (GenJnlLine."Account Type" = GenJnlLine."Account Type"::Vendor) then begin
                 SetGSTApplicationSourcePurch(NewCVLedgEntryBuf, GenJnlLine, Vendor);
                 GSTApplSessionMgt.GetGSTTransactionType(GSTTransactionType);
             end;
