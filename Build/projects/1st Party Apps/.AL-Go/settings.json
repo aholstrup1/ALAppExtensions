@@ -5,7 +5,7 @@
         "..\\..\\..\\Apps\\W1\\*"
     ],
     "buildModes": [
-        "Default"
+        "Translated"
     ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
