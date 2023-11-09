@@ -1,0 +1,6 @@
+{
+    "projectName": "System Application Tests",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\W1\\*\\test"
+    ]
+}
