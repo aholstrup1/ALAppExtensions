@@ -7,7 +7,7 @@ Import-Module $PSScriptRoot\EnlistmentHelperFunctions.psm1
 function Get-DisabledTestsFolder
 {
     $baseFolder = Get-BaseFolder
-    return "$baseFolder\src\System Application\Test\DisabledTests"
+    return "$baseFolder\Apps\DisabledTests"
 }
 
 function Get-DisabledTests
