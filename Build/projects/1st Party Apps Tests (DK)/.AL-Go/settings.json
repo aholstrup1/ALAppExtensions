@@ -1,5 +1,5 @@
 {
-    "projectName": "System Application Tests",
+    "projectName": "System Application Tests (DK)",
     "testFolders":  [
         "..\\..\\..\\Apps\\DK\\*\\test",
         "..\\..\\..\\Apps\\DK\\*\\test library"

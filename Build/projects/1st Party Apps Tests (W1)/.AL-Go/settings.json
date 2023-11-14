@@ -1,7 +1,8 @@
 {
-    "projectName": "System Application Tests",
+    "projectName": "System Application Tests (W1)",
     "testFolders":  [
         "..\\..\\..\\Apps\\W1\\*\\test",
         "..\\..\\..\\Apps\\W1\\*\\test library"
-    ]
+    ],
+    "artifact": "bcinsider//23.2.13750.0/W1"
 }

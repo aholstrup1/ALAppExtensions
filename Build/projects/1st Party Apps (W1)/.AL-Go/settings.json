@@ -1,5 +1,5 @@
 {
-    "projectName": "1st Party Apps",
+    "projectName": "1st Party Apps (W1)",
     "appFolders":  [
         "..\\..\\..\\Apps\\W1\\*\\app",
         "..\\..\\..\\Apps\\W1\\ClientAddIns",
@@ -13,5 +13,6 @@
     ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
-    "doNotPublishApps": true
+    "doNotPublishApps": true,
+    "artifact": "bcinsider//23.2.13750.0/W1"
 }
