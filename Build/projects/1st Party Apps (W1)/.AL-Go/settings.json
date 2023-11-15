@@ -14,5 +14,7 @@
     "doNotRunTests": true,
     "useCompilerFolder": true,
     "doNotPublishApps": true,
-    "artifact": "bcinsider//23.2.13750.0/W1"
+    "artifact": "bcinsider//23.2.13750.0/W1",
+    "runs-on": "ubuntu-latest",
+    "githubRunner": "ubuntu-latest"
 }
