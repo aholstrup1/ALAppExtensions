@@ -1,8 +1,0 @@
-{
-    "projectName": "1st Party Apps Tests (RU)",
-    "testFolders":  [
-        "..\\..\\..\\Apps\\RU\\*\\test",
-        "..\\..\\..\\Apps\\RU\\*\\test library"
-    ],
-    "artifact": "bcinsider//23.2.13750.0/RU"
-}
