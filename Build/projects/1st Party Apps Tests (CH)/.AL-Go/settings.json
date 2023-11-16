@@ -1,0 +1,8 @@
+{
+    "projectName": "1st Party Apps Tests (CH)",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\CH\\*\\test",
+        "..\\..\\..\\Apps\\CH\\*\\test library"
+    ],
+    "artifact": "bcinsider//23.2.13750.0/CH"
+}
