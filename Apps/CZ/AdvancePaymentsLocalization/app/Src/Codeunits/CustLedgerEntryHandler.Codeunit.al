@@ -46,7 +46,7 @@ codeunit 31004 "Cust. Ledger Entry Handler CZZ"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"CustEntry-Apply Posted Entries", 'OnApplyCustEntryFormEntryOnAfterCheckEntryOpen', '', false, false)]
     local procedure CheckAdvanceOnApplyCustEntryFormEntryOnAfterCheckEntryOpen(ApplyingCustLedgEntry: Record "Cust. Ledger Entry")
     begin
-        if (ApplyingCustLedgEntry."Advance Letter No. CZZ" <> '') and
+        if (ApplyingCustLedgEntry."Advance Letter No. CZZ" <> '') or
            (ApplyingCustLedgEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);
@@ -55,7 +55,7 @@ codeunit 31004 "Cust. Ledger Entry Handler CZZ"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"CustEntry-Apply Posted Entries", 'OnPostUnApplyCustomerCommitOnAfterGetCustLedgEntry', '', false, false)]
     local procedure CheckAdvanceOnPostUnApplyCustomerCommitOnAfterGetCustLedgEntry(var CustLedgerEntry: Record "Cust. Ledger Entry")
     begin
-        if (CustLedgerEntry."Advance Letter No. CZZ" <> '') and
+        if (CustLedgerEntry."Advance Letter No. CZZ" <> '') or
            (CustLedgerEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);
@@ -67,7 +67,7 @@ codeunit 31004 "Cust. Ledger Entry Handler CZZ"
         CustLedgerEntry: Record "Cust. Ledger Entry";
     begin
         CustLedgerEntry.Get(DtldCustLedgEntry."Cust. Ledger Entry No.");
-        if (CustLedgerEntry."Advance Letter No. CZZ" <> '') and
+        if (CustLedgerEntry."Advance Letter No. CZZ" <> '') or
            (CustLedgerEntry."Adv. Letter Template Code CZZ" <> '')
         then
             Error(AppliedToAdvanceLetterErr);

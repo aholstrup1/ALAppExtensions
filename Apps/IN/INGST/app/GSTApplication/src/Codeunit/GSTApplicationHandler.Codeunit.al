@@ -712,6 +712,9 @@ codeunit 18430 "GST Application Handler"
                             then
                                 ApplicationRatio := PaymentOriginalAmountLCY / Round(GSTApplicationBuffer."Amt to Apply" / GSTApplicationBuffer."Currency Factor");
 
+                            if DetailedGSTLedgerEntry."Reverse Charge" then
+                                ApplicationRatio := 1;
+
                             OnBeforeCalculateGSTAppliedAmount(PaymentCurrencyFactor, DetailedGSTLedgerEntry, DetailedGSTLedgerEntryInfo, ApplicationRatio, RemainingBase, RemainingAmount, AppliedBase, AppliedAmount);
                             GSTApplicationLibrary.GetAppliedAmount(
                                 Abs(RemainingBase),
@@ -745,41 +748,43 @@ codeunit 18430 "GST Application Handler"
                                     Abs(GSTApplicationBuffer."Applied Base Amount") * AppliedBase;
                                 GSTApplicationBuffer.Modify();
 
-                                AppliedBaseAmountInvoiceLCY := Round(
-                                    Abs(AppliedBaseAmountInvoiceLCY * GSTApplicationBuffer."Amt to Apply (Applied)" / GSTApplicationBuffer."Amt to Apply"));
-                                AppliedAmountInvoiceLCY := Round(AppliedBaseAmountInvoiceLCY * GSTApplicationBuffer."GST %" / 100);
-                                CreateDetailedGSTApplicationEntry(
-                                    ApplyDetailedGSTLedgerEntryNew,
-                                    DetailedGSTLedgerEntry,
-                                    GenJournalLine,
-                                    InvoiceNo,
-                                    AppliedBaseAmountInvoiceLCY,
-                                    AppliedAmountInvoiceLCY);
+                                if (not ApplyDetailedGSTLedgerEntry."Reverse Charge") then begin
+                                    AppliedBaseAmountInvoiceLCY := Round(
+                                        Abs(AppliedBaseAmountInvoiceLCY * GSTApplicationBuffer."Amt to Apply (Applied)" / GSTApplicationBuffer."Amt to Apply"));
+                                    AppliedAmountInvoiceLCY := Round(AppliedBaseAmountInvoiceLCY * GSTApplicationBuffer."GST %" / 100);
+                                    CreateDetailedGSTApplicationEntry(
+                                        ApplyDetailedGSTLedgerEntryNew,
+                                        DetailedGSTLedgerEntry,
+                                        GenJournalLine,
+                                        InvoiceNo,
+                                        AppliedBaseAmountInvoiceLCY,
+                                        AppliedAmountInvoiceLCY);
 
-                                ApplyDetailedGSTLedgerEntry."Forex Fluctuation" := true;
-                                ApplyDetailedGSTLedgerEntry."Payment Type" := ApplyDetailedGSTLedgerEntry."Payment Type"::Normal;
-                                ApplyDetailedGSTLedgerEntry.Quantity := 0;
+                                    ApplyDetailedGSTLedgerEntry."Forex Fluctuation" := true;
+                                    ApplyDetailedGSTLedgerEntry."Payment Type" := ApplyDetailedGSTLedgerEntry."Payment Type"::Normal;
+                                    ApplyDetailedGSTLedgerEntry.Quantity := 0;
 
-                                if ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::"Non-Availment" then
-                                    ApplyDetailedGSTLedgerEntry."Amount Loaded on Item" := ApplyDetailedGSTLedgerEntry."GST Amount";
-
-                                if PaymentCurrencyFactor < DetailedGSTLedgerEntry."Currency Factor" then
                                     if ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::"Non-Availment" then
-                                        ApplyDetailedGSTLedgerEntry."Liable to Pay" := true
-                                    else
-                                        if ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::Availment then begin
-                                            ApplyDetailedGSTLedgerEntry."Credit Availed" := true;
-                                            ApplyDetailedGSTLedgerEntry."Liable to Pay" := true;
-                                        end;
+                                        ApplyDetailedGSTLedgerEntry."Amount Loaded on Item" := ApplyDetailedGSTLedgerEntry."GST Amount";
 
-                                if (PaymentCurrencyFactor > DetailedGSTLedgerEntry."Currency Factor") and
-                                    (ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::"Non-Availment")
-                                then
-                                    ApplyDetailedGSTLedgerEntry."Fluctuation Amt. Credit" := true;
+                                    if PaymentCurrencyFactor < DetailedGSTLedgerEntry."Currency Factor" then
+                                        if ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::"Non-Availment" then
+                                            ApplyDetailedGSTLedgerEntry."Liable to Pay" := true
+                                        else
+                                            if ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::Availment then begin
+                                                ApplyDetailedGSTLedgerEntry."Credit Availed" := true;
+                                                ApplyDetailedGSTLedgerEntry."Liable to Pay" := true;
+                                            end;
 
-                                ApplyDetailedGSTLedgerEntryNew.Insert(true);
-                                CreateDetailedGSTApplicationEntryInfo(ApplyDetailedGSTLedgerEntryNew, DetailedGSTLedgerEntry, PaymentDocNo, false);
-                                FillGSTPostingBufferWithApplication(ApplyDetailedGSTLedgerEntryNew, true, HigherInvoiceExchangeRate);
+                                    if (PaymentCurrencyFactor > DetailedGSTLedgerEntry."Currency Factor") and
+                                        (ApplyDetailedGSTLedgerEntry."GST Credit" = ApplyDetailedGSTLedgerEntry."GST Credit"::"Non-Availment")
+                                    then
+                                        ApplyDetailedGSTLedgerEntry."Fluctuation Amt. Credit" := true;
+
+                                    ApplyDetailedGSTLedgerEntryNew.Insert(true);
+                                    CreateDetailedGSTApplicationEntryInfo(ApplyDetailedGSTLedgerEntryNew, DetailedGSTLedgerEntry, PaymentDocNo, false);
+                                    FillGSTPostingBufferWithApplication(ApplyDetailedGSTLedgerEntryNew, true, HigherInvoiceExchangeRate);
+                                end;
                             end;
 
                             GSTApplicationLibrary.GetApplicationDocTypeFromGSTDocumentType(DetailedGSTLedgerEntry."Application Doc. Type", ApplyDetailedGSTLedgerEntry."Document Type");

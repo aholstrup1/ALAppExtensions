@@ -6,7 +6,6 @@ namespace Microsoft.Finance.GST.Purchase;
 
 using Microsoft.Finance.Currency;
 using Microsoft.Finance.GeneralLedger.Account;
-using Microsoft.Finance.GST.Application;
 using Microsoft.Finance.GST.Base;
 using Microsoft.Finance.TaxBase;
 using Microsoft.Finance.TaxEngine.TaxTypeHandler;

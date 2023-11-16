@@ -268,6 +268,53 @@ codeunit 148079 "Banking Documents CZB"
         LibraryReportDataset.AssertElementWithValueExists('IssPaymentOrderHeader_Amount', IssPaymentOrderHeaderCZB.Amount);
     end;
 
+    [Test]
+    [HandlerFunctions('SuggestPaymentsHandler,MessageHandler')]
+    procedure SuggestPaymentsWithPaymentPartialSuggestion()
+    var
+        BankAccount: Record "Bank Account";
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        PaymentOrderHeaderCZB: Record "Payment Order Header CZB";
+        PaymentOrderHeaderCZB2: Record "Payment Order Header CZB";
+        PaymentOrderLineCZB: Record "Payment Order Line CZB";
+        PurchaseHeader: Record "Purchase Header";
+        PurchaseLine: Record "Purchase Line";
+        PostedDocumentNo: Code[20];
+        BlockingEntriesErr: Label 'Payment Order Line wasn''t created.';
+        AmountMustBeCheckedErr: Label 'The "Amount Must Be Checked" field must be checked.';
+    begin
+        // [SCENARIO] When the "Payment Partial Suggestion" is allowed in bank account then the entry can be suggested into two different lines of payment order.
+        //            The "Amount Must Be Checked" field on the second line must be checked.
+        Initialize();
+
+        // [GIVEN] The "Payment Partial Suggestion" field on bank account has beend checked
+        LibraryBankDocumentsCZB.FindBankAccount(BankAccount);
+        BankAccount."Payment Partial Suggestion CZB" := true;
+        BankAccount.Modify();
+
+        // [GIVEN] Purchase Invoice for payments suggestion has been created and posted
+        CreatePurchaseInvoice(PurchaseHeader, PurchaseLine);
+        PostedDocumentNo := PostPurchaseDocument(PurchaseHeader);
+
+        // [GIVEN] Payment Order from Purchase Invoice has been created
+        CreatePaymentOrderFromPurchaseInvoice(PaymentOrderHeaderCZB, PurchaseHeader);
+
+        // [WHEN] Create second Payment Order from Purchase Invoice
+        CreatePaymentOrderFromPurchaseInvoice(PaymentOrderHeaderCZB2, PurchaseHeader);
+
+        // [THEN] Vendor Ledger Entry will created
+        VendorLedgerEntry.SetRange("Document No.", PostedDocumentNo);
+        VendorLedgerEntry.SetRange("Posting Date", PurchaseHeader."Posting Date");
+        VendorLedgerEntry.FindFirst();
+
+        // [THEN] The "Amount Must Be Checked" field on the second payment order will be checked
+        PaymentOrderLineCZB.Reset();
+        PaymentOrderLineCZB.SetRange("Payment Order No.", PaymentOrderHeaderCZB2."No.");
+        PaymentOrderLineCZB.SetRange("Applies-to C/V/E Entry No.", VendorLedgerEntry."Entry No.");
+        Assert.IsTrue(PaymentOrderLineCZB.FindFirst(), BlockingEntriesErr);
+        Assert.AreEqual(true, PaymentOrderLineCZB."Amount Must Be Checked", AmountMustBeCheckedErr);
+    end;
+
     local procedure CreatePaymentOrder(var PaymentOrderHeaderCZB: Record "Payment Order Header CZB"; var PaymentOrderLineCZB: Record "Payment Order Line CZB")
     var
         BankAccount: Record "Bank Account";

@@ -19,6 +19,13 @@
                              "version":  "23.2.0.0"
                          }
                      ],
+    "internalsVisibleTo": [
+        {
+            "id": "dfe6916f-cba8-4973-afdc-1544705c661f",
+            "name": "SAF-T Tests",
+            "publisher": "Microsoft"
+        }
+    ],
     "screenshots":  [
 
                     ],
@@ -26,14 +33,14 @@
     "application":  "23.2.0.0",
     "idRanges":  [
                      {
-                         "from":  5280,
-                         "to":  5299
+            "from":  5280,
+            "to":  5299
                      }
                  ],
     "resourceExposurePolicy":  {
-                                   "allowDebugging":  true,
-                                   "allowDownloadingSource":  true,
-                                   "includeSourceInSymbolFile":  true
+        "allowDebugging":  true,
+        "allowDownloadingSource":  true,
+        "includeSourceInSymbolFile":  true
                                },
     "target":  "Cloud"
 }

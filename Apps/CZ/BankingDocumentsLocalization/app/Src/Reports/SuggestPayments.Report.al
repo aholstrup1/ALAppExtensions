@@ -62,8 +62,6 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
-                    if IsAlreadySuggested("Entry No.") then
-                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -117,8 +115,6 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
-                    if IsAlreadySuggested("Entry No.") then
-                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -176,8 +172,6 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
-                    if IsAlreadySuggested("Entry No.") then
-                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -222,8 +216,6 @@ report 31280 "Suggest Payments CZB"
                         IsSkippedBlocked := true;
                         CurrReport.Skip();
                     end;
-                    if IsAlreadySuggested("Entry No.") then
-                        CurrReport.Skip();
                     if (CalcSuggestedAmountToApplyCZL() <> 0) and not BankAccount."Payment Partial Suggestion CZB" then
                         CurrReport.Skip();
 
@@ -632,13 +624,5 @@ report 31280 "Suggest Payments CZB"
     begin
         if Employee."No." <> EmployeeNo then
             Employee.Get(EmployeeNo);
-    end;
-
-    local procedure IsAlreadySuggested(EntryNo: Integer): Boolean
-    var
-        PaymentOrderLineCZB2: Record "Payment Order Line CZB";
-    begin
-        PaymentOrderLineCZB2.SetRange("Applies-to C/V/E Entry No.", EntryNo);
-        exit(not PaymentOrderLineCZB2.IsEmpty());
     end;
 }
