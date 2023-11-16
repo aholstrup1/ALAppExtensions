@@ -1,6 +1,6 @@
 [
     {
-        "codeunitId":  139530,
+        "codeunitId": 139530,
         "CodeunitName": "MigrationQBO Tests",
         "Method": "*"
     }

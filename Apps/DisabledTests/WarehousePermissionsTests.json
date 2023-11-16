@@ -1,6 +1,6 @@
 [
     {
-        "codeunitId":  139872,
+        "codeunitId": 139872,
         "CodeunitName": "Warehouse Permissions Tests",
         "Method": "CreateInvtPickDoesNotRequireWhsePermission"
     }
