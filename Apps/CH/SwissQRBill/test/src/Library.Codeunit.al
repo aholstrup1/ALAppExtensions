@@ -61,9 +61,10 @@ codeunit 148090 "Swiss QR-Bill Test Library"
         end;
     end;
 
-    internal procedure CreateSalesInvoice(var SalesHeader: Record "Sales Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
+    internal procedure CreatePostSalesInvoice(var SalesInvoiceHeader: Record "Sales Invoice Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
     var
         VATPostingSetup: Record "VAT Posting Setup";
+        SalesHeader: Record "Sales Header";
         SalesLine: Record "Sales Line";
         CustomerNo: Code[20];
         GLAccountNo: Code[20];
@@ -82,19 +83,14 @@ codeunit 148090 "Swiss QR-Bill Test Library"
         LibrarySales.CreateSalesLine(SalesLine, SalesHeader, SalesLine.Type::"G/L Account", GLAccountNo, 1);
         SalesLine.Validate("Unit Price", UnitPrice);
         SalesLine.Modify();
-    end;
 
-    internal procedure CreatePostSalesInvoice(var SalesInvoiceHeader: Record "Sales Invoice Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
-    var
-        SalesHeader: Record "Sales Header";
-    begin
-        CreateSalesInvoice(SalesHeader, CurrencyCode, UnitPrice, PaymentTermsCode, PaymentMethodCode);
         SalesInvoiceHeader.Get(LibrarySales.PostSalesDocument(SalesHeader, true, true));
     end;
 
-    internal procedure CreateServiceInvoice(var ServiceHeader: Record "Service Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
+    internal procedure CreatePostServiceInvoice(var ServiceInvoiceHeader: Record "Service Invoice Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
     var
         VATPostingSetup: Record "VAT Posting Setup";
+        ServiceHeader: Record "Service Header";
         ServiceLine: Record "Service Line";
         CustomerNo: Code[20];
         GLAccountNo: Code[20];
@@ -113,13 +109,7 @@ codeunit 148090 "Swiss QR-Bill Test Library"
         LibraryService.CreateServiceLineWithQuantity(ServiceLine, ServiceHeader, ServiceLine.Type::"G/L Account", GLAccountNo, 1);
         ServiceLine.Validate("Unit Price", UnitPrice);
         ServiceLine.Modify();
-    end;
 
-    internal procedure CreatePostServiceInvoice(var ServiceInvoiceHeader: Record "Service Invoice Header"; CurrencyCode: Code[20]; UnitPrice: Decimal; PaymentTermsCode: Code[10]; PaymentMethodCode: Code[10])
-    var
-        ServiceHeader: Record "Service Header";
-    begin
-        CreateServiceInvoice(ServiceHeader, CurrencyCode, UnitPrice, PaymentTermsCode, PaymentMethodCode);
         LibraryService.PostServiceOrder(ServiceHeader, true, false, true);
         LibraryService.FindServiceInvoiceHeader(ServiceInvoiceHeader, ServiceHeader."No.");
     end;

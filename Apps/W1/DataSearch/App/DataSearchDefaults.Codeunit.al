@@ -167,7 +167,6 @@ codeunit 2681 "Data Search Defaults"
         TableList.Add(Database::"Cust. Ledger Entry");
         TableList.Add(Database::Item);
         TableList.Add(Database::Resource);
-        TableList.Add(Database::Location);
         TableList.Add(Database::"Sales Invoice Header");
         TableList.Add(Database::"Sales Invoice Line");
         TableList.Add(Database::"Sales Shipment Header");
@@ -185,7 +184,6 @@ codeunit 2681 "Data Search Defaults"
         TableList.Add(Database::"Cust. Ledger Entry");
         TableList.Add(Database::Vendor);
         TableList.Add(Database::"Vendor Ledger Entry");
-        TableList.Add(Database::"Gen. Journal Line");
         TableList.Add(Database::"Sales Invoice Header");
         TableList.Add(Database::"Sales Invoice Line");
         TableList.Add(Database::"Sales Cr.Memo Header");
@@ -281,13 +279,11 @@ codeunit 2681 "Data Search Defaults"
     begin
         TableList.Add(Database::Item);
         TableList.Add(Database::"Item Ledger Entry");
-        TableList.Add(Database::Location);
     end;
 
     local procedure GetTableListForWarehouseManager(var TableList: List of [Integer])
     begin
         TableList.Add(Database::Item);
-        TableList.Add(Database::Location);
         TableList.Add(Database::"Sales Shipment Header");
         TableList.Add(Database::"Sales Shipment Line");
         TableList.Add(Database::"Purch. Rcpt. Header");
@@ -311,7 +307,6 @@ codeunit 2681 "Data Search Defaults"
 
     local procedure GetTableListForWarehouseEmployee(var TableList: List of [Integer])
     begin
-        TableList.Add(Database::Location);
         TableList.Add(Database::"Sales Shipment Header");
         TableList.Add(Database::"Sales Shipment Line");
         TableList.Add(Database::"Purch. Rcpt. Header");

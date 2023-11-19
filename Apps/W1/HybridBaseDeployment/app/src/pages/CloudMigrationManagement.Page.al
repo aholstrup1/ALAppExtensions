@@ -5,7 +5,6 @@ using System.Integration;
 using System.Telemetry;
 using System.Security.AccessControl;
 using System.Security.User;
-using Microsoft.API.Upgrade;
 
 page 40063 "Cloud Migration Management"
 {

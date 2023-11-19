@@ -1274,10 +1274,8 @@ codeunit 18466 "Subcontracting Post"
                                     if (ItemLedgerEntry."Lot No." = '') and (ItemLedgerEntry."Serial No." = '') then
                                         ItemJnlLine.Validate("Applies-to Entry", ItemLedgerEntry."Entry No.");
 
-                                    ItemJnlLine.Validate("Location Code", SubOrderCompListVendLocal."Vendor Location");
-                                    ItemJnlLine.Validate("New Location Code", SubOrderCompListVendLocal."Company Location");
-                                    if SubOrderCompListVendLocal."Bin Code" <> '' then
-                                        ItemJnlLine.Validate("New Bin Code", SubOrderCompListVendLocal."Bin Code");
+                                    ItemJnlLine."Location Code" := SubOrderCompListVendLocal."Vendor Location";
+                                    ItemJnlLine."New Location Code" := SubOrderCompListVendLocal."Company Location";
                                     ItemJnlLine."Variant Code" := SubOrderCompListVendLocal."Variant Code";
                                     ItemJnlLine."Gen. Prod. Posting Group" := CompItem."Gen. Prod. Posting Group";
                                     ItemJnlLine."Item Category Code" := CompItem."Item Category Code";

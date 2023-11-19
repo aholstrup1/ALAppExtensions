@@ -22,9 +22,9 @@ codeunit 31022 "Purch.-Post Handler CZZ"
             exit;
 
         if PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Order then
-            PurchAdvLetterManagement.CheckAdvancePayment("Adv. Letter Usage Doc.Type CZZ"::"Purchase Order", PurchaseHeader)
+            PurchAdvLetterManagement.CheckAdvancePayement("Adv. Letter Usage Doc.Type CZZ"::"Purchase Order", PurchaseHeader."No.")
         else
-            PurchAdvLetterManagement.CheckAdvancePayment("Adv. Letter Usage Doc.Type CZZ"::"Purchase Invoice", PurchaseHeader);
+            PurchAdvLetterManagement.CheckAdvancePayement("Adv. Letter Usage Doc.Type CZZ"::"Purchase Invoice", PurchaseHeader."No.");
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purchase Handler CZP", 'OnBeforeCreateCashDocument', '', false, false)]

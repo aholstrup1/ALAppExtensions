@@ -45,6 +45,8 @@ pageextension 1444 "Headlines RC Rel. Mgt. Ext." extends "Headline RC Relationsh
     end;
 
     var
+        [InDataSet]
         IsTopCustomerVisible: Boolean;
+        [InDataSet]
         TopCustomerText: Text[250];
 }

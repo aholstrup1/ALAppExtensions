@@ -13,11 +13,14 @@ codeunit 30186 "Shpfy ToArchivedProduct" implements "Shpfy IRemoveProductAction"
     /// <param name="Product">VAR Record "Shopify Product".</param>
     internal procedure RemoveProductAction(var Product: Record "Shpfy Product")
     var
+        TempProduct: Record "Shpfy Product" temporary;
         ProductApi: Codeunit "Shpfy Product API";
     begin
         if Product.Status <> "Shpfy Product Status"::Archived then begin
+            TempProduct := Product;
+            Product.Status := "Shpfy Product Status"::Archived;
             ProductApi.SetShop(Product."Shop Code");
-            ProductApi.UpdateProductStatus(Product, "Shpfy Product Status"::Archived);
+            ProductApi.UpdateProduct(Product, TempProduct);
         end;
     end;
 }

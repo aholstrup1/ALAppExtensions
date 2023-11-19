@@ -15,6 +15,7 @@ page 2682 "Data Search Result Records"
     SourceTableView = where(Number = filter('>0'));
     InherentEntitlements = X;
     InherentPermissions = X;
+
     layout
     {
         area(content)

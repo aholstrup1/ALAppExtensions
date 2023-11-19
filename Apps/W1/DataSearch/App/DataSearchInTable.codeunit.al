@@ -124,6 +124,16 @@ codeunit 2680 "Data Search in Table"
             until DataSearchSetupField.Next() = 0;
     end;
 
+    local procedure SetTypeFilterOnRecRef(var RecRef: RecordRef; TableType: Integer; FieldNo: Integer)
+    var
+        FldRef: FieldRef;
+    begin
+        if not RecRef.FieldExist(FieldNo) then
+            exit;
+        FldRef := RecRef.Field(FieldNo);
+        FldRef.SetRange(TableType);
+    end;
+
     local procedure SetListedFieldFiltersOnRecRef(var RecRef: RecordRef; TableType: Integer; SearchString: Text; UseTextSearch: Boolean; var FieldList: List of [Integer])
     var
         DataSearchObjectMapping: Codeunit "Data Search Object Mapping";
@@ -136,7 +146,7 @@ codeunit 2680 "Data Search in Table"
 
         FieldNo := DataSearchObjectMapping.GetTypeNoField(RecRef.Number);
         if FieldNo > 0 then
-            DataSearchObjectMapping.SetTypeFilterOnRecRef(RecRef, TableType, FieldNo);
+            SetTypeFilterOnRecRef(RecRef, TableType, FieldNo);
 
         RecRef.FilterGroup(-1); // 'OR' group
         foreach FieldNo in FieldList do

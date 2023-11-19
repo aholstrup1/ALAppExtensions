@@ -87,11 +87,6 @@ page 18495 "Sub Order Comp. List Vend"
                     ApplicationArea = Basic, Suite;
                     ToolTip = 'Specifies the company location code for the document.';
                 }
-                field("Bin Code"; Rec."Bin Code")
-                {
-                    ApplicationArea = Basic, Suite;
-                    ToolTip = 'Specifies the company bin code for the document.';
-                }
                 field("Vendor Location"; Rec."Vendor Location")
                 {
                     ApplicationArea = Basic, Suite;

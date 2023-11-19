@@ -13,17 +13,21 @@ using Microsoft.Sales.Customer;
 codeunit 31390 "Match Bank Payment Handler CZZ"
 {
     var
-        GlobalMinAmount, GlobalMaxAmount : Decimal;
+        BankAccount: Record "Bank Account";
+        MatchBankPaymentCZB: Codeunit "Match Bank Payment CZB";
+        MinAmount, MaxAmount : Decimal;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Match Bank Payment CZB", 'OnAfterFillMatchBankPaymentBuffer', '', false, false)]
-    local procedure MatchAdvancesOnAfterFillMatchBankPaymentBuffer(SearchRuleLineCZB: Record "Search Rule Line CZB"; var TempMatchBankPaymentBufferCZB: Record "Match Bank Payment Buffer CZB"; var GenJournalLine: Record "Gen. Journal Line"; MinAmount: Decimal; MaxAmount: Decimal)
+    local procedure MatchAdvancesOnAfterFillMatchBankPaymentBuffer(SearchRuleLineCZB: Record "Search Rule Line CZB"; var TempMatchBankPaymentBufferCZB: Record "Match Bank Payment Buffer CZB"; var GenJournalLine: Record "Gen. Journal Line")
     begin
         if SearchRuleLineCZB."Search Scope" <> SearchRuleLineCZB."Search Scope"::"Advance CZZ" then
             exit;
 
-        GlobalMinAmount := MinAmount;
-        GlobalMaxAmount := MaxAmount;
-
+        BankAccount.Get(GenJournalLine."Bal. Account No.");
+        if GenJournalLine.IsLocalCurrencyCZB() then
+            MatchBankPaymentCZB.GetAmountRangeForTolerance(BankAccount, -GenJournalLine."Amount (LCY)", MinAmount, MaxAmount)
+        else
+            MatchBankPaymentCZB.GetAmountRangeForTolerance(BankAccount, -GenJournalLine.Amount, MinAmount, MaxAmount);
         case SearchRuleLineCZB."Banking Transaction Type" of
             SearchRuleLineCZB."Banking Transaction Type"::Both:
                 begin
@@ -68,9 +72,9 @@ codeunit 31390 "Match Bank Payment Handler CZZ"
         end;
         if SearchRuleLineCZB.Amount then
             if GenJournalLine.IsLocalCurrencyCZB() then
-                SalesAdvLetterHeaderCZZ.SetRange("To Pay (LCY)", GlobalMinAmount, GlobalMaxAmount)
+                SalesAdvLetterHeaderCZZ.SetRange("To Pay (LCY)", MinAmount, MaxAmount)
             else
-                SalesAdvLetterHeaderCZZ.SetRange("To Pay", GlobalMinAmount, GlobalMaxAmount);
+                SalesAdvLetterHeaderCZZ.SetRange("To Pay", MinAmount, MaxAmount);
         if SearchRuleLineCZB."Variable Symbol" then begin
             if GenJournalLine."Variable Symbol CZL" = '' then
                 exit;
@@ -123,9 +127,9 @@ codeunit 31390 "Match Bank Payment Handler CZZ"
         end;
         if SearchRuleLineCZB.Amount then
             if GenJournalLine.IsLocalCurrencyCZB() then
-                PurchAdvLetterHeaderCZZ.SetRange("To Pay (LCY)", -GlobalMaxAmount, -GlobalMinAmount)
+                PurchAdvLetterHeaderCZZ.SetRange("To Pay (LCY)", -MaxAmount, -MinAmount)
             else
-                PurchAdvLetterHeaderCZZ.SetRange("To Pay", -GlobalMaxAmount, -GlobalMinAmount);
+                PurchAdvLetterHeaderCZZ.SetRange("To Pay", -MaxAmount, -MinAmount);
         if SearchRuleLineCZB."Variable Symbol" then begin
             if GenJournalLine."Variable Symbol CZL" = '' then
                 exit;

@@ -44,11 +44,6 @@ table 2680 "Data Search Result"
             Caption = 'No. of Hits';
             DataClassification = CustomerContent;
         }
-        field(8; "Table/Type ID"; Integer)
-        {
-            Caption = 'Table/Type ID';
-            DataClassification = SystemMetadata;
-        }
         field(10; "Table Caption"; Text[250])
         {
             CalcFormula = lookup(AllObjWithCaption."Object Caption" where("Object Type" = const(Table), "Object ID" = field("Table No.")));
@@ -155,14 +150,13 @@ table 2680 "Data Search Result"
         ShowPage(RecRef, Rec."Table Subtype");
     end;
 
-    internal procedure ShowPage(RecRef: RecordRef; TableType: Integer)
+    internal procedure ShowPage(var RecRef: RecordRef; TableType: Integer)
     var
         TableMetadata: Record "Table Metadata";
         PageMetaData: Record "Page Metadata";
         DataSearchObjectMapping: Codeunit "Data Search Object Mapping";
         PageManagement: Codeunit "Page Management";
         DataSearchEvents: Codeunit "Data Search Events";
-        RecRefNoFilter: RecordRef;
         RecVariant: Variant;
         PageNo: Integer;
     begin

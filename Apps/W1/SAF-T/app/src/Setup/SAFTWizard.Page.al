@@ -463,8 +463,6 @@ page 5280 "SAF-T Wizard"
         EnableControls();
         UpdateVATPostingSetupMappedCount();
         MappingHelperSAFT.MapRestSourceCodesToAssortedJournals();
-        MappingHelperSAFT.InitDimensionFieldsSAFT();
-        MappingHelperSAFT.InitVATPostingSetupFieldsSAFT();
 
         InitDataUpgradeInterface();
         DataUpgradeRequired := DataUpgradeSAFT.IsDataUpgradeRequired();

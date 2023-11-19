@@ -38,6 +38,8 @@ pageextension 1445 "Headlines RC Admin. Ext." extends "Headline RC Administrator
     end;
 
     var
+        [InDataSet]
         Headline1Visible: Boolean;
+        [InDataSet]
         Headline1Text: Text[250];
 }

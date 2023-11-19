@@ -33,26 +33,12 @@ codeunit 31362 "Match Bank Payment CZB"
         VendorLedgerEntry: Record "Vendor Ledger Entry";
         EmployeeLedgerEntry: Record "Employee Ledger Entry";
         TempMatchBankPaymentBufferCZB: Record "Match Bank Payment Buffer CZB" temporary;
-        SummaryGenJournalLine: Record "Gen. Journal Line";
-        BankAccountNo: Code[20];
         MinAmount, MaxAmount : Decimal;
 
     local procedure Code()
     begin
-        BankAccountNo := GenJournalLine."Bal. Account No.";
-        if BankAccountNo = '' then begin
-            // the summary line must exist when the post per line is not allowed in the bank account.
-            SummaryGenJournalLine.SetRange("Journal Template Name", GenJournalLine."Journal Template Name");
-            SummaryGenJournalLine.SetRange("Journal Batch Name", GenJournalLine."Journal Batch Name");
-            SummaryGenJournalLine.SetRange("Document No.", GenJournalLine."Document No.");
-            SummaryGenJournalLine.SetRange("Account Type", Enum::"Gen. Journal Account Type"::"Bank Account");
-            if not SummaryGenJournalLine.FindFirst() then begin
-                GenJournalLine.TestField("Bal. Account Type", Enum::"Gen. Journal Account Type"::"Bank Account");
-                GenJournalLine.TestField("Bal. Account No.");
-            end;
-            BankAccountNo := SummaryGenJournalLine."Account No.";
-        end;
-
+        GenJournalLine.TestField("Bal. Account Type", GenJournalLine."Bal. Account Type"::"Bank Account");
+        GenJournalLine.TestField("Bal. Account No.");
         GenJournalLine.TestField("Search Rule Code CZB");
         if GenJournalLine.IsLocalCurrencyCZB() then
             GenJournalLine.TestField("Amount (LCY)")
@@ -60,7 +46,7 @@ codeunit 31362 "Match Bank Payment CZB"
             GenJournalLine.TestField(Amount);
         GenJournalLine."Search Rule Line No. CZB" := 0;
 
-        BankAccount.Get(BankAccountNo);
+        BankAccount.Get(GenJournalLine."Bal. Account No.");
         BankAccount.TestField("Disable Automatic Pmt Matching", false);
         if GenJournalLine.IsLocalCurrencyCZB() then
             GetAmountRangeForTolerance(BankAccount, -GenJournalLine."Amount (LCY)", MinAmount, MaxAmount)
@@ -124,7 +110,8 @@ codeunit 31362 "Match Bank Payment CZB"
                 // search rule
                 TempMatchBankPaymentBufferCZB.Reset();
                 TempMatchBankPaymentBufferCZB.DeleteAll();
-                case SearchRuleLineCZB."Search Scope" of
+                case
+                    SearchRuleLineCZB."Search Scope" of
                     SearchRuleLineCZB."Search Scope"::Balance:
                         begin
                             FillMatchBankPaymentBufferCustomer();
@@ -138,7 +125,7 @@ codeunit 31362 "Match Bank Payment CZB"
                     SearchRuleLineCZB."Search Scope"::Employee:
                         FillMatchBankPaymentBufferEmployee();
                 end;
-                OnAfterFillMatchBankPaymentBuffer(TempMatchBankPaymentBufferCZB, SearchRuleLineCZB, GenJournalLine, MinAmount, MaxAmount);
+                OnAfterFillMatchBankPaymentBuffer(TempMatchBankPaymentBufferCZB, SearchRuleLineCZB, GenJournalLine);
 
                 if TempMatchBankPaymentBufferCZB.Count() > 0 then begin
                     case SearchRuleLineCZB."Multiple Result" of
@@ -443,7 +430,7 @@ codeunit 31362 "Match Bank Payment CZB"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterFillMatchBankPaymentBuffer(var TempMatchBankPaymentBufferCZB: Record "Match Bank Payment Buffer CZB"; SearchRuleLineCZB: Record "Search Rule Line CZB"; var GenJournalLine: Record "Gen. Journal Line"; MinAmount: Decimal; MaxAmount: Decimal)
+    local procedure OnAfterFillMatchBankPaymentBuffer(var TempMatchBankPaymentBufferCZB: Record "Match Bank Payment Buffer CZB"; SearchRuleLineCZB: Record "Search Rule Line CZB"; var GenJournalLine: Record "Gen. Journal Line")
     begin
     end;
 
