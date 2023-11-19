@@ -13,7 +13,7 @@ codeunit 4611 "SMTP Client"
         SMTPClientImpl: Codeunit "SMTP Client Impl";
 
     /// <summary>
-    /// Connect to the specified SMTP server and port.
+    /// Connect to the specified SMTP server and port. 
     /// </summary>
     /// <param name="Host">Server url or ip</param>
     /// <param name="Port">Server port number</param>
