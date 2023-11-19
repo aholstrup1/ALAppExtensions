@@ -43,7 +43,6 @@ using Microsoft.Purchases.History;
 using Microsoft.Purchases.Payables;
 using Microsoft.Purchases.Vendor;
 using Microsoft.RoleCenters;
-using Microsoft.Finance.GeneralLedger.Journal;
 using Microsoft.Sales.Customer;
 using Microsoft.Sales.Document;
 using Microsoft.Sales.FinanceCharge;

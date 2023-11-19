@@ -64,6 +64,18 @@ page 2681 "Data Search lines"
                     RunSetupPage(Page::"Data Search Setup (Lists)");
                 end;
             }
+            action(SetupLists)
+            {
+                ApplicationArea = All;
+                Caption = 'Set up where to search';
+                ToolTip = 'Opens a page that shows which lists are enabled for search for your role center. If you have permissions, you can change which lists, tables and fields are searched.';
+                Image = ShowList;
+
+                trigger OnAction()
+                begin
+                    Page.RunModal(Page::"Data Search Setup (Lists)");
+                end;
+            }
         }
     }
 

@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------------------------
 namespace Microsoft.Finance.AdvancePayments;
 
+using Microsoft.Bank.BankAccount;
 using Microsoft.Bank.Documents;
 using Microsoft.Finance.GeneralLedger.Journal;
 using Microsoft.Purchases.Vendor;

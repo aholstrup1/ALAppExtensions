@@ -80,20 +80,29 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
         BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
         GLAccountList: Page "G/L Account List";
     begin
-        TempInitialBankAccRecAIProposal.Reset();
-        TempInitialBankAccRecAIProposal.SetRange("Statement Type", Rec."Statement Type");
-        TempInitialBankAccRecAIProposal.SetRange("Bank Account No.", Rec."Bank Account No.");
-        TempInitialBankAccRecAIProposal.SetRange("Statement No.", Rec."Statement No.");
-        TempInitialBankAccRecAIProposal.SetRange("Statement Line No.", Rec."Statement Line No.");
-        TempInitialBankAccRecAIProposal.SetFilter("Bank Account Ledger Entry No.", '<>0');
+        if Rec."G/L Account No." = '' then begin
+            TempInitialBankAccRecAIProposal.Reset();
+            TempInitialBankAccRecAIProposal.SetRange("Statement Type", Rec."Statement Type");
+            TempInitialBankAccRecAIProposal.SetRange("Bank Account No.", Rec."Bank Account No.");
+            TempInitialBankAccRecAIProposal.SetRange("Statement No.", Rec."Statement No.");
+            TempInitialBankAccRecAIProposal.SetRange("Statement Line No.", Rec."Statement Line No.");
+            if TempInitialBankAccRecAIProposal.FindSet() then
+                repeat
+                    if TempInitialBankAccRecAIProposal."Bank Account Ledger Entry No." <> 0 then
+                        if BankAccountLedgerEntry.Get(TempInitialBankAccRecAIProposal."Bank Account Ledger Entry No.") then
+                            TempBankAccountLedgerEntry.CopyFromBankAccLedgerEntry(BankAccountLedgerEntry, '');
+                until TempInitialBankAccRecAIProposal.Next() = 0;
 
-        if (Rec."G/L Account No." <> '') or ((Rec."G/L Account No." = '') and TempInitialBankAccRecAIProposal.IsEmpty()) then begin
+            Page.Run(Page::"Bank Account Ledger Entries", TempBankAccountLedgerEntry);
+            exit;
+        end;
+
+        if GLAccount.Get(Rec."G/L Account No.") then begin
             LookupGLAccount.SetRange("Direct Posting", true);
             if not LookupGLAccount.IsEmpty() then begin
                 GLAccountList.LookupMode(true);
                 GLAccountList.SetTableView(LookupGLAccount);
-                if GLAccount.Get(Rec."G/L Account No.") then
-                    GLAccountList.SetRecord(GLAccount);
+                GLAccountList.SetRecord(GLAccount);
                 if GLAccountList.RunModal() = Action::LookupOK then begin
                     GLAccountList.SetSelection(SelectedGLAccount);
                     if SelectedGLAccount.FindFirst() then
@@ -106,24 +115,6 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
                         end;
                 end;
             end;
-            exit;
-        end;
-
-        if not TempInitialBankAccRecAIProposal.IsEmpty() then begin
-            TempInitialBankAccRecAIProposal.Reset();
-            TempInitialBankAccRecAIProposal.SetRange("Statement Type", Rec."Statement Type");
-            TempInitialBankAccRecAIProposal.SetRange("Bank Account No.", Rec."Bank Account No.");
-            TempInitialBankAccRecAIProposal.SetRange("Statement No.", Rec."Statement No.");
-            TempInitialBankAccRecAIProposal.SetRange("Statement Line No.", Rec."Statement Line No.");
-            TempInitialBankAccRecAIProposal.SetFilter("Bank Account Ledger Entry No.", '<>0');
-            if TempInitialBankAccRecAIProposal.FindSet() then
-                repeat
-                    if BankAccountLedgerEntry.Get(TempInitialBankAccRecAIProposal."Bank Account Ledger Entry No.") then
-                        TempBankAccountLedgerEntry.CopyFromBankAccLedgerEntry(BankAccountLedgerEntry, '');
-                until TempInitialBankAccRecAIProposal.Next() = 0;
-
-            Page.Run(Page::"Bank Account Ledger Entries", TempBankAccountLedgerEntry);
-            exit;
         end;
     end;
 
@@ -142,7 +133,6 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
     internal procedure Load(var TempBankAccRecAIProposal: Record "Bank Acc. Rec. AI Proposal" temporary): Integer
     var
         StatementLines: List of [Integer];
-        StatementLinesCount: Integer;
     begin
         TempBankAccRecAIProposal.Reset();
         MapTextToAccountVisible := false;
@@ -163,19 +153,17 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
                     Rec.Description := TempBankAccRecAIProposal.Description;
                     Rec.Insert();
                     StatementLines.Add(TempBankAccRecAIProposal."Statement Line No.");
-                    if (TempBankAccRecAIProposal."Bank Account Ledger Entry No." <> 0) or (TempBankAccRecAIProposal."G/L Account No." <> '') then
-                        StatementLinesCount += 1;
                 end
                 else begin
                     Rec.Get(TempBankAccRecAIProposal."Statement Type", TempBankAccRecAIProposal."Bank Account No.", TempBankAccRecAIProposal."Statement No.", TempBankAccRecAIProposal."Statement Line No.");
                     Rec."AI Proposal" := ApplyToMultipleLedgerEntriesTxt;
                     Rec.Modify();
                 end;
-                if TempBankAccRecAIProposal."Bank Account Ledger Entry No." = 0 then
+                if TempBankAccRecAIProposal."G/L Account No." <> '' then
                     MapTextToAccountVisible := true;
             until TempBankAccRecAIProposal.Next() = 0;
         CurrPage.Update();
-        exit(StatementLinesCount);
+        exit(StatementLines.Count());
     end;
 
     local procedure SaveToTextToAccountMapping()
@@ -184,9 +172,6 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
         BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
     begin
         Session.LogMessage('0000LEU', TelemetryUserSavingProposalTxt, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, 'Category', BankRecAIMatchingImpl.FeatureName());
-        if Rec."G/L Account No." = '' then
-            exit;
-
         BankAccRecTransToAcc.InsertTextToAccountMapping(Rec);
     end;
 
@@ -204,9 +189,6 @@ page 7251 "Bank Acc. Rec. AI Proposal Sub"
                 if TempInitialBankAccRecAIProposal.FindSet() then
                     repeat
                         TempBankAccRecAIProposal.Copy(TempInitialBankAccRecAIProposal, false);
-                        if Rec."G/L Account No." <> '' then
-                            if Rec."G/L Account No." <> TempBankAccRecAIProposal."G/L Account No." then
-                                TempBankAccRecAIProposal."G/L Account No." := Rec."G/L Account No.";
                         TempBankAccRecAIProposal.Insert();
                     until TempInitialBankAccRecAIProposal.Next() = 0;
             until Rec.Next() = 0;

@@ -32,8 +32,6 @@ pageextension 7253 BankAccReconciliationExt extends "Bank Acc. Reconciliation"
                     TransToGLAccAIProposal: Page "Trans. To GL Acc. AI Proposal";
                     LineNoFilter: Text;
                 begin
-                    BankRecAIMatchingImpl.RegisterCapability();
-
                     if not AzureOpenAI.IsEnabled(Enum::"Copilot Capability"::"Bank Account Reconciliation") then
                         exit;
 
@@ -73,7 +71,6 @@ pageextension 7253 BankAccReconciliationExt extends "Bank Acc. Reconciliation"
                         if BankAccReconciliation.Get(BankAccReconciliationLine."Statement Type", BankAccReconciliationLine."Bank Account No.", BankAccReconciliationLine."Statement No.") then begin
                             TransToGLAccAIProposal.SetStatementDate(BankAccReconciliation."Statement Date");
                             TransToGLAccAIProposal.SetStatementEndingBalance(BankAccReconciliation."Statement Ending Balance");
-                            TransToGLAccAIProposal.SetPageCaption(StrSubstNo(ContentAreaCaptionTxt, BankAccReconciliationLine."Bank Account No.", BankAccReconciliationLine."Statement No.", BankAccReconciliation."Statement Date"));
                         end;
                         TransToGLAccAIProposal.SetBankAccReconciliationLines(BankAccReconciliationLine);
                         FeatureTelemetry.LogUptake('0000LF1', BankRecAIMatchingImpl.FeatureName(), Enum::"Feature Uptake Status"::"Set up");
@@ -103,8 +100,6 @@ pageextension 7253 BankAccReconciliationExt extends "Bank Acc. Reconciliation"
                     BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
                     AzureOpenAI: Codeunit "Azure OpenAI";
                 begin
-                    BankRecAIMatchingImpl.RegisterCapability();
-
                     if not AzureOpenAI.IsEnabled(Enum::"Copilot Capability"::"Bank Account Reconciliation") then
                         exit;
 
@@ -146,6 +141,5 @@ pageextension 7253 BankAccReconciliationExt extends "Bank Acc. Reconciliation"
         CopilotActionsVisible: Boolean;
         BankAccRecWithAILbl: label 'BankAccRecWithAI', Locked = true;
         NoBankAccReconcilliationLnWithDiffSellectedErr: Label 'Select the bank statement lines that have differences to transfer to the general journal.';
-        ContentAreaCaptionTxt: label 'Reconciling %1 statement %2 for %3', Comment = '%1 - bank account code, %2 - statement number, %3 - statement date';
 
 }

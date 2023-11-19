@@ -582,15 +582,6 @@ page 40063 "Cloud Migration Management"
                         Page.Run(Page::"Cloud Mig - Select Tables", IntelligentCloudStatus);
                 end;
             }
-            action(SkipApiUpgrade)
-            {
-                Visible = not IsOnPrem;
-                ApplicationArea = Basic, Suite;
-                Caption = 'Manage API Upgrade';
-                ToolTip = 'Allows to skip the API upgrade and run it later after the cloud migraiton is completed.';
-                Image = ChangeLog;
-                RunObject = page "API Data Upgrade Companies";
-            }
         }
 
         area(Promoted)

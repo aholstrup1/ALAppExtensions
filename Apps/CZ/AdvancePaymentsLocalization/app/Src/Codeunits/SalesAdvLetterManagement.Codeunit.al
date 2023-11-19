@@ -38,7 +38,6 @@ codeunit 31002 "SalesAdvLetterManagement CZZ"
         VATDocumentExistsErr: Label 'VAT Document already exists.';
         DateEmptyErr: Label 'Posting Date and VAT Date cannot be empty.';
         PostingDateEmptyErr: Label 'Posting Date cannot be empty.';
-        LaterPostingDateQst: Label 'The linked advance letter %1 is paid after %2. If you continue, the advance letter won''t be deducted.\\Do you want to continue?', Comment = '%1 = advance letter no., %2 = posting date';
 
     procedure AdvEntryInit(Preview: Boolean)
     begin

@@ -80,7 +80,6 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
             AzureOpenAI.SetCopilotCapability(Enum::"Copilot Capability"::"Bank Account Reconciliation");
             AOAIChatCompletionParams.SetMaxTokens(BankRecAIMatchingImpl.MaxTokens());
             AOAIChatCompletionParams.SetTemperature(0);
-            InputWithReservedWordsFound := false;
             AOAIChatMessages.AddSystemMessage(BuildBankRecCompletionPrompt(BuildMostAppropriateGLAccountPromptTask(), BuildBankRecStatementLines(BankAccReconciliationLine, TempBankStatementMatchingBuffer), BuildGLAccounts(GLAccount)));
             AzureOpenAI.GenerateChatCompletion(AOAIChatMessages, AOAIChatCompletionParams, AOAIOperationResponse);
             if AOAIOperationResponse.IsSuccess() then
@@ -216,19 +215,15 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
 
     procedure BuildGLAccounts(var GLAccount: Record "G/L Account"): Text
     var
-        BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
         GLAccountsTxt: Text;
     begin
         if (GLAccountsTxt = '') then
             GLAccountsTxt := '**G/L Accounts**:\n"""\n';
 
         repeat
-            if not BankRecAIMatchingImpl.HasReservedWords(GLAccount.Name) then begin
-                GLAccountsTxt += '#Id: ' + GLAccount."No.";
-                GLAccountsTxt += ', Name: ' + GLAccount.Name;
-                GLAccountsTxt += '\n'
-            end else
-                InputWithReservedWordsFound := true;
+            GLAccountsTxt += '#Id: ' + GLAccount."No.";
+            GLAccountsTxt += ', Name: ' + GLAccount.Name;
+            GLAccountsTxt += '\n';
         until (GLAccount.Next() = 0);
         exit(GLAccountsTxt);
     end;
@@ -241,7 +236,6 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
 #pragma warning restore AL0432
 #endif
     var
-        BankRecAIMatchingImpl: Codeunit "Bank Rec. AI Matching Impl.";
         StatementLines: Text;
     begin
         if (StatementLines = '') then
@@ -249,16 +243,13 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
 
         if BankAccReconciliationLine.FindSet() then
             repeat
-                if not BankRecAIMatchingImpl.HasReservedWords(BankAccReconciliationLine.Description) then begin
-                    TempBankStatementMatchingBuffer.Reset();
-                    TempBankStatementMatchingBuffer.SetRange("Line No.", BankAccReconciliationLine."Statement Line No.");
-                    if TempBankStatementMatchingBuffer.IsEmpty() then begin
-                        StatementLines += '#Id: ' + Format(BankAccReconciliationLine."Statement Line No.");
-                        StatementLines += ', Description: ' + BankAccReconciliationLine.Description;
-                        StatementLines += '\n';
-                    end
-                end else
-                    InputWithReservedWordsFound := true;
+                TempBankStatementMatchingBuffer.Reset();
+                TempBankStatementMatchingBuffer.SetRange("Line No.", BankAccReconciliationLine."Statement Line No.");
+                if TempBankStatementMatchingBuffer.IsEmpty() then begin
+                    StatementLines += '#Id: ' + Format(BankAccReconciliationLine."Statement Line No.");
+                    StatementLines += ', Description: ' + BankAccReconciliationLine.Description;
+                    StatementLines += '\n';
+                end;
             until BankAccReconciliationLine.Next() = 0;
 
         exit(StatementLines);
@@ -296,20 +287,6 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
                         TempBankAccRecAIProposal."Bank Account Ledger Entry No." := 0;
                         TempBankAccRecAIProposal.Insert();
                     end;
-            end
-            else begin
-                TempBankAccRecAIProposal."Statement Type" := BankAccReconciliationLine."Statement Type";
-                TempBankAccRecAIProposal."Bank Account No." := BankAccReconciliationLine."Bank Account No.";
-                TempBankAccRecAIProposal."Statement No." := BankAccReconciliationLine."Statement No.";
-                TempBankAccRecAIProposal."Statement Line No." := BankAccReconciliationLine."Statement Line No.";
-                TempBankAccRecAIProposal."Document No." := BankAccReconciliationLine."Document No.";
-                TempBankAccRecAIProposal.Description := BankAccReconciliationLine.Description;
-                TempBankAccRecAIProposal."Transaction Date" := BankAccReconciliationLine."Transaction Date";
-                TempBankAccRecAIProposal.Difference := BankAccReconciliationLine.Difference;
-                TempBankAccRecAIProposal."G/L Account No." := '';
-                TempBankAccRecAIProposal."AI Proposal" := ChooseGLAccountLbl;
-                TempBankAccRecAIProposal."Bank Account Ledger Entry No." := 0;
-                TempBankAccRecAIProposal.Insert();
             end;
         until BankAccReconciliationLine.Next() = 0;
     end;
@@ -380,11 +357,6 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
         exit(taskPrompt + StatementLine + GLAccounts);
     end;
 
-    procedure FoundInputWithReservedWords(): Boolean
-    begin
-        exit(InputWithReservedWordsFound)
-    end;
-
     var
         TelemetryNoDirectPostingGLAccountsErr: label 'User has no G/L Account that allows direct posting.', Locked = true;
         NoDirectPostingGLAccountsErr: label 'You must create at least one G/L Account that allows direct posting.';
@@ -392,6 +364,4 @@ codeunit 7251 "Bank Acc. Rec. Trans. to Acc."
         TelemetryChatCompletionErr: label 'Chat completion request was unsuccessful. Response code: %1', Locked = true;
         ConstructingPromptFailedErr: label 'There was an error with sending the call to Copilot. Log a Business Central support request about this.', Comment = 'Copilot is a Microsoft service name and must not be translated';
         TelemetryConstructingPromptFailedErr: label 'There was an error with constructing the chat completion prompt from the Key Vault.', Locked = true;
-        ChooseGLAccountLbl: label 'Choose G/L Account...';
-        InputWithReservedWordsFound: Boolean;
 }

@@ -166,10 +166,8 @@ table 2680 "Data Search Result"
         RecVariant: Variant;
         PageNo: Integer;
     begin
-        RecRefNoFilter := RecRef;
-        RecRefNoFilter.Reset();
-        DataSearchObjectMapping.MapLinesRecToHeaderRec(RecRefNoFilter);
-        RecVariant := RecRefNoFilter;
+        DataSearchObjectMapping.MapLinesRecToHeaderRec(RecRef);
+        RecVariant := RecRef;
         if not PageManagement.PageRun(RecVariant) then begin
             DataSearchEvents.OnGetCardPageNo(RecRef.Number, TableType, PageNo);
             if PageNo = 0 then begin
