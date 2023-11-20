@@ -1,8 +1,0 @@
-{
-    "projectName": "1st Party Apps Tests (GB)",
-    "testFolders":  [
-        "..\\..\\..\\Apps\\GB\\*\\test",
-        "..\\..\\..\\Apps\\GB\\*\\test library"
-    ],
-    "artifact": "bcartifacts//23.1.13431.14020/GB"
-}
