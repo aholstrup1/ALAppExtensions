@@ -9,5 +9,5 @@
     "doNotRunTests": true,
     "useCompilerFolder": true,
     "doNotPublishApps": true,
-    "artifact": "bcinsider//23.2.13957.0/CH"
+    "artifact": "bcartifacts//23.1.13431.13967/CH"
 }
