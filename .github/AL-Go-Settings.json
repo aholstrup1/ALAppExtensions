@@ -3,7 +3,7 @@
   "templateUrl": "https://github.com/microsoft/AL-Go-PTE@preview",
   "bcContainerHelperVersion": "preview",
   "runs-on": "ubuntu-latest",
-  "gitHubRunner": "windows-latest",
+  "gitHubRunner": "ubuntu-latest",
   "cacheImageName": "",
   "UsePsSession": false,
   "artifact": "bcartifacts//23.1.13431.14020/base",
