@@ -8,9 +8,6 @@
         "..\\..\\..\\Apps\\W1\\SmartList",
         "..\\..\\..\\Apps\\W1\\SyncBase"
     ],
-    "buildModes": [
-        "Translated"
-    ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
     "doNotPublishApps": true,

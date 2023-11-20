@@ -3,9 +3,6 @@
     "appFolders":  [
         "..\\..\\..\\Apps\\US\\*\\app"
     ],
-    "buildModes": [
-        "Translated"
-    ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
     "doNotPublishApps": true,

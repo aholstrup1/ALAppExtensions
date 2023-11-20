@@ -37,7 +37,7 @@
     "Official-Build"
   ],
   "buildModes": [
-    "Default"
+    "Translated"
   ],
   "CICDPushBranches": [
     "main"
