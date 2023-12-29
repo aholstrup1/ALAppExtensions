@@ -1,7 +1,7 @@
 {
     "projectName": "1st Party Apps (SE)",
     "appFolders":  [
-        "..\\..\\..\\Apps\\SE\\*\\app"
+        "..\\..\\..\\Apps\\SE\\SECore\\app"
     ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
