@@ -1,0 +1,7 @@
+{
+    "projectName": "1st Party Apps Tests (IN)",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\IN\\*\\test",
+        "..\\..\\..\\Apps\\IN\\*\\test library"
+    ]
+}
