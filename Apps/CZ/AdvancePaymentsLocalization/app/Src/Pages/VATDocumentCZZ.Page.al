@@ -37,7 +37,7 @@ page 31185 "VAT Document CZZ"
                     trigger OnValidate()
                     begin
                         if DocumentNo <> InitDocumentNo then
-                            NoSeriesManagement.TestManual(NoSeriesCode);
+                            NoSeries.TestManual(NoSeriesCode);
                     end;
 
                     trigger OnAssistEdit()
@@ -140,6 +140,7 @@ page 31185 "VAT Document CZZ"
 
     var
         NoSeriesManagement: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         DocumentNo: Code[20];
         InitDocumentNo: Code[20];
         ExternalDocumentNo: Code[35];

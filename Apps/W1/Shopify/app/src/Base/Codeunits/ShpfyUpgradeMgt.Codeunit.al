@@ -34,7 +34,9 @@ codeunit 30106 "Shpfy Upgrade Mgt."
         LocationUpgrade();
         SyncPricesWithProductsUpgrade();
         SendShippingConfirmationUpgrade();
+#if CLEAN24
         OrderAttributeValueUpgrade();
+#endif
     end;
 
 #if CLEAN22
@@ -383,6 +385,7 @@ codeunit 30106 "Shpfy Upgrade Mgt."
         UpgradeTag.SetUpgradeTag(GetSendShippingConfirmationUpgradeTag());
     end;
 
+#if CLEAN24
     local procedure OrderAttributeValueUpgrade()
     var
         OrderAttribute: Record "Shpfy Order Attribute";
@@ -401,6 +404,7 @@ codeunit 30106 "Shpfy Upgrade Mgt."
 
         UpgradeTag.SetUpgradeTag(GetOrderAttributeValueUpgradeTag());
     end;
+#endif
 
     local procedure GetShopifyB2BEnabledUpgradeTag(): Code[250]
     begin
@@ -461,10 +465,12 @@ codeunit 30106 "Shpfy Upgrade Mgt."
     end;
 #endif
 
+#if CLEAN24
     local procedure GetOrderAttributeValueUpgradeTag(): Code[250]
     begin
         exit('MS-497909-OrderAttributeValueUpgradeTag-20240125');
     end;
+#endif
 
     local procedure GetDateBeforeFeature(): DateTime
     begin

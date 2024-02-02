@@ -116,7 +116,7 @@ table 6210 "Sustainability Account"
             Caption = 'Totaling';
             trigger OnValidate()
             begin
-                if IsPosting() then
+                if IsPosting() and (Totaling <> '') then
                     FieldError("Account Type");
                 CalcFields("Net Change (CO2)", "Balance at Date (CO2)", "Balance (CO2)", "Net Change (CH4)", "Balance at Date (CH4)", "Balance (CH4)", "Net Change (N2O)", "Balance at Date (N2O)", "Balance (N2O)");
             end;

@@ -91,10 +91,12 @@ table 6217 "Sustainability Setup"
         }
         field(14; "Block Sustain. Accs. Deletion"; Boolean)
         {
+            InitValue = true;
             Caption = 'Block Sustainability Accounts Deletion';
         }
         field(15; "Block Change If Entry Exists"; Boolean)
         {
+            InitValue = true;
             Caption = 'Block Calculation Foundation Change If Ledger Entries Exist';
         }
     }

@@ -15,7 +15,9 @@ table 30125 "Shpfy Payout"
             Caption = 'Id';
             DataClassification = SystemMetadata;
         }
+#pragma warning disable AL0842
         field(2; Status; Enum "Shpfy Payout Status")
+#pragma warning restore AL0842
         {
             Caption = 'Status';
             DataClassification = CustomerContent;

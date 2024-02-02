@@ -563,11 +563,13 @@ report 11753 "Close Income Statement CZL"
     end;
 
     local procedure ValidateJnl()
+    var
+        NoSeries: Codeunit "No. Series";
     begin
         DocNo := '';
         if GenJournalBatch.Get(GenJournalLine."Journal Template Name", GenJournalLine."Journal Batch Name") then
             if GenJournalBatch."No. Series" <> '' then
-                DocNo := NoSeriesManagement.TryGetNextNo(GenJournalBatch."No. Series", EndDateReq);
+                DocNo := NoSeries.PeekNextNo(GenJournalBatch."No. Series", EndDateReq);
     end;
 
     local procedure HandleGenJnlLine()

@@ -94,6 +94,6 @@ table 6212 "Sustain. Account Subcategory"
         SustainabilityAccountMgt: Codeunit "Sustainability Account Mgt.";
     begin
         SustainabilityAccountMgt.CheckIfChangeAllowedForSubcategory(Code, FieldCaption);
-        SustainabilityAccountMgt.ReCalculateJournalLinesForSubcategory(Code);
+        SustainabilityAccountMgt.ReCalculateJournalLinesForSubcategory(Rec);
     end;
 }

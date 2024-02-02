@@ -486,6 +486,23 @@ page 30101 "Shpfy Shop Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies whether the customer is notified when the shipment is synchronized to Shopify.';
                 }
+#if not CLEAN24
+                field(ReplaceOrderAttributeValue; Rec."Replace Order Attribute Value")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Feature Update: Enable Longer Order Attribute Value Length';
+                    ToolTip = 'Specifies if enable longer order attribute value length feature is enabled. This feature increases the order attribute value length from 250 to 2048 characters. This feature will be enabled by default with version 27.0.';
+                    Enabled = not ReplaceOrderAttributeValueDisabled;
+                    ObsoleteReason = 'This feature will be enabled by default with version 27.0.';
+                    ObsoleteState = Pending;
+                    ObsoleteTag = '24.0';
+
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update(true);
+                    end;
+                }
+#endif
             }
             group(ReturnsAndRefunds)
             {
@@ -1084,6 +1101,9 @@ page 30101 "Shpfy Shop Card"
         ExpirationNotificationTxt: Label 'Shopify API version 30 days before expiry notification sent.', Locked = true;
         BlockedNotificationTxt: Label 'Shopify API version expired notification sent.', Locked = true;
         CategoryTok: Label 'Shopify Integration', Locked = true;
+#if not CLEAN24
+        ReplaceOrderAttributeValueDisabled: Boolean;
+#endif
 
     trigger OnOpenPage()
     var
@@ -1093,6 +1113,7 @@ page 30101 "Shpfy Shop Card"
 #endif
         CommunicationMgt: Codeunit "Shpfy Communication Mgt.";
         ShopMgt: Codeunit "Shpfy Shop Mgt.";
+
         ApiVersionExpiryDateTime: DateTime;
     begin
         FeatureTelemetry.LogUptake('0000HUU', 'Shopify', Enum::"Feature Uptake Status"::Discovered);
@@ -1117,6 +1138,9 @@ page 30101 "Shpfy Shop Card"
     trigger OnAfterGetCurrRecord()
     begin
         CheckReturnRefundsVisible();
+#if not CLEAN24
+        CheckReplaceOrderAttributeValueDisabled();
+#endif
     end;
 
     local procedure GetResetSyncTo(InitDateTime: DateTime): DateTime
@@ -1136,5 +1160,25 @@ page 30101 "Shpfy Shop Card"
     begin
         IsReturnRefundsVisible := Rec."Return and Refund Process" <> "Shpfy ReturnRefund ProcessType"::" ";
     end;
+
+#if not CLEAN24
+    local procedure CheckReplaceOrderAttributeValueDisabled()
+    var
+        OrderHeader: Record "Shpfy Order Header";
+        OrderAttribute: Record "Shpfy Order Attribute";
+    begin
+        if Rec."Replace Order Attribute Value" then begin
+            OrderHeader.SetRange("Shop Code", Rec.Code);
+            if OrderHeader.FindSet() then
+                repeat
+                    OrderAttribute.SetRange("Order Id", OrderHeader."Shopify Order Id");
+                    if not OrderAttribute.IsEmpty() then begin
+                        ReplaceOrderAttributeValueDisabled := true;
+                        exit;
+                    end;
+                until OrderHeader.Next() = 0;
+        end;
+    end;
+#endif
 }
 

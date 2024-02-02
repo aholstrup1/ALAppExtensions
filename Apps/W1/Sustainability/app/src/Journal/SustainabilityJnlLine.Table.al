@@ -14,6 +14,7 @@ table 6214 "Sustainability Jnl. Line"
     Caption = 'Sustainability Journal Line';
     Access = Public;
     DataClassification = CustomerContent;
+    LookupPageId = "Sustainability Journal";
     DataPerCompany = true;
     Extensible = true;
 
@@ -87,7 +88,7 @@ table 6214 "Sustainability Jnl. Line"
         }
         field(9; "Account Category"; Code[20])
         {
-            Caption = 'Category';
+            Caption = 'Account Category';
             Editable = false;
             TableRelation = "Sustain. Account Category";
 
@@ -99,7 +100,7 @@ table 6214 "Sustainability Jnl. Line"
         }
         field(10; "Account Subcategory"; Code[20])
         {
-            Caption = 'Subcategory';
+            Caption = 'Account Subcategory';
             Editable = false;
             TableRelation = "Sustain. Account Subcategory".Code where("Category Code" = field("Account Category"));
         }
@@ -207,7 +208,7 @@ table 6214 "Sustainability Jnl. Line"
         }
         field(22; "Country/Region Code"; Code[10])
         {
-            Caption = 'Country/Region Code';
+            Caption = 'Country or Region Code';
             TableRelation = "Country/Region";
         }
         field(23; "Responsibility Center"; Code[10])

@@ -493,7 +493,12 @@ codeunit 30161 "Shpfy Import Order"
             Clear(OrderAttribute);
             OrderAttribute."Order Id" := ShopifyOrderId;
             OrderAttribute.Key := CopyStr(JsonHelper.GetValueAsText(JToken, 'key', MaxStrLen(OrderAttribute."Key")), 1, MaxStrLen(OrderAttribute."Key"));
-            OrderAttribute."Attribute Value" := CopyStr(JsonHelper.GetValueAsText(JToken, 'value', MaxStrLen(OrderAttribute."Attribute Value")), 1, MaxStrLen(OrderAttribute."Attribute Value"));
+#if not CLEAN24
+            if not Shop."Replace Order Attribute Value" then
+                OrderAttribute.Value := CopyStr(JsonHelper.GetValueAsText(JToken, 'value', MaxStrLen(OrderAttribute.Value)), 1, MaxStrLen(OrderAttribute.Value))
+            else
+#endif
+                OrderAttribute."Attribute Value" := CopyStr(JsonHelper.GetValueAsText(JToken, 'value', MaxStrLen(OrderAttribute."Attribute Value")), 1, MaxStrLen(OrderAttribute."Attribute Value"));
             OrderAttribute.Insert();
         end;
     end;
@@ -501,19 +506,19 @@ codeunit 30161 "Shpfy Import Order"
     [NonDebuggable]
     local procedure ImportCustomAttributtes(ShopifyOrderId: BigInteger; OrderLineId: Guid; JCustomAttributtes: JsonArray)
     var
-        OrderAttribute: Record "Shpfy Order Line Attribute";
+        OrderLineAttribute: Record "Shpfy Order Line Attribute";
         JToken: JsonToken;
     begin
-        OrderAttribute.SetRange("Order Id", ShopifyOrderId);
-        if not OrderAttribute.IsEmpty then
-            OrderAttribute.DeleteAll();
+        OrderLineAttribute.SetRange("Order Id", ShopifyOrderId);
+        if not OrderLineAttribute.IsEmpty then
+            OrderLineAttribute.DeleteAll();
         foreach JToken in JCustomAttributtes do begin
-            Clear(OrderAttribute);
-            OrderAttribute."Order Id" := ShopifyOrderId;
-            OrderAttribute."Order Line Id" := OrderLineId;
-            OrderAttribute.Key := JsonHelper.GetValueAsText(JToken, 'key', MaxStrLen(OrderAttribute."Key"));
-            OrderAttribute.Value := JsonHelper.GetValueAsText(JToken, 'value', MaxStrLen(OrderAttribute.Value));
-            OrderAttribute.Insert();
+            Clear(OrderLineAttribute);
+            OrderLineAttribute."Order Id" := ShopifyOrderId;
+            OrderLineAttribute."Order Line Id" := OrderLineId;
+            OrderLineAttribute.Key := JsonHelper.GetValueAsText(JToken, 'key', MaxStrLen(OrderLineAttribute."Key"));
+            OrderLineAttribute.Value := JsonHelper.GetValueAsText(JToken, 'value', MaxStrLen(OrderLineAttribute.Value));
+            OrderLineAttribute.Insert();
         end;
     end;
 
