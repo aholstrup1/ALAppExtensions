@@ -32,7 +32,9 @@ table 30133 "Shpfy Order Transaction"
             DataClassification = SystemMetadata;
             Editable = false;
         }
+#pragma warning disable AL0842
         field(4; Type; enum "Shpfy Transaction Type")
+#pragma warning restore AL0842
         {
             Caption = 'Type';
             DataClassification = SystemMetadata;
@@ -44,7 +46,9 @@ table 30133 "Shpfy Order Transaction"
             DataClassification = SystemMetadata;
             Editable = false;
         }
+#pragma warning disable AL0842
         field(6; Status; enum "Shpfy Transaction Status")
+#pragma warning restore AL0842
         {
             Caption = 'Status';
             DataClassification = SystemMetadata;

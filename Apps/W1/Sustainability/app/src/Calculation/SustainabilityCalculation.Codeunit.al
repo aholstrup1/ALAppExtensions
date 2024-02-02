@@ -6,15 +6,9 @@ using Microsoft.Sustainability.Account;
 codeunit 6215 "Sustainability Calculation"
 {
     Access = Internal;
-    Permissions = tabledata "Sustainability Jnl. Line" = rm;
 
-    internal procedure CalculateScope1Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category")
-    var
-        SustainAccountSubcategory: Record "Sustain. Account Subcategory";
+    internal procedure CalculateScope1Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category"; SustainAccountSubcategory: Record "Sustain. Account Subcategory")
     begin
-        if not SustainAccountSubcategory.Get(SustainAccountCategory.Code, SustainabilityJnlLine."Account Subcategory") then
-            exit;
-
         case SustainAccountCategory."Calculation Foundation" of
             Enum::"Calculation Foundation"::"Fuel/Electricity":
                 CalculateFuelOrElectricityEmissions(SustainabilityJnlLine, SustainAccountSubcategory);
@@ -27,13 +21,8 @@ codeunit 6215 "Sustainability Calculation"
         end;
     end;
 
-    internal procedure CalculateScope2Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category")
-    var
-        SustainAccountSubcategory: Record "Sustain. Account Subcategory";
+    internal procedure CalculateScope2Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category"; SustainAccountSubcategory: Record "Sustain. Account Subcategory")
     begin
-        if not SustainAccountSubcategory.Get(SustainAccountCategory.Code, SustainabilityJnlLine."Account Subcategory") then
-            exit;
-
         case SustainAccountCategory."Calculation Foundation" of
             Enum::"Calculation Foundation"::"Fuel/Electricity":
                 CalculateFuelOrElectricityEmissions(SustainabilityJnlLine, SustainAccountSubcategory);
@@ -44,13 +33,8 @@ codeunit 6215 "Sustainability Calculation"
         end;
     end;
 
-    internal procedure CalculateScope3Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category")
-    var
-        SustainAccountSubcategory: Record "Sustain. Account Subcategory";
+    internal procedure CalculateScope3Emissions(var SustainabilityJnlLine: Record "Sustainability Jnl. Line"; SustainAccountCategory: Record "Sustain. Account Category"; SustainAccountSubcategory: Record "Sustain. Account Subcategory")
     begin
-        if not SustainAccountSubcategory.Get(SustainAccountCategory.Code, SustainabilityJnlLine."Account Subcategory") then
-            exit;
-
         case SustainAccountCategory."Calculation Foundation" of
             Enum::"Calculation Foundation"::"Fuel/Electricity":
                 CalculateFuelOrElectricityEmissions(SustainabilityJnlLine, SustainAccountSubcategory);

@@ -17,7 +17,9 @@ table 30124 "Shpfy Payment Transaction"
             Caption = 'Id';
             DataClassification = SystemMetadata;
         }
+#pragma warning disable AL0842
         field(2; Type; Enum "Shpfy Payment Trans. Type")
+#pragma warning restore AL0842
         {
             Caption = 'Type';
             DataClassification = CustomerContent;
@@ -58,7 +60,9 @@ table 30124 "Shpfy Payment Transaction"
             Caption = 'Source Id';
             DataClassification = SystemMetadata;
         }
+#pragma warning disable AL0842
         field(10; "Source Type"; Enum "Shpfy Payment Trans. Type")
+#pragma warning restore AL0842
         {
             Caption = 'Source Type';
             DataClassification = CustomerContent;

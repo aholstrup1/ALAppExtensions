@@ -226,7 +226,7 @@ page 6210 "Chart of Sustain. Accounts"
                     var
                         SustainabilityAccountMgt: Codeunit "Sustainability Account Mgt.";
                     begin
-                        SustainabilityAccountMgt.IndentChartOfSustainabilityAccounts();
+                        SustainabilityAccountMgt.IndentChartOfSustainabilityAccounts(false);
                     end;
                 }
             }

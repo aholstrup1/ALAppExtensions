@@ -667,7 +667,9 @@ table 30102 "Shpfy Shop"
             DataClassification = SystemMetadata;
             Editable = false;
         }
+#pragma warning disable AL0842
         field(113; "Logging Mode"; Enum "Shpfy Logging Mode")
+#pragma warning restore AL0842
         {
             Caption = 'Logging Mode';
             DataClassification = SystemMetadata;
@@ -764,6 +766,28 @@ table 30102 "Shpfy Shop"
         {
             Caption = 'Company Mapping Type';
             DataClassification = CustomerContent;
+        }
+        field(127; "Replace Order Attribute Value"; Boolean)
+        {
+            Caption = 'Replace Order Attribute Value';
+            DataClassification = SystemMetadata;
+            InitValue = true;
+            ObsoleteReason = 'This feature will be enabled by default with version 27.0.';
+#if not CLEAN24
+            ObsoleteState = Pending;
+            ObsoleteTag = '24.0';
+#else
+            ObsoleteState = Removed;
+            ObsoleteTag = '27.0';
+#endif
+
+#if not CLEAN24
+            trigger OnValidate()
+            begin
+                if "Replace Order Attribute Value" then
+                    UpgradeOrderAttributes();
+            end;
+#endif
         }
         field(200; "Shop Id"; Integer)
         {
@@ -1019,4 +1043,17 @@ table 30102 "Shpfy Shop"
                     exit(true);
             end;
     end;
+
+#if not CLEAN24
+    local procedure UpgradeOrderAttributes()
+    var
+        OrderAttribute: Record "Shpfy Order Attribute";
+    begin
+        if OrderAttribute.FindSet() then
+            repeat
+                OrderAttribute."Attribute Value" := OrderAttribute.Value;
+                OrderAttribute.Modify();
+            until OrderAttribute.Next() = 0;
+    end;
+#endif
 }
