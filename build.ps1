@@ -8,7 +8,7 @@
     .Parameter InsiderSasToken
         The SAS token to use for downloading insider builds
     .Parameter AutoFill
-        If specified, the script will generate a random password and use that for the credential
+        If specified, the script will generate a random password and use that for the credential 
     .Example
         .\build.ps1 -ALGoProject "System Application"
         .\build.ps1 -ALGoProject "Test Stability Tools" -AutoFill
