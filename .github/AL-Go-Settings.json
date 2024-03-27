@@ -58,5 +58,5 @@
   ],
   "UpdateALGoSystemFilesEnvironment": "Official-Build",
   "PullRequestTrigger": "pull_request",
-  "templateSha": "dd8ace711c65e4afef95f309b2fb89ba970dfc23"
+  "templateSha": "f647bcac00812760b91cc31c6a14b05609bb3e21"
 }
