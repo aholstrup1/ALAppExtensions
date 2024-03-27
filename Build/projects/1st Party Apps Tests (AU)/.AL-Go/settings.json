@@ -1,8 +1,0 @@
-{
-    "projectName": "1st Party Apps Tests (AU)",
-    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/au",
-    "testFolders":  [
-        "..\\..\\..\\Apps\\AU\\*\\test",
-        "..\\..\\..\\Apps\\AU\\*\\test library"
-    ]
-}

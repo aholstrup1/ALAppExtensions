@@ -4,7 +4,11 @@
     "appFolders":  [
         "..\\..\\..\\Apps\\DK\\*\\app"
     ],
-    "doNotRunTests": true,
-    "useCompilerFolder": true,
-    "doNotPublishApps": true
+    "testFolders":  [
+        "..\\..\\..\\Apps\\DK\\*\\test",
+        "..\\..\\..\\Apps\\DK\\*\\test library"
+    ],
+    "doNotRunTests": false,
+    "useCompilerFolder": false,
+    "doNotPublishApps": false
 }
