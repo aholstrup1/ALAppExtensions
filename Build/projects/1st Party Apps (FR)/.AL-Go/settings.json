@@ -1,6 +1,5 @@
 {
     "projectName": "1st Party Apps (FR)",
-    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/FR",
     "appFolders":  [
         "..\\..\\..\\Apps\\FR\\*\\app"
     ],
