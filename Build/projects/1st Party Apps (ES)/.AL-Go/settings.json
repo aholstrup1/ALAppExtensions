@@ -1,0 +1,9 @@
+{
+    "projectName": "1st Party Apps (ES)",
+    "appFolders":  [
+        "..\\..\\..\\Apps\\ES\\*\\app"
+    ],
+    "doNotRunTests": true,
+    "useCompilerFolder": true,
+    "doNotPublishApps": true
+}

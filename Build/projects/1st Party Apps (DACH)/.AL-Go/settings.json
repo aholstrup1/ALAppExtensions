@@ -1,0 +1,9 @@
+{
+    "projectName": "1st Party Apps (DACH)",
+    "appFolders":  [
+        "..\\..\\..\\Apps\\DACH\\*\\app"
+    ],
+    "doNotRunTests": true,
+    "useCompilerFolder": true,
+    "doNotPublishApps": true
+}
