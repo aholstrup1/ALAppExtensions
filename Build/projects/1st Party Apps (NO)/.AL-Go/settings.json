@@ -1,6 +1,6 @@
 {
     "projectName": "1st Party Apps (NO)",
-    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/NO",
+    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/no",
     "appFolders":  [
         "..\\..\\..\\Apps\\NO\\*\\app"
     ],
