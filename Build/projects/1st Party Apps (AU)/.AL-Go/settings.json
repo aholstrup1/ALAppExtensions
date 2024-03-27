@@ -5,6 +5,6 @@
         "..\\..\\..\\Apps\\AU\\*\\app"
     ],
     "doNotRunTests": true,
-    "useCompilerFolder": true,
+    "useCompilerFolder": false,
     "doNotPublishApps": true
 }
