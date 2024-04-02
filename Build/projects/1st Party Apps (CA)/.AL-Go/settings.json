@@ -2,7 +2,11 @@
     "projectName": "1st Party Apps (CA)",
     "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/ca",
     "appFolders":  [
-        "..\\..\\..\\Apps\\CA\\*\\app"
+        "..\\..\\..\\Apps\\CA\\*\\app",
+        "..\\..\\..\\Apps\\NA\\Ceridian\\app",
+        "..\\..\\..\\Apps\\NA\\EnvestnetYodleeBankFeeds\\app",
+        "..\\..\\..\\Apps\\NA\\MX_DIOT\\app",
+        "..\\..\\..\\Apps\\NA\\Onprem Permissions NA\\app"
     ],
     "doNotRunTests": true,
     "useCompilerFolder": true,

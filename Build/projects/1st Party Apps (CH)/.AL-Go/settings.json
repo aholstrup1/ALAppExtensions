@@ -2,7 +2,8 @@
     "projectName": "1st Party Apps (CH)",
     "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/ch",
     "appFolders":  [
-        "..\\..\\..\\Apps\\CH\\*\\app"
+        "..\\..\\..\\Apps\\CH\\*\\app",
+        "..\\..\\..\\Apps\\DACH\\Onprem Permissions DACH\\app"
     ],
     "doNotRunTests": true,
     "useCompilerFolder": true,
