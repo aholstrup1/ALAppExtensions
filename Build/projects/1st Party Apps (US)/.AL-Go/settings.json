@@ -3,7 +3,7 @@
     "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/us",
     "appFolders":  [
         "..\\..\\..\\Apps\\US\\*\\app",
-        "..\\..\\..\\Apps\\NA\\Ceridian\\app",
+        "..\\..\\..\\Apps\\NA\\Ceridian",
         "..\\..\\..\\Apps\\NA\\EnvestnetYodleeBankFeeds\\app",
         "..\\..\\..\\Apps\\NA\\MX_DIOT\\app",
         "..\\..\\..\\Apps\\NA\\Onprem Permissions NA\\app"
