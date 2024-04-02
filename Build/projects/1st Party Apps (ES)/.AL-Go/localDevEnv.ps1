@@ -8,36 +8,23 @@ Param(
     [string] $auth = "",
     [pscredential] $credential = $null,
     [string] $licenseFileUrl = "",
-    [switch] $fromVSCode,
-    [switch] $accept_insiderEula
+    [string] $insiderSasToken = "",
+    [switch] $fromVSCode
 )
 
-$errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
+$ErrorActionPreference = "stop"
+Set-StrictMode -Version 2.0
 
 try {
-Clear-Host
-Write-Host
-Write-Host -ForegroundColor Yellow @'
-  _                     _   _____             ______
- | |                   | | |  __ \           |  ____|
- | |     ___   ___ __ _| | | |  | | _____   __ |__   _ ____   __
- | |    / _ \ / __/ _` | | | |  | |/ _ \ \ / /  __| | '_ \ \ / /
- | |____ (_) | (__ (_| | | | |__| |  __/\ V /| |____| | | \ V /
- |______\___/ \___\__,_|_| |_____/ \___| \_/ |______|_| |_|\_/
-
-'@
-
 $webClient = New-Object System.Net.WebClient
 $webClient.CachePolicy = New-Object System.Net.Cache.RequestCachePolicy -argumentList ([System.Net.Cache.RequestCacheLevel]::NoCacheNoStore)
 $webClient.Encoding = [System.Text.Encoding]::UTF8
-$GitHubHelperUrl = 'https://raw.githubusercontent.com/microsoft/AL-Go/d0a5de49086c1abf25bfc3dc4ac3e931e66f5bd4/Actions/Github-Helper.psm1'
-Write-Host "Downloading GitHub Helper module from $GitHubHelperUrl"
+Write-Host "Downloading GitHub Helper module"
 $GitHubHelperPath = "$([System.IO.Path]::GetTempFileName()).psm1"
-$webClient.DownloadFile($GitHubHelperUrl, $GitHubHelperPath)
-$ALGoHelperUrl = 'https://raw.githubusercontent.com/microsoft/AL-Go/d0a5de49086c1abf25bfc3dc4ac3e931e66f5bd4/Actions/AL-Go-Helper.ps1'
-Write-Host "Downloading AL-Go Helper script from $ALGoHelperUrl"
+$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v3.1/Github-Helper.psm1', $GitHubHelperPath)
+Write-Host "Downloading AL-Go Helper script"
 $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
-$webClient.DownloadFile($ALGoHelperUrl, $ALGoHelperPath)
+$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v3.1/AL-Go-Helper.ps1', $ALGoHelperPath)
 
 Import-Module $GitHubHelperPath
 . $ALGoHelperPath -local
@@ -45,8 +32,19 @@ Import-Module $GitHubHelperPath
 $baseFolder = GetBaseFolder -folder $PSScriptRoot
 $project = GetProject -baseFolder $baseFolder -projectALGoFolder $PSScriptRoot
 
-Write-Host @'
+Clear-Host
+Write-Host
+Write-Host -ForegroundColor Yellow @'
+  _                     _   _____             ______            
+ | |                   | | |  __ \           |  ____|           
+ | |     ___   ___ __ _| | | |  | | _____   __ |__   _ ____   __
+ | |    / _ \ / __/ _` | | | |  | |/ _ \ \ / /  __| | '_ \ \ / /
+ | |____ (_) | (__ (_| | | | |__| |  __/\ V /| |____| | | \ V / 
+ |______\___/ \___\__,_|_| |_____/ \___| \_/ |______|_| |_|\_/  
+                                                                
+'@
 
+Write-Host @'
 This script will create a docker based local development environment for your project.
 
 NOTE: You need to have Docker installed, configured and be able to create Business Central containers for this to work.
@@ -57,7 +55,7 @@ The script will also modify launch.json to have a Local Sandbox configuration po
 
 '@
 
-$settings = ReadSettings -baseFolder $baseFolder -project $project -userName $env:USERNAME -workflowName 'localDevEnv'
+$settings = ReadSettings -baseFolder $baseFolder -project $project -userName $env:USERNAME
 
 Write-Host "Checking System Requirements"
 $dockerProcess = (Get-Process "dockerd" -ErrorAction Ignore)
@@ -134,7 +132,7 @@ CreateDevEnv `
     -auth $auth `
     -credential $credential `
     -licenseFileUrl $licenseFileUrl `
-    -accept_insiderEula:$accept_insiderEula
+    -insiderSasToken $insiderSasToken
 }
 catch {
     Write-Host -ForegroundColor Red "Error: $($_.Exception.Message)`nStacktrace: $($_.scriptStackTrace)"
