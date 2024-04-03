@@ -1,0 +1,11 @@
+{
+    "projectName": "1st Party Apps Tests (IT)",
+    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/it",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\IT\\*\\test",
+        "..\\..\\..\\Apps\\IT\\*\\test library"
+    ],
+    "doNotRunTests": false,
+    "useCompilerFolder": false,
+    "doNotPublishApps": false
+}

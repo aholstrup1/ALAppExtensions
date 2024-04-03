@@ -1,0 +1,12 @@
+{
+    "projectName": "1st Party Apps Tests (MX)",
+    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/mx",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\MX\\*\\test",
+        "..\\..\\..\\Apps\\MX\\*\\test library",
+        "..\\..\\..\\Apps\\NA\\MX_DIOT\\test"
+    ],
+    "doNotRunTests": false,
+    "useCompilerFolder": false,
+    "doNotPublishApps": false
+}

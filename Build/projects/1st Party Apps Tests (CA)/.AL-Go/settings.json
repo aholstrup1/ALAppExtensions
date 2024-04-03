@@ -1,0 +1,13 @@
+{
+    "projectName": "1st Party Apps Tests (CA)",
+    "artifact":  "https://bcinsider.azureedge.net/sandbox/25.0.17516.0/ca",
+    "testFolders":  [
+        "..\\..\\..\\Apps\\CA\\*\\test",
+        "..\\..\\..\\Apps\\CA\\*\\test library",
+        "..\\..\\..\\Apps\\NA\\EnvestnetYodleeBankFeeds\\test",
+        "..\\..\\..\\Apps\\NA\\MX_DIOT\\test"
+    ],
+    "doNotRunTests": false,
+    "useCompilerFolder": false,
+    "doNotPublishApps": false
+}
