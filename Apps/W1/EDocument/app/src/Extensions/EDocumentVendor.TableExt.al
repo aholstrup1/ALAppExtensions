@@ -8,10 +8,5 @@ tableextension 6165 "E-Document Vendor" extends Vendor
             InitValue = "Purchase Order";
             ValuesAllowed = "Purchase Order", "Purchase Invoice";
         }
-        field(6102; "Service Participant Id"; Text[50])
-        {
-            Caption = 'Service Participant Id';
-            DataClassification = CustomerContent;
-        }
     }
 }
