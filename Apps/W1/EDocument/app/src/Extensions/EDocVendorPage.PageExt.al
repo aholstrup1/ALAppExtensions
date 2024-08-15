@@ -12,4 +12,6 @@ pageextension 6161 "E-Doc. Vendor Page" extends "Vendor Card"
             }
         }
     }
+
+
 }
