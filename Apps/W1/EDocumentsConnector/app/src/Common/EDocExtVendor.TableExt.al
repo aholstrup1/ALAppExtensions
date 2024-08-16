@@ -10,7 +10,7 @@ tableextension 6361 "E-Doc. Ext. Vendor" extends Vendor
 {
     fields
     {
-        field(6360; "Service Participant Id"; Text[50])
+        field(6360; "Service Participant Id"; Text[100])
         {
             Caption = 'Service Participant Id';
             DataClassification = CustomerContent;
