@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
-namespace Microsoft.EServices.EDocumentConnector;
+namespace Microsoft.EServices.EDocumentConnector.Common;
 
 using Microsoft.Purchases.Vendor;
 
@@ -16,7 +16,7 @@ pageextension 6361 "E-Doc. Ext. Vendor Card" extends "Vendor Card"
             {
                 ApplicationArea = All;
                 Caption = 'Service Participant Id';
-                ToolTip = 'Specifies vendor service participant Id. used by the E-Document Service.';
+                ToolTip = 'Specifies the service participant Id. used by the E-Document Service.';
             }
         }
     }
