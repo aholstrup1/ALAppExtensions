@@ -16,7 +16,7 @@ pageextension 6361 "E-Doc. Ext. Vendor Card" extends "Vendor Card"
             {
                 ApplicationArea = All;
                 Caption = 'Service Participant Id';
-                ToolTip = 'Specifies the service participant Id. used by the E-Document Service.';
+                ToolTip = 'Specifies the service participant id used by the E-Document Service.';
             }
         }
     }
