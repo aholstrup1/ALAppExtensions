@@ -9,7 +9,7 @@ using Microsoft.Utilities;
 using System.Threading;
 
 codeunit 20038 "APIV1 - Send Sales Document"
-{
+{ 
     TableNo = "Job Queue Entry";
 
     trigger OnRun() 
