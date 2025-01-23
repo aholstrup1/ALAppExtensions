@@ -12,7 +12,7 @@ codeunit 20038 "APIV1 - Send Sales Document"
 {
     TableNo = "Job Queue Entry";
 
-    trigger OnRun()
+    trigger OnRun() 
     begin
         SendSalesDocumentFromJobQueue(Rec);
     end;
